@@ -20,7 +20,7 @@ interface BibleVerse {
   number: number;
   text: string;
   crossRefs: string[];
-  keywords?: string[]; 
+  keywords?: string[];
   highlighted: boolean;
   analysis?: {
     historicalContext: string;
@@ -32,13 +32,13 @@ interface BibleVerse {
   loadingAnalysis?: boolean;
   copied?: boolean;
   addedToNotes?: boolean;
-  analysisAddedToNotes?: boolean; 
+  analysisAddedToNotes?: boolean;
   analysisAddedToStructure?: boolean;
-  isPlaying?: boolean; 
+  isPlaying?: boolean;
 }
 
 interface BibleChapterData {
-  ref: string; 
+  ref: string;
   book: string;
   chapter: string;
   version: string;
@@ -51,40 +51,41 @@ interface ChatMessage {
 }
 
 interface LibraryCategory {
-    id: string;
-    title: string;
-    description: string;
-    icon: string;
-    placeholder: string;
+  id: string;
+  title: string;
+  description: string;
+  icon: string;
+  placeholder: string;
 }
 
 const BIBLE_STRUCTURE = [
-  { name: 'Gênesis', chapters: 50, test: 'AT' }, { name: 'Êxodo', chapters: 40, test: 'AT' }, { name: 'Levítico', chapters: 27, test: 'AT' }, 
-  { name: 'Números', chapters: 36, test: 'AT' }, { name: 'Deuteronômio', chapters: 34, test: 'AT' }, { name: 'Josué', chapters: 24, test: 'AT' }, 
-  { name: 'Juízes', chapters: 21, test: 'AT' }, { name: 'Rute', chapters: 4, test: 'AT' }, { name: '1 Samuel', chapters: 31, test: 'AT' }, 
-  { name: '2 Samuel', chapters: 24, test: 'AT' }, { name: '1 Reis', chapters: 22, test: 'AT' }, { name: '2 Reis', chapters: 25, test: 'AT' }, 
-  { name: '1 Crônicas', chapters: 29, test: 'AT' }, { name: '2 Crônicas', chapters: 36, test: 'AT' }, { name: 'Esdras', chapters: 10, test: 'AT' }, 
-  { name: 'Neemias', chapters: 13, test: 'AT' }, { name: 'Ester', chapters: 10, test: 'AT' }, { name: 'Jó', chapters: 42, test: 'AT' }, 
-  { name: 'Salmos', chapters: 150, test: 'AT' }, { name: 'Provérbios', chapters: 31, test: 'AT' }, { name: 'Eclesiastes', chapters: 12, test: 'AT' }, 
-  { name: 'Cânticos', chapters: 8, test: 'AT' }, { name: 'Isaías', chapters: 66, test: 'AT' }, { name: 'Jeremias', chapters: 52, test: 'AT' }, 
-  { name: 'Lamentações', chapters: 5, test: 'AT' }, { name: 'Ezequiel', chapters: 48, test: 'AT' }, { name: 'Daniel', chapters: 12, test: 'AT' }, 
-  { name: 'Oseias', chapters: 14, test: 'AT' }, { name: 'Joel', chapters: 3, test: 'AT' }, { name: 'Amós', chapters: 9, test: 'AT' }, 
-  { name: 'Obadias', chapters: 1, test: 'AT' }, { name: 'Jonas', chapters: 4, test: 'AT' }, { name: 'Miqueias', chapters: 7, test: 'AT' }, 
-  { name: 'Naum', chapters: 3, test: 'AT' }, { name: 'Habacuque', chapters: 3, test: 'AT' }, { name: 'Sofonias', chapters: 3, test: 'AT' }, 
+  { name: 'Gênesis', chapters: 50, test: 'AT' }, { name: 'Êxodo', chapters: 40, test: 'AT' }, { name: 'Levítico', chapters: 27, test: 'AT' },
+  { name: 'Números', chapters: 36, test: 'AT' }, { name: 'Deuteronômio', chapters: 34, test: 'AT' }, { name: 'Josué', chapters: 24, test: 'AT' },
+  { name: 'Juízes', chapters: 21, test: 'AT' }, { name: 'Rute', chapters: 4, test: 'AT' }, { name: '1 Samuel', chapters: 31, test: 'AT' },
+  { name: '2 Samuel', chapters: 24, test: 'AT' }, { name: '1 Reis', chapters: 22, test: 'AT' }, { name: '2 Reis', chapters: 25, test: 'AT' },
+  { name: '1 Crônicas', chapters: 29, test: 'AT' }, { name: '2 Crônicas', chapters: 36, test: 'AT' }, { name: 'Esdras', chapters: 10, test: 'AT' },
+  { name: 'Neemias', chapters: 13, test: 'AT' }, { name: 'Ester', chapters: 10, test: 'AT' }, { name: 'Jó', chapters: 42, test: 'AT' },
+  { name: 'Salmos', chapters: 150, test: 'AT' }, { name: 'Provérbios', chapters: 31, test: 'AT' }, { name: 'Eclesiastes', chapters: 12, test: 'AT' },
+  { name: 'Cânticos', chapters: 8, test: 'AT' }, { name: 'Isaías', chapters: 66, test: 'AT' }, { name: 'Jeremias', chapters: 52, test: 'AT' },
+  { name: 'Lamentações', chapters: 5, test: 'AT' }, { name: 'Ezequiel', chapters: 48, test: 'AT' }, { name: 'Daniel', chapters: 12, test: 'AT' },
+  { name: 'Oseias', chapters: 14, test: 'AT' }, { name: 'Joel', chapters: 3, test: 'AT' }, { name: 'Amós', chapters: 9, test: 'AT' },
+  { name: 'Obadias', chapters: 1, test: 'AT' }, { name: 'Jonas', chapters: 4, test: 'AT' }, { name: 'Miqueias', chapters: 7, test: 'AT' },
+  { name: 'Naum', chapters: 3, test: 'AT' }, { name: 'Habacuque', chapters: 3, test: 'AT' }, { name: 'Sofonias', chapters: 3, test: 'AT' },
   { name: 'Ageu', chapters: 2, test: 'AT' }, { name: 'Zacarias', chapters: 14, test: 'AT' }, { name: 'Malaquias', chapters: 4, test: 'AT' },
-  { name: 'Mateus', chapters: 28, test: 'NT' }, { name: 'Marcos', chapters: 16, test: 'NT' }, { name: 'Lucas', chapters: 24, test: 'NT' }, 
-  { name: 'João', chapters: 21, test: 'NT' }, { name: 'Atos', chapters: 28, test: 'NT' }, { name: 'Romanos', chapters: 16, test: 'NT' }, 
-  { name: '1 Coríntios', chapters: 16, test: 'NT' }, { name: '2 Coríntios', chapters: 13, test: 'NT' }, { name: 'Gálatas', chapters: 6, test: 'NT' }, 
-  { name: 'Efésios', chapters: 6, test: 'NT' }, { name: 'Filipenses', chapters: 4, test: 'NT' }, { name: 'Colossenses', chapters: 4, test: 'NT' }, 
-  { name: '1 Tessalonicenses', chapters: 5, test: 'NT' }, { name: '2 Tessalonicenses', chapters: 3, test: 'NT' }, { name: '1 Timóteo', chapters: 6, test: 'NT' }, 
-  { name: '2 Timóteo', chapters: 4, test: 'NT' }, { name: 'Tito', chapters: 3, test: 'NT' }, { name: 'Filemom', chapters: 1, test: 'NT' }, 
-  { name: 'Hebreus', chapters: 13, test: 'NT' }, { name: 'Tiago', chapters: 5, test: 'NT' }, { name: '1 Pedro', chapters: 5, test: 'NT' }, 
-  { name: '2 Pedro', chapters: 3, test: 'NT' }, { name: '1 João', chapters: 5, test: 'NT' }, { name: '2 João', chapters: 1, test: 'NT' }, 
+  { name: 'Mateus', chapters: 28, test: 'NT' }, { name: 'Marcos', chapters: 16, test: 'NT' }, { name: 'Lucas', chapters: 24, test: 'NT' },
+  { name: 'João', chapters: 21, test: 'NT' }, { name: 'Atos', chapters: 28, test: 'NT' }, { name: 'Romanos', chapters: 16, test: 'NT' },
+  { name: '1 Coríntios', chapters: 16, test: 'NT' }, { name: '2 Coríntios', chapters: 13, test: 'NT' }, { name: 'Gálatas', chapters: 6, test: 'NT' },
+  { name: 'Efésios', chapters: 6, test: 'NT' }, { name: 'Filipenses', chapters: 4, test: 'NT' }, { name: 'Colossenses', chapters: 4, test: 'NT' },
+  { name: '1 Tessalonicenses', chapters: 5, test: 'NT' }, { name: '2 Tessalonicenses', chapters: 3, test: 'NT' }, { name: '1 Timóteo', chapters: 6, test: 'NT' },
+  { name: '2 Timóteo', chapters: 4, test: 'NT' }, { name: 'Tito', chapters: 3, test: 'NT' }, { name: 'Filemom', chapters: 1, test: 'NT' },
+  { name: 'Hebreus', chapters: 13, test: 'NT' }, { name: 'Tiago', chapters: 5, test: 'NT' }, { name: '1 Pedro', chapters: 5, test: 'NT' },
+  { name: '2 Pedro', chapters: 3, test: 'NT' }, { name: '1 João', chapters: 5, test: 'NT' }, { name: '2 João', chapters: 1, test: 'NT' },
   { name: '3 João', chapters: 1, test: 'NT' }, { name: 'Judas', chapters: 1, test: 'NT' }, { name: 'Apocalipse', chapters: 22, test: 'NT' }
 ];
 
 @Component({
   selector: 'app-root',
+  standalone: true,
   imports: [CommonModule, FormsModule],
   templateUrl: './app.component.html'
 })
@@ -127,14 +128,14 @@ export class AppComponent implements OnInit {
 
   booksOT = computed(() => this.bibleStructure.filter(b => b.test === 'AT'));
   booksNT = computed(() => this.bibleStructure.filter(b => b.test === 'NT'));
-  
+
   currentBookChapters = computed(() => {
     const book = this.bibleStructure.find(b => b.name === this.bibleSearch().book);
-    return book ? Array.from({length: book.chapters}, (_, i) => i + 1) : [];
+    return book ? Array.from({ length: book.chapters }, (_, i) => i + 1) : [];
   });
-  
+
   currentChapterVerses = computed(() => {
-      return Array.from({length: 60}, (_, i) => i + 1);
+    return Array.from({ length: 60 }, (_, i) => i + 1);
   });
 
   targetAudiences = [
@@ -174,11 +175,11 @@ export class AppComponent implements OnInit {
     chapter: '1',
     verse: ''
   });
-  
+
   bibleData = signal<BibleChapterData | null>(null);
-  
-  readingVerse = signal<{ref: string, text: string, keywords?: string[], crossRefs?: string[]} | null>(null);
-  comparisonData = signal<{ref: string, versions: {name: string, text: string}[]} | null>(null);
+
+  readingVerse = signal<{ ref: string, text: string, keywords?: string[], crossRefs?: string[] } | null>(null);
+  comparisonData = signal<{ ref: string, versions: { name: string, text: string }[] } | null>(null);
 
   bgAudio = new Audio();
   defaultAudioUrl = 'https://cdn.pixabay.com/audio/2022/03/09/audio_a77a97b204.mp3';
@@ -197,14 +198,14 @@ export class AppComponent implements OnInit {
     { id: 'ARQUEOLOGIA', title: 'Arqueologia Bíblica', description: 'Descobertas, Manuscritos (Mar Morto) e Evidências Históricas.', icon: 'M19.428 15.428a2 2 0 00-1.022-.547l-2.384-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z', placeholder: 'Ex: Rolos do Mar Morto, Pedra de Roseta, Tanque de Siloé...' },
     { id: 'TUTOR', title: 'Tutor Acadêmico (IA)', description: 'Pesquisa avançada, criação de ementas, aulas e resumos.', icon: 'M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z', placeholder: 'Ex: Resumo de Teologia Sistemática, Plano de aula sobre Evangelhos...' }
   ];
-  
+
   activeLibraryCategory = signal<LibraryCategory | null>(null);
   libraryQuery = signal('');
   libraryResult = signal('');
   libraryImage = signal<string | null>(null);
   libraryReferences = signal<any[]>([]);
   showLibraryVerseText = signal(true);
-  
+
   isLibraryLoading = signal(false);
   isExtractingVerses = signal(false);
 
@@ -217,119 +218,119 @@ export class AppComponent implements OnInit {
 
   constructor() {
     effect(() => {
-        const messages = this.chatMessages();
-        setTimeout(() => this.scrollToBottom(), 100);
+      const messages = this.chatMessages();
+      setTimeout(() => this.scrollToBottom(), 100);
     });
 
     this.bgAudio.src = this.defaultAudioUrl;
     this.bgAudio.loop = true;
-    this.bgAudio.volume = 0.15; 
-    
+    this.bgAudio.volume = 0.15;
+
     this.bgAudio.onerror = (e) => {
-        console.warn("Erro ao carregar áudio de fundo.", e);
+      console.warn("Erro ao carregar áudio de fundo.", e);
     };
 
     this.initVoices();
   }
 
   ngOnInit() {
-      const saved = localStorage.getItem('savedSermons');
-      if (saved) {
-          try {
-              let list = JSON.parse(saved);
-              let migrationNeeded = false;
-              list = list.map((s: any) => {
-                  if (!s.id) {
-                      s.id = crypto.randomUUID ? crypto.randomUUID() : Date.now().toString(36) + Math.random().toString(36).substr(2);
-                      migrationNeeded = true;
-                  }
-                  return s;
-              });
-              if (migrationNeeded) localStorage.setItem('savedSermons', JSON.stringify(list));
-              this.savedSermons.set(list);
-          } catch (e) { console.error("Erro ao carregar sermões", e); }
-      }
+    const saved = localStorage.getItem('savedSermons');
+    if (saved) {
+      try {
+        let list = JSON.parse(saved);
+        let migrationNeeded = false;
+        list = list.map((s: any) => {
+          if (!s.id) {
+            s.id = crypto.randomUUID ? crypto.randomUUID() : Date.now().toString(36) + Math.random().toString(36).substr(2);
+            migrationNeeded = true;
+          }
+          return s;
+        });
+        if (migrationNeeded) localStorage.setItem('savedSermons', JSON.stringify(list));
+        this.savedSermons.set(list);
+      } catch (e) { console.error("Erro ao carregar sermões", e); }
+    }
   }
 
   saveCurrentSermon() {
-      const current = this.sermon();
-      if (!current.theme || typeof current.theme !== 'string' || !current.theme.trim()) {
-          alert('Por favor, defina pelo menos um tema para o sermão antes de salvar.');
-          return;
+    const current = this.sermon();
+    if (!current.theme || typeof current.theme !== 'string' || !current.theme.trim()) {
+      alert('Por favor, defina pelo menos um tema para o sermão antes de salvar.');
+      return;
+    }
+    const sermonToSave = {
+      ...current,
+      id: current.id || (crypto.randomUUID ? crypto.randomUUID() : Date.now().toString(36) + Math.random().toString(36).substr(2)),
+      lastModified: Date.now()
+    };
+    this.sermon.set(sermonToSave);
+    this.savedSermons.update(list => {
+      const index = list.findIndex(s => s.id === sermonToSave.id);
+      let newList;
+      if (index >= 0) {
+        newList = [...list];
+        newList[index] = sermonToSave;
+      } else {
+        newList = [sermonToSave, ...list];
       }
-      const sermonToSave = {
-          ...current,
-          id: current.id || (crypto.randomUUID ? crypto.randomUUID() : Date.now().toString(36) + Math.random().toString(36).substr(2)),
-          lastModified: Date.now()
-      };
-      this.sermon.set(sermonToSave);
-      this.savedSermons.update(list => {
-          const index = list.findIndex(s => s.id === sermonToSave.id);
-          let newList;
-          if (index >= 0) {
-              newList = [...list];
-              newList[index] = sermonToSave;
-          } else {
-              newList = [sermonToSave, ...list];
-          }
-          localStorage.setItem('savedSermons', JSON.stringify(newList));
-          return newList;
-      });
-      alert('Sermão salvo com sucesso em "Meus Arquivos"!');
+      localStorage.setItem('savedSermons', JSON.stringify(newList));
+      return newList;
+    });
+    alert('Sermão salvo com sucesso em "Meus Arquivos"!');
   }
 
   loadSermon(savedSermon: SermonData) {
-      if (confirm('Carregar este sermão substituirá o trabalho atual não salvo. Deseja continuar?')) {
-          this.sermon.set({ ...savedSermon });
-          this.currentView.set('sermon');
-          this.currentStep.set(3); 
-      }
+    if (confirm('Carregar este sermão substituirá o trabalho atual não salvo. Deseja continuar?')) {
+      this.sermon.set({ ...savedSermon });
+      this.currentView.set('sermon');
+      this.currentStep.set(3);
+    }
   }
 
   deleteSermon(doc: SermonData) {
-      if (confirm('Tem certeza que deseja excluir este sermão permanentemente?')) {
-          this.savedSermons.update(list => {
-              const newList = list.filter(s => s.id !== doc.id);
-              localStorage.setItem('savedSermons', JSON.stringify(newList));
-              return newList;
-          });
-      }
+    if (confirm('Tem certeza que deseja excluir este sermão permanentemente?')) {
+      this.savedSermons.update(list => {
+        const newList = list.filter(s => s.id !== doc.id);
+        localStorage.setItem('savedSermons', JSON.stringify(newList));
+        return newList;
+      });
+    }
   }
 
   printSavedSermon(savedSermon: SermonData) {
-      const previous = this.sermon();
-      this.sermon.set(savedSermon);
-      this.currentView.set('sermon');
-      this.currentStep.set(4);
-      setTimeout(() => { this.printSermon(); }, 100);
+    const previous = this.sermon();
+    this.sermon.set(savedSermon);
+    this.currentView.set('sermon');
+    this.currentStep.set(4);
+    setTimeout(() => { this.printSermon(); }, 100);
   }
 
   generatePDFForSaved(savedSermon: SermonData) {
-      const previous = this.sermon();
-      this.sermon.set(savedSermon);
-      this.currentView.set('sermon');
-      this.currentStep.set(4);
-      setTimeout(() => { this.downloadPDF(); }, 500);
+    const previous = this.sermon();
+    this.sermon.set(savedSermon);
+    this.currentView.set('sermon');
+    this.currentStep.set(4);
+    setTimeout(() => { this.downloadPDF(); }, 500);
   }
 
   initVoices() {
-      const load = () => {
-          const voices = window.speechSynthesis.getVoices();
-          const ptVoices = voices.filter(v => v.lang.includes('pt'));
-          if (ptVoices.length > 0) {
-            this.availableVoices.set(ptVoices);
-            if (!this.selectedVoice()) this.selectedVoice.set(ptVoices[0].name);
-          } else {
-             this.availableVoices.set(voices);
-          }
-      };
-      window.speechSynthesis.onvoiceschanged = load;
-      load();
+    const load = () => {
+      const voices = window.speechSynthesis.getVoices();
+      const ptVoices = voices.filter(v => v.lang.includes('pt'));
+      if (ptVoices.length > 0) {
+        this.availableVoices.set(ptVoices);
+        if (!this.selectedVoice()) this.selectedVoice.set(ptVoices[0].name);
+      } else {
+        this.availableVoices.set(voices);
+      }
+    };
+    window.speechSynthesis.onvoiceschanged = load;
+    load();
   }
 
   scrollToBottom(): void {
     if (this.chatContainer) {
-      try { this.chatContainer.nativeElement.scrollTop = this.chatContainer.nativeElement.scrollHeight; } catch(err) { }
+      try { this.chatContainer.nativeElement.scrollTop = this.chatContainer.nativeElement.scrollHeight; } catch (err) { }
     }
   }
 
@@ -339,7 +340,7 @@ export class AppComponent implements OnInit {
       this.loginError.set(false);
     } else {
       this.loginError.set(true);
-      this.password.set(''); 
+      this.password.set('');
     }
   }
 
@@ -358,13 +359,13 @@ export class AppComponent implements OnInit {
 
   selectBook(bookName: string) {
     this.bibleSearch.update(s => ({ ...s, book: bookName, chapter: '1', verse: '' }));
-    this.activeSelector.set('chapters'); 
+    this.activeSelector.set('chapters');
   }
 
   selectChapter(chapter: number) {
     this.bibleSearch.update(s => ({ ...s, chapter: chapter.toString(), verse: '' }));
-    this.activeSelector.set('none'); 
-    this.searchBiblePassage(); 
+    this.activeSelector.set('none');
+    this.searchBiblePassage();
   }
 
   selectVerse(verse: number) {
@@ -372,7 +373,7 @@ export class AppComponent implements OnInit {
     this.activeSelector.set('none');
     this.searchBiblePassage();
   }
-  
+
   selectVerseAll() {
     this.bibleSearch.update(s => ({ ...s, verse: '' }));
     this.activeSelector.set('none');
@@ -405,8 +406,8 @@ export class AppComponent implements OnInit {
     if (this.isDraftLoading()) return;
     this.isDraftLoading.set(true);
     try {
-        const draft = await this.aiService.generateSermonDraft(this.sermon());
-        this.sermon.update(s => ({ ...s, personalNotes: s.personalNotes ? `${s.personalNotes}\n\n${draft}` : draft }));
+      const draft = await this.aiService.generateSermonDraft(this.sermon());
+      this.sermon.update(s => ({ ...s, personalNotes: s.personalNotes ? `${s.personalNotes}\n\n${draft}` : draft }));
     } catch (e) { alert('Erro ao gerar rascunho.'); } finally { this.isDraftLoading.set(false); }
   }
 
@@ -448,9 +449,9 @@ export class AppComponent implements OnInit {
       if (fetched && fetched.length > 0) {
         const v = fetched[0];
         this.allVerses.update(map => {
-           const newMap = new Map(map);
-           newMap.set(v.ref, { ref: v.ref, text: v.text, keywords: v.keywords || [], crossRefs: v.crossRefs || [], selected: false });
-           return newMap;
+          const newMap = new Map(map);
+          newMap.set(v.ref, { ref: v.ref, text: v.text, keywords: v.keywords || [], crossRefs: v.crossRefs || [], selected: false });
+          return newMap;
         });
         this.readingVerse.set({ ref: v.ref, text: v.text, keywords: v.keywords || [], crossRefs: v.crossRefs || [] });
       } else { alert('Não foi possível carregar o texto deste versículo.'); }
@@ -464,13 +465,13 @@ export class AppComponent implements OnInit {
     if (v) {
       const parts = v.ref.trim().split(' ');
       if (parts.length >= 2) {
-         const chapterVerse = parts.pop()!;
-         const book = parts.join(' ');
-         const [chapter] = chapterVerse.split(':');
-         this.bibleSearch.update(s => ({ ...s, book: book, chapter: chapter || '1', verse: '' }));
-         this.currentView.set('bible');
-         this.closeReadingModal();
-         setTimeout(() => { this.searchBiblePassage(); }, 100);
+        const chapterVerse = parts.pop()!;
+        const book = parts.join(' ');
+        const [chapter] = chapterVerse.split(':');
+        this.bibleSearch.update(s => ({ ...s, book: book, chapter: chapter || '1', verse: '' }));
+        this.currentView.set('bible');
+        this.closeReadingModal();
+        setTimeout(() => { this.searchBiblePassage(); }, 100);
       }
     }
   }
@@ -513,22 +514,22 @@ export class AppComponent implements OnInit {
   }
 
   fallbackCopyText(text: string) {
-      const textArea = document.createElement("textarea");
-      textArea.value = text;
-      textArea.style.position = "fixed"; 
-      document.body.appendChild(textArea);
-      textArea.focus();
-      textArea.select();
-      try { document.execCommand('copy'); } catch (err) { }
-      document.body.removeChild(textArea);
+    const textArea = document.createElement("textarea");
+    textArea.value = text;
+    textArea.style.position = "fixed";
+    document.body.appendChild(textArea);
+    textArea.focus();
+    textArea.select();
+    try { document.execCommand('copy'); } catch (err) { }
+    document.body.removeChild(textArea);
   }
 
   quickSearchRef(ref: string) {
     const parts = ref.split(' ');
     if (parts.length >= 2) {
-       const last = parts.pop()!;
-       const [chapter, verse] = last.split(':');
-       this.bibleSearch.update(s => ({ ...s, chapter: chapter || '1', verse: verse || '' }));
+      const last = parts.pop()!;
+      const [chapter, verse] = last.split(':');
+      this.bibleSearch.update(s => ({ ...s, chapter: chapter || '1', verse: verse || '' }));
     }
   }
 
@@ -536,7 +537,7 @@ export class AppComponent implements OnInit {
     const data = this.bibleData();
     if (!data) return;
     const verse = data.verses[index];
-    if (verse.analysis) return; 
+    if (verse.analysis) return;
     this.bibleData.update(d => { if (!d) return null; const vs = [...d.verses]; vs[index].loadingAnalysis = true; return { ...d, verses: vs }; });
     try {
       const refFull = `${data.book} ${data.chapter}:${verse.number}`;
@@ -570,13 +571,13 @@ export class AppComponent implements OnInit {
     if (!data) return;
     const verse = data.verses[index];
     const ref = `${data.book} ${data.chapter}:${verse.number}`;
-    const subpoints: string[] = [`"${verse.text}"`]; 
+    const subpoints: string[] = [`"${verse.text}"`];
     if (verse.analysis) {
-       subpoints.push(`Contexto: ${verse.analysis.historicalContext}`);
-       subpoints.push(`Teologia: ${verse.analysis.theologicalInsight}`);
-       subpoints.push(`Aplicação: ${verse.analysis.application}`);
+      subpoints.push(`Contexto: ${verse.analysis.historicalContext}`);
+      subpoints.push(`Teologia: ${verse.analysis.theologicalInsight}`);
+      subpoints.push(`Aplicação: ${verse.analysis.application}`);
     }
-    if (verse.keywords && verse.keywords.length > 0) this.sermon.update(s => ({...s, keywords: Array.from(new Set([...s.keywords, ...verse.keywords!]))}));
+    if (verse.keywords && verse.keywords.length > 0) this.sermon.update(s => ({ ...s, keywords: Array.from(new Set([...s.keywords, ...verse.keywords!])) }));
     const newPoint: SermonPoint = { title: `Estudo: ${ref}`, subpoints: subpoints, verses: [ref, ...(verse.crossRefs || [])] };
     this.sermon.update(s => { if (s.points.length === 1 && !s.points[0].title && (!s.points[0].subpoints[0] || s.points[0].subpoints[0] === '')) { return { ...s, points: [newPoint] }; } return { ...s, points: [...s.points, newPoint] }; });
     this.bibleData.update(d => { if (!d) return null; const vs = [...d.verses]; vs[index].analysisAddedToStructure = true; return { ...d, verses: vs }; });
@@ -587,10 +588,10 @@ export class AppComponent implements OnInit {
   sendToStructure(verseIndexOrRef: number | string) {
     let verseRef = '', verseText = '', keywords: string[] = [], crossRefs: string[] = [];
     if (typeof verseIndexOrRef === 'number') {
-       const data = this.bibleData(); if (!data) return; const v = data.verses[verseIndexOrRef];
-       verseRef = `${data.book} ${data.chapter}:${v.number}`; verseText = v.text; keywords = v.keywords || []; crossRefs = v.crossRefs || [];
+      const data = this.bibleData(); if (!data) return; const v = data.verses[verseIndexOrRef];
+      verseRef = `${data.book} ${data.chapter}:${v.number}`; verseText = v.text; keywords = v.keywords || []; crossRefs = v.crossRefs || [];
     } else {
-       const v = this.readingVerse(); if (v) { verseRef = v.ref; verseText = v.text; keywords = v.keywords || []; crossRefs = v.crossRefs || []; }
+      const v = this.readingVerse(); if (v) { verseRef = v.ref; verseText = v.text; keywords = v.keywords || []; crossRefs = v.crossRefs || []; }
     }
     this.sermon.update(s => ({ ...s, baseVerseRef: verseRef, baseVerseText: verseText, keywords: Array.from(new Set([...s.keywords, ...keywords])), crossReferences: Array.from(new Set([...s.crossReferences, ...crossRefs])) }));
     this.currentView.set('sermon'); this.currentStep.set(2); this.closeReadingModal();
@@ -608,7 +609,7 @@ export class AppComponent implements OnInit {
   closeComparisonModal() { this.comparisonData.set(null); }
 
   resetSermon() {
-    this.sermon.set({ ...EMPTY_SERMON }); this.suggestedVerses.set([]); this.allVerses.set(new Map()); 
+    this.sermon.set({ ...EMPTY_SERMON }); this.suggestedVerses.set([]); this.allVerses.set(new Map());
     this.currentStep.set(1); this.showThemeSuggestions.set(false); this.showVerseResults.set(false);
   }
 
@@ -639,7 +640,7 @@ export class AppComponent implements OnInit {
   addSelectedToReferences() {
     const selected = this.suggestedVerses().filter(v => v.selected); if (selected.length === 0) return;
     this.sermon.update(s => ({ ...s, crossReferences: [...new Set([...s.crossReferences, ...selected.map(v => v.ref)])] }));
-    this.suggestedVerses.update(vs => vs.map(v => ({ ...v, selected: false }))); this.fetchMissingVerses(); 
+    this.suggestedVerses.update(vs => vs.map(v => ({ ...v, selected: false }))); this.fetchMissingVerses();
   }
 
   addSelectedToStructure() {
@@ -667,7 +668,7 @@ export class AppComponent implements OnInit {
   async fetchMissingVerses() {
     const neededRefs = new Set<string>();
     this.sermon().crossReferences.forEach(r => neededRefs.add(r));
-    this.sermon().points.forEach(p => p.verses.forEach(v => { if(v) neededRefs.add(v); }));
+    this.sermon().points.forEach(p => p.verses.forEach(v => { if (v) neededRefs.add(v); }));
     const missing = Array.from(neededRefs).filter(ref => { if (!ref || typeof ref !== 'string' || ref.trim().length === 0) return false; const cached = this.getVerseByRef(ref); return !cached || cached.text === 'Carregando texto...' || cached.text === 'Texto indisponível'; });
     if (missing.length === 0) return;
     this.isLoading.set(true);
@@ -715,66 +716,66 @@ export class AppComponent implements OnInit {
   }
 
   downloadPDF() {
-    this.isLoading.set(true); 
+    this.isLoading.set(true);
     this.fetchMissingVerses().then(() => {
-        const elementId = this.isABNTMode() ? 'sermon-document-abnt' : 'sermon-preview-standard';
-        const originalElement = document.getElementById(elementId);
+      const elementId = this.isABNTMode() ? 'sermon-document-abnt' : 'sermon-preview-standard';
+      const originalElement = document.getElementById(elementId);
 
-        if (!originalElement) {
-            alert('Elemento de conteúdo não encontrado.');
-            this.isLoading.set(false);
-            return;
-        }
+      if (!originalElement) {
+        alert('Elemento de conteúdo não encontrado.');
+        this.isLoading.set(false);
+        return;
+      }
 
-        // Criar um clone limpo para PDF
-        const clonedElement = originalElement.cloneNode(true) as HTMLElement;
-        
-        // Configurações críticas para garantir que o PDF não saia em branco
-        clonedElement.style.width = '210mm'; 
-        clonedElement.style.minHeight = '297mm';
-        clonedElement.style.height = 'auto';
-        clonedElement.style.background = 'white';
-        clonedElement.style.color = 'black';
-        clonedElement.style.margin = '0'; 
-        clonedElement.style.padding = '20mm'; 
-        
-        // Fix para evitar que saia em branco
-        clonedElement.style.position = 'fixed';
-        clonedElement.style.left = '0';
-        clonedElement.style.top = '0';
-        clonedElement.style.zIndex = '-9999';
-        
-        // Remove sombras e transformações
-        clonedElement.style.boxShadow = 'none';
-        clonedElement.style.transform = 'none';
-        
-        document.body.appendChild(clonedElement);
+      // Criar um clone limpo para PDF
+      const clonedElement = originalElement.cloneNode(true) as HTMLElement;
 
-        const opt = {
-            margin: 0, 
-            filename: `${this.sermon().theme || 'Sermão'}.pdf`,
-            image: { type: 'jpeg', quality: 0.98 },
-            html2canvas: { 
-                scale: 2, 
-                useCORS: true, 
-                logging: false,
-                scrollY: 0, 
-                windowWidth: 1200 
-            },
-            jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' }
-        };
+      // Configurações críticas para garantir que o PDF não saia em branco
+      clonedElement.style.width = '210mm';
+      clonedElement.style.minHeight = '297mm';
+      clonedElement.style.height = 'auto';
+      clonedElement.style.background = 'white';
+      clonedElement.style.color = 'black';
+      clonedElement.style.margin = '0';
+      clonedElement.style.padding = '20mm';
 
-        setTimeout(() => {
-            html2pdf().set(opt).from(clonedElement).save().then(() => {
-                if(document.body.contains(clonedElement)) document.body.removeChild(clonedElement);
-                this.isLoading.set(false);
-            }).catch((err: any) => {
-                console.error(err);
-                if(document.body.contains(clonedElement)) document.body.removeChild(clonedElement);
-                this.isLoading.set(false);
-                alert('Erro ao gerar PDF.');
-            });
-        }, 1000);
+      // Fix para evitar que saia em branco
+      clonedElement.style.position = 'fixed';
+      clonedElement.style.left = '0';
+      clonedElement.style.top = '0';
+      clonedElement.style.zIndex = '-9999';
+
+      // Remove sombras e transformações
+      clonedElement.style.boxShadow = 'none';
+      clonedElement.style.transform = 'none';
+
+      document.body.appendChild(clonedElement);
+
+      const opt = {
+        margin: 0,
+        filename: `${this.sermon().theme || 'Sermão'}.pdf`,
+        image: { type: 'jpeg', quality: 0.98 },
+        html2canvas: {
+          scale: 2,
+          useCORS: true,
+          logging: false,
+          scrollY: 0,
+          windowWidth: 1200
+        },
+        jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' }
+      };
+
+      setTimeout(() => {
+        html2pdf().set(opt).from(clonedElement).save().then(() => {
+          if (document.body.contains(clonedElement)) document.body.removeChild(clonedElement);
+          this.isLoading.set(false);
+        }).catch((err: any) => {
+          console.error(err);
+          if (document.body.contains(clonedElement)) document.body.removeChild(clonedElement);
+          this.isLoading.set(false);
+          alert('Erro ao gerar PDF.');
+        });
+      }, 1000);
     });
   }
 
@@ -783,88 +784,88 @@ export class AppComponent implements OnInit {
   downloadLibraryPDF() {
     this.isLoading.set(true);
     const element = document.getElementById('library-content');
-    if (!element) { 
-        this.isLoading.set(false);
-        alert('Conteúdo da biblioteca não encontrado.');
-        return; 
+    if (!element) {
+      this.isLoading.set(false);
+      alert('Conteúdo da biblioteca não encontrado.');
+      return;
     }
 
     // Clone para evitar cortar conteúdo
     const cloned = element.cloneNode(true) as HTMLElement;
-    
-    cloned.style.width = '210mm'; 
+
+    cloned.style.width = '210mm';
     cloned.style.minHeight = '297mm';
     cloned.style.height = 'auto';
     cloned.style.background = 'white';
     cloned.style.color = 'black';
     cloned.style.padding = '10mm';
-    
+
     // Fix para evitar que saia em branco
     cloned.style.position = 'fixed';
     cloned.style.left = '0';
     cloned.style.top = '0';
     cloned.style.zIndex = '-9999';
-    
+
     // Resets
     cloned.style.boxShadow = 'none';
     cloned.style.transform = 'none';
     cloned.style.margin = '0';
-    
+
     document.body.appendChild(cloned);
 
     const opt = {
-        margin: 0,
-        filename: `Logos_Pesquisa_${this.activeLibraryCategory()?.title || 'Biblioteca'}.pdf`,
-        image: { type: 'jpeg', quality: 0.98 },
-        html2canvas: { 
-            scale: 2, 
-            useCORS: true, 
-            scrollY: 0,
-            windowWidth: 1200 
-        },
-        jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' }
+      margin: 0,
+      filename: `Logos_Pesquisa_${this.activeLibraryCategory()?.title || 'Biblioteca'}.pdf`,
+      image: { type: 'jpeg', quality: 0.98 },
+      html2canvas: {
+        scale: 2,
+        useCORS: true,
+        scrollY: 0,
+        windowWidth: 1200
+      },
+      jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' }
     };
 
     setTimeout(() => {
-        html2pdf().set(opt).from(cloned).save().then(() => {
-            if(document.body.contains(cloned)) document.body.removeChild(cloned);
-            this.isLoading.set(false);
-        }).catch((err: any) => {
-            console.error(err);
-            if(document.body.contains(cloned)) document.body.removeChild(cloned);
-            this.isLoading.set(false);
-            alert('Erro ao gerar PDF da biblioteca.');
-        });
+      html2pdf().set(opt).from(cloned).save().then(() => {
+        if (document.body.contains(cloned)) document.body.removeChild(cloned);
+        this.isLoading.set(false);
+      }).catch((err: any) => {
+        console.error(err);
+        if (document.body.contains(cloned)) document.body.removeChild(cloned);
+        this.isLoading.set(false);
+        alert('Erro ao gerar PDF da biblioteca.');
+      });
     }, 1000);
   }
 
   async extractVersesFromLibraryText() {
-      const text = this.libraryResult();
-      if (!text) { alert('Não há texto para analisar.'); return; }
-      this.isExtractingVerses.set(true);
-      try {
-          const regex = /\b((?:[123]\s)?[A-ZÀ-Ú][a-zà-úçãõâêîôû]+\.?)\s+(\d+)(?:[:.](\d+(?:-\d+)?))?\b/g;
-          const found = new Set<string>();
-          let match;
-          while ((match = regex.exec(text)) !== null) {
-              const book = match[1]; const chapter = match[2]; const verse = match[3] ? `:${match[3]}` : '';
-              found.add(`${book} ${chapter}${verse}`);
-          }
-          if (found.size === 0) { alert('Nenhuma referência bíblica encontrada no texto.'); this.isExtractingVerses.set(false); return; }
-          const existingRefs = this.libraryReferences().map(r => r.ref);
-          const newRefs = Array.from(found).filter(r => !existingRefs.includes(r));
-          if (newRefs.length === 0) { this.isExtractingVerses.set(false); return; }
-          const fetched = await this.aiService.getVerseTexts(newRefs);
-          if (fetched && fetched.length > 0) { this.libraryReferences.update(current => [...current, ...fetched]); } else { alert('Não foi possível carregar os textos das referências encontradas.'); }
-      } catch (e) { console.error(e); alert('Erro ao extrair versículos.'); } finally { this.isExtractingVerses.set(false); }
+    const text = this.libraryResult();
+    if (!text) { alert('Não há texto para analisar.'); return; }
+    this.isExtractingVerses.set(true);
+    try {
+      const regex = /\b((?:[123]\s)?[A-ZÀ-Ú][a-zà-úçãõâêîôû]+\.?)\s+(\d+)(?:[:.](\d+(?:-\d+)?))?\b/g;
+      const found = new Set<string>();
+      let match;
+      while ((match = regex.exec(text)) !== null) {
+        const book = match[1]; const chapter = match[2]; const verse = match[3] ? `:${match[3]}` : '';
+        found.add(`${book} ${chapter}${verse}`);
+      }
+      if (found.size === 0) { alert('Nenhuma referência bíblica encontrada no texto.'); this.isExtractingVerses.set(false); return; }
+      const existingRefs = this.libraryReferences().map(r => r.ref);
+      const newRefs = Array.from(found).filter(r => !existingRefs.includes(r));
+      if (newRefs.length === 0) { this.isExtractingVerses.set(false); return; }
+      const fetched = await this.aiService.getVerseTexts(newRefs);
+      if (fetched && fetched.length > 0) { this.libraryReferences.update(current => [...current, ...fetched]); } else { alert('Não foi possível carregar os textos das referências encontradas.'); }
+    } catch (e) { console.error(e); alert('Erro ao extrair versículos.'); } finally { this.isExtractingVerses.set(false); }
   }
 
   handleAudioUpload(event: any) {
     const file = event.target.files[0];
     if (file) {
-        const url = URL.createObjectURL(file);
-        this.bgAudio.src = url; this.bgAudio.load();
-        if (this.isMeditationMode()) { this.bgAudio.play().catch(e => console.error("Erro ao reproduzir arquivo:", e)); } else { this.isMeditationMode.set(true); this.bgAudio.play().catch(e => console.error("Erro ao reproduzir arquivo:", e)); }
+      const url = URL.createObjectURL(file);
+      this.bgAudio.src = url; this.bgAudio.load();
+      if (this.isMeditationMode()) { this.bgAudio.play().catch(e => console.error("Erro ao reproduzir arquivo:", e)); } else { this.isMeditationMode.set(true); this.bgAudio.play().catch(e => console.error("Erro ao reproduzir arquivo:", e)); }
     }
   }
 
@@ -881,13 +882,13 @@ export class AppComponent implements OnInit {
     this.stopAudio(); const data = this.bibleData(); if (!data || data.verses.length === 0) return;
     this.isReadingChapter.set(true); let index = 0;
     const speakNext = () => {
-        if (!this.isReadingChapter() || index >= data.verses.length) { this.stopAudio(); return; }
-        this.bibleData.update(d => { if (!d) return null; return { ...d, verses: d.verses.map((v, i) => ({ ...v, isPlaying: i === index })) }; });
-        const v = data.verses[index]; const text = `${v.number}. ${v.text}`;
-        const utterance = new SpeechSynthesisUtterance(text); utterance.lang = 'pt-BR'; utterance.rate = 0.9;
-        if (this.selectedVoice()) { const voice = this.availableVoices().find(vx => vx.name === this.selectedVoice()); if (voice) utterance.voice = voice; }
-        utterance.onend = () => { index++; speakNext(); }; utterance.onerror = (e) => { console.error(e); this.stopAudio(); };
-        window.speechSynthesis.speak(utterance);
+      if (!this.isReadingChapter() || index >= data.verses.length) { this.stopAudio(); return; }
+      this.bibleData.update(d => { if (!d) return null; return { ...d, verses: d.verses.map((v, i) => ({ ...v, isPlaying: i === index })) }; });
+      const v = data.verses[index]; const text = `${v.number}. ${v.text}`;
+      const utterance = new SpeechSynthesisUtterance(text); utterance.lang = 'pt-BR'; utterance.rate = 0.9;
+      if (this.selectedVoice()) { const voice = this.availableVoices().find(vx => vx.name === this.selectedVoice()); if (voice) utterance.voice = voice; }
+      utterance.onend = () => { index++; speakNext(); }; utterance.onerror = (e) => { console.error(e); this.stopAudio(); };
+      window.speechSynthesis.speak(utterance);
     };
     speakNext();
   }
@@ -895,7 +896,7 @@ export class AppComponent implements OnInit {
   playVerseAudio(index: number) {
     this.stopAudio(); const data = this.bibleData(); if (!data) return; const verse = data.verses[index];
     this.bibleData.update(d => { if (!d) return null; const vs = [...d.verses]; vs[index].isPlaying = true; return { ...d, verses: vs }; });
-    const utterance = new SpeechSynthesisUtterance(verse.text); utterance.lang = 'pt-BR'; utterance.rate = 0.9; 
+    const utterance = new SpeechSynthesisUtterance(verse.text); utterance.lang = 'pt-BR'; utterance.rate = 0.9;
     if (this.selectedVoice()) { const voiceObj = this.availableVoices().find(v => v.name === this.selectedVoice()); if (voiceObj) utterance.voice = voiceObj; }
     utterance.onend = () => { this.bibleData.update(d => { if (!d) return null; const vs = [...d.verses]; vs[index].isPlaying = false; return { ...d, verses: vs }; }); };
     window.speechSynthesis.speak(utterance);
@@ -916,25 +917,25 @@ export class AppComponent implements OnInit {
     this.libraryReferences.set([]);
 
     try {
-        const textPromise = this.aiService.libraryResearch(this.activeLibraryCategory()!.id, this.libraryQuery());
-        const imagePromise = this.activeLibraryCategory()!.id === 'VISUAL' || this.activeLibraryCategory()!.id === 'ARQUEOLOGIA' || this.activeLibraryCategory()!.id === 'GEOGRAFIA' 
-            ? this.aiService.generateBiblicalImage(this.libraryQuery()) 
-            : Promise.resolve(null);
+      const textPromise = this.aiService.libraryResearch(this.activeLibraryCategory()!.id, this.libraryQuery());
+      const imagePromise = this.activeLibraryCategory()!.id === 'VISUAL' || this.activeLibraryCategory()!.id === 'ARQUEOLOGIA' || this.activeLibraryCategory()!.id === 'GEOGRAFIA'
+        ? this.aiService.generateBiblicalImage(this.libraryQuery())
+        : Promise.resolve(null);
 
-        const [text, image] = await Promise.all([textPromise, imagePromise]);
-        
-        this.libraryResult.set(text);
-        this.libraryImage.set(image);
-        
-        if (this.activeLibraryCategory()!.id !== 'VISUAL') {
-            setTimeout(() => this.extractVersesFromLibraryText(), 500);
-        }
+      const [text, image] = await Promise.all([textPromise, imagePromise]);
+
+      this.libraryResult.set(text);
+      this.libraryImage.set(image);
+
+      if (this.activeLibraryCategory()!.id !== 'VISUAL') {
+        setTimeout(() => this.extractVersesFromLibraryText(), 500);
+      }
 
     } catch (e) {
-        console.error(e);
-        alert('Erro na pesquisa da biblioteca.');
+      console.error(e);
+      alert('Erro na pesquisa da biblioteca.');
     } finally {
-        this.isLibraryLoading.set(false);
+      this.isLibraryLoading.set(false);
     }
   }
 
@@ -945,7 +946,7 @@ export class AppComponent implements OnInit {
     try {
       // 1. Expandir o contexto do versículo
       const context = await this.aiService.expandVerseContext(this.sermon().baseVerseRef);
-      
+
       // 2. Atualizar o Sermão com os dados descobertos
       this.sermon.update(s => ({
         ...s,
@@ -957,17 +958,17 @@ export class AppComponent implements OnInit {
 
       // 3. Buscar versículos relacionados usando as palavras-chave descobertas
       if (context.keywords && context.keywords.length > 0) {
-         const verses = await this.aiService.searchVerses(context.keywords.join(', '));
-         this.allVerses.update(map => {
-            const newMap = new Map(map);
-            verses.forEach((v: any) => newMap.set(v.ref, v));
-            return newMap;
-         });
-         this.suggestedVerses.set(verses.map((v: any) => ({...v, selected: false})));
-         this.showVerseResults.set(true);
+        const verses = await this.aiService.searchVerses(context.keywords.join(', '));
+        this.allVerses.update(map => {
+          const newMap = new Map(map);
+          verses.forEach((v: any) => newMap.set(v.ref, v));
+          return newMap;
+        });
+        this.suggestedVerses.set(verses.map((v: any) => ({ ...v, selected: false })));
+        this.showVerseResults.set(true);
       }
 
-    } catch(e) {
+    } catch (e) {
       console.error(e);
       alert('Erro ao analisar versículo.');
     } finally {
@@ -984,28 +985,28 @@ export class AppComponent implements OnInit {
   async generateExegesis(verse: SuggestionVerse) {
     this.isLoading.set(true);
     try {
-        const exegesis = await this.aiService.generateDeepExegesis(verse.ref, verse.text);
-        const content = `\n--- EXEGESE: ${verse.ref} ---\n${exegesis}\n`;
-        this.sermon.update(s => ({ ...s, personalNotes: (s.personalNotes || '') + content }));
-        alert('Exegese gerada e salva nas Anotações.');
-    } catch(e) {
-        alert('Erro ao gerar exegese.');
+      const exegesis = await this.aiService.generateDeepExegesis(verse.ref, verse.text);
+      const content = `\n--- EXEGESE: ${verse.ref} ---\n${exegesis}\n`;
+      this.sermon.update(s => ({ ...s, personalNotes: (s.personalNotes || '') + content }));
+      alert('Exegese gerada e salva nas Anotações.');
+    } catch (e) {
+      alert('Erro ao gerar exegese.');
     } finally {
-        this.isLoading.set(false);
+      this.isLoading.set(false);
     }
   }
 
   async generateDevotional(verse: SuggestionVerse) {
     this.isLoading.set(true);
     try {
-        const study = await this.aiService.generateDevotionalStudy(verse.ref, verse.text);
-        const content = `\n--- ESTUDO DEVOCIONAL: ${verse.ref} ---\n${study}\n`;
-        this.sermon.update(s => ({ ...s, personalNotes: (s.personalNotes || '') + content }));
-        alert('Estudo devocional salvo nas Anotações.');
-    } catch(e) {
-        alert('Erro ao gerar estudo.');
+      const study = await this.aiService.generateDevotionalStudy(verse.ref, verse.text);
+      const content = `\n--- ESTUDO DEVOCIONAL: ${verse.ref} ---\n${study}\n`;
+      this.sermon.update(s => ({ ...s, personalNotes: (s.personalNotes || '') + content }));
+      alert('Estudo devocional salvo nas Anotações.');
+    } catch (e) {
+      alert('Erro ao gerar estudo.');
     } finally {
-        this.isLoading.set(false);
+      this.isLoading.set(false);
     }
   }
 }
