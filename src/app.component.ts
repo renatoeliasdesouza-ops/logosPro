@@ -730,20 +730,21 @@ export class AppComponent implements OnInit {
         const clonedElement = originalElement.cloneNode(true) as HTMLElement;
         
         // Configurações críticas para garantir que o PDF não saia em branco
-        // Força estilos inline para garantir que o html2canvas capture corretamente
         clonedElement.style.width = '210mm'; 
         clonedElement.style.minHeight = '297mm';
         clonedElement.style.height = 'auto';
         clonedElement.style.background = 'white';
         clonedElement.style.color = 'black';
-        clonedElement.style.margin = '0 auto';
-        clonedElement.style.padding = '20mm'; // Margem interna segura
-        clonedElement.style.position = 'absolute';
-        clonedElement.style.left = '-9999px'; // Fora da tela, mas renderizado
-        clonedElement.style.top = '0';
-        clonedElement.style.zIndex = '9999';
+        clonedElement.style.margin = '0'; 
+        clonedElement.style.padding = '20mm'; 
         
-        // Remove sombras e transformações que confundem o gerador
+        // Fix para evitar que saia em branco
+        clonedElement.style.position = 'fixed';
+        clonedElement.style.left = '0';
+        clonedElement.style.top = '0';
+        clonedElement.style.zIndex = '-9999';
+        
+        // Remove sombras e transformações
         clonedElement.style.boxShadow = 'none';
         clonedElement.style.transform = 'none';
         
@@ -757,23 +758,23 @@ export class AppComponent implements OnInit {
                 scale: 2, 
                 useCORS: true, 
                 logging: false,
-                scrollY: 0, // Importante: evita capturar scroll
-                windowWidth: 1200 // Força largura desktop para evitar layout mobile
+                scrollY: 0, 
+                windowWidth: 1200 
             },
             jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' }
         };
 
         setTimeout(() => {
             html2pdf().set(opt).from(clonedElement).save().then(() => {
-                document.body.removeChild(clonedElement);
+                if(document.body.contains(clonedElement)) document.body.removeChild(clonedElement);
                 this.isLoading.set(false);
             }).catch((err: any) => {
                 console.error(err);
-                if (document.body.contains(clonedElement)) document.body.removeChild(clonedElement);
+                if(document.body.contains(clonedElement)) document.body.removeChild(clonedElement);
                 this.isLoading.set(false);
                 alert('Erro ao gerar PDF.');
             });
-        }, 500); // Delay para garantir renderização do clone
+        }, 1000);
     });
   }
 
@@ -792,14 +793,22 @@ export class AppComponent implements OnInit {
     const cloned = element.cloneNode(true) as HTMLElement;
     
     cloned.style.width = '210mm'; 
+    cloned.style.minHeight = '297mm';
     cloned.style.height = 'auto';
     cloned.style.background = 'white';
     cloned.style.color = 'black';
     cloned.style.padding = '10mm';
-    cloned.style.position = 'absolute';
-    cloned.style.left = '-9999px';
+    
+    // Fix para evitar que saia em branco
+    cloned.style.position = 'fixed';
+    cloned.style.left = '0';
     cloned.style.top = '0';
-    cloned.style.zIndex = '9999';
+    cloned.style.zIndex = '-9999';
+    
+    // Resets
+    cloned.style.boxShadow = 'none';
+    cloned.style.transform = 'none';
+    cloned.style.margin = '0';
     
     document.body.appendChild(cloned);
 
@@ -818,7 +827,7 @@ export class AppComponent implements OnInit {
 
     setTimeout(() => {
         html2pdf().set(opt).from(cloned).save().then(() => {
-            document.body.removeChild(cloned);
+            if(document.body.contains(cloned)) document.body.removeChild(cloned);
             this.isLoading.set(false);
         }).catch((err: any) => {
             console.error(err);
@@ -826,7 +835,7 @@ export class AppComponent implements OnInit {
             this.isLoading.set(false);
             alert('Erro ao gerar PDF da biblioteca.');
         });
-    }, 500);
+    }, 1000);
   }
 
   async extractVersesFromLibraryText() {
