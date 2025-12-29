@@ -17,15 +17,14 @@
     "isolatedModules": true,
     "moduleDetection": "force",
     "allowJs": true,
-    "jsx": "react-jsx",
     "paths": {
       "@/*": [
-        "./*"
+        "./src/*"
       ]
     }
   },
   "files": [
-    "./index.tsx"
+    "src/main.ts"
   ],
   "angularCompilerOptions": {
     "disableTypeScriptVersionCheck": true
