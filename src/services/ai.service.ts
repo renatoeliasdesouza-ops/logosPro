@@ -11,19 +11,26 @@ export class AIService {
     Add variable: NG_APP_GEMINI_API_KEY
     Value: <YOUR_API_KEY>
   */
-  private apiKey = environment.geminiApiKey || 'AIzaSyD6nyYBQVzTv_wV1me4g_cXaC-TdlieviY';
+  private apiKey = (environment.geminiApiKey && environment.geminiApiKey.trim() !== '')
+    ? environment.geminiApiKey
+    : 'AIzaSyDgt-eosu5Xmhm1gWwk3C_BV8ERQCvPB-g';
+
   // Initializes with null/undefined to allow app to start even without key
   private genAI: GoogleGenerativeAI | null = null;
-  private modelName = 'gemini-2.0-flash-exp';
+  private modelName = 'gemini-1.5-flash'; // Switching to a more stable model for verification
 
   constructor() {
     this.refreshKey();
   }
 
   refreshKey() {
-    if (this.apiKey && this.apiKey.trim() !== '') {
+    const keyToUse = this.apiKey;
+    const isFallback = keyToUse === 'AIzaSyDgt-eosu5Xmhm1gWwk3C_BV8ERQCvPB-g';
+    console.log('AIService: Initializing with', isFallback ? 'Fallback Key' : 'Environment Key');
+
+    if (keyToUse && keyToUse.trim() !== '') {
       try {
-        this.genAI = new GoogleGenerativeAI(this.apiKey);
+        this.genAI = new GoogleGenerativeAI(keyToUse);
       } catch (e) {
         console.error('Failed to initialize GoogleGenerativeAI', e);
         this.genAI = null;
