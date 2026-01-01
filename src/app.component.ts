@@ -1168,6 +1168,10 @@ export class AppComponent implements OnInit {
   hasLibraryKey(): boolean { return this.aiService.hasKey('library'); }
   hasSermonKey(): boolean { return this.aiService.hasKey('sermon'); }
 
+  hasCustomBibleKey(): boolean { return !!localStorage.getItem('logos_pro_bible_key'); }
+  hasCustomLibraryKey(): boolean { return !!localStorage.getItem('logos_pro_library_key'); }
+  hasCustomSermonKey(): boolean { return !!localStorage.getItem('logos_pro_sermon_key'); }
+
   // --- NOVO: Lógica de Pesquisa Reversa a partir do Versículo Base ---
   async analyzeBaseVerse() {
     if (!this.sermon().baseVerseRef) { alert('Digite uma referência primeiro (ex: João 3:16)'); return; }
