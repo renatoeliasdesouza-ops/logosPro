@@ -19,16 +19,16 @@ export class AIService {
   private genAILibrary: GoogleGenerativeAI | null = null;
   private genAISermon: GoogleGenerativeAI | null = null;
 
-  private modelName = 'gemini-1.5-flash';
+  private modelName = 'gemini-1.5-flash-latest';
 
   constructor() {
     this.refreshKeys();
   }
 
   refreshKeys() {
-    this.bibleKey = localStorage.getItem('logos_pro_bible_key') || (environment.geminiApiKey || 'AIzaSyDgt-eosu5Xmhm1gWwk3C_BV8ERQCvPB-g');
-    this.libraryKey = localStorage.getItem('logos_pro_library_key') || (environment.geminiApiKey || 'AIzaSyDgt-eosu5Xmhm1gWwk3C_BV8ERQCvPB-g');
-    this.sermonKey = localStorage.getItem('logos_pro_sermon_key') || (environment.geminiApiKey || 'AIzaSyDgt-eosu5Xmhm1gWwk3C_BV8ERQCvPB-g');
+    this.bibleKey = localStorage.getItem('logos_pro_bible_key') || (environment.geminiApiKey || 'AIzaSyAS6DXX-OmzwSQD-LOYLokvmdN4-0Z5qXU');
+    this.libraryKey = localStorage.getItem('logos_pro_library_key') || (environment.geminiApiKey || 'AIzaSyAS6DXX-OmzwSQD-LOYLokvmdN4-0Z5qXU');
+    this.sermonKey = localStorage.getItem('logos_pro_sermon_key') || (environment.geminiApiKey || 'AIzaSyAS6DXX-OmzwSQD-LOYLokvmdN4-0Z5qXU');
 
     try {
       if (this.bibleKey) this.genAIBible = new GoogleGenerativeAI(this.bibleKey);
