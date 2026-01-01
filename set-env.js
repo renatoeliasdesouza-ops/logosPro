@@ -12,7 +12,7 @@ if (!fs.existsSync(dir)) {
 
 const envConfigFile = `export const environment = {
   production: true,
-  geminiApiKey: '${process.env.NG_APP_GEMINI_API_KEY || ''}'
+  geminiApiKey: '${process.env.NG_APP_GEMINI_API_KEY || 'AIzaSyD6nyYBQVzTv_wV1me4g_cXaC-TdlieviY'}'
 };
 `;
 
