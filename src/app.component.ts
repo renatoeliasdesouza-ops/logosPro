@@ -456,6 +456,22 @@ export class AppComponent implements OnInit {
     alert('Chave aplicada a todos os módulos!');
   }
 
+  clearKeys() {
+    if (confirm('Deseja realmente limpar todas as chaves pessoais? O sistema voltará a usar as chaves padrão.')) {
+      localStorage.removeItem('logos_pro_bible_key');
+      localStorage.removeItem('logos_pro_library_key');
+      localStorage.removeItem('logos_pro_sermon_key');
+
+      this.bibleKeyInput.set('');
+      this.libraryKeyInput.set('');
+      this.sermonKeyInput.set('');
+      this.generalKeyInput.set('');
+
+      this.aiService.refreshKeys();
+      alert('Chaves removidas. O sistema está usando o padrão.');
+    }
+  }
+
   updateBibleVersion(newVersion: string) {
     this.bibleSearch.update(s => ({ ...s, version: newVersion }));
     this.searchBiblePassage();

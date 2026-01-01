@@ -304,7 +304,11 @@
             </div>
 
             <!-- Footer do Modal -->
-            <div class="p-6 bg-slate-50 border-t flex justify-end">
+            <div class="p-6 bg-slate-50 border-t flex justify-between items-center">
+                <button (click)="clearKeys()"
+                    class="text-red-500 hover:text-red-700 text-xs font-bold uppercase transition-colors">
+                    Limpar Chaves
+                </button>
                 <button (click)="toggleSettings()"
                     class="bg-slate-200 hover:bg-slate-300 text-slate-700 px-8 py-3 rounded-xl font-bold transition-all active:scale-95 uppercase text-xs">
                     Fechar
