@@ -92,13 +92,18 @@ const BIBLE_STRUCTURE = [
 export class AppComponent implements OnInit {
   private aiService = inject(AIService);
   @ViewChild('chatContainer') chatContainer!: ElementRef;
+  @ViewChild('chatContainerMain') chatContainerMain!: ElementRef;
 
   isAuthenticated = signal(false);
   username = signal('');
   password = signal('');
   loginError = signal(false);
 
-  currentView = signal<'sermon' | 'bible' | 'library' | 'documents'>('sermon');
+  showSettings = signal(false);
+  apiKeyInput = signal('');
+
+  currentView = signal<'dashboard' | 'sermon' | 'bible' | 'library' | 'documents'>('dashboard');
+  chatMode = signal<'theologian' | 'academic'>('theologian');
   currentStep = signal(1);
   sermon = signal<SermonData>({ ...EMPTY_SERMON });
   savedSermons = signal<SermonData[]>([]);
@@ -116,12 +121,51 @@ export class AppComponent implements OnInit {
     { role: 'assistant', text: 'Graça e paz. Sou seu Assistente Teológico Logos Pro. Estou pronto para ajudar. O que precisamos desenvolver agora?' }
   ]);
   chatInput = signal('');
+  academicChatInput = signal('');
   isChatLoading = signal(false);
   isDraftLoading = signal(false);
 
   isABNTMode = signal(false);
 
   bibleStructure = BIBLE_STRUCTURE;
+  bookSearchQuery = signal('');
+  isAcademicChatOpen = signal(false);
+
+  filteredBooksOT = computed(() => {
+    const query = this.bookSearchQuery().toLowerCase();
+    return this.booksOT().filter(b => b.name.toLowerCase().includes(query));
+  });
+
+  filteredBooksNT = computed(() => {
+    const query = this.bookSearchQuery().toLowerCase();
+    return this.booksNT().filter(b => b.name.toLowerCase().includes(query));
+  });
+
+  toggleAcademicChat() {
+    this.isAcademicChatOpen.update(v => !v);
+    if (this.isAcademicChatOpen()) {
+      this.chatMode.set('academic');
+
+      // Sync Bible context if in Bible view to help the AI
+      if (this.currentView() === 'bible') {
+        const b = this.bibleSearch();
+        this.sermon.update(s => ({
+          ...s,
+          baseVerseRef: s.baseVerseRef || `${b.book} ${b.chapter}`
+        }));
+        // If Bible view is empty, try to load it
+        if (!this.bibleData()) this.searchBiblePassage();
+      }
+
+      // If chat is empty, add a welcome message for academic mode
+      if (this.chatMessages().length <= 1) {
+        this.chatMessages.set([
+          { role: 'assistant', text: 'Bem-vindo ao Chat Acadêmico Logos Pro. Sou seu consultor PhD em Teologia, História e Filosofia. Em que posso aprofundar seus estudos hoje?' }
+        ]);
+      }
+    }
+  }
+
   activeSelector = signal<'none' | 'books' | 'chapters' | 'verses'>('none');
   isNotesMinimized = signal(false);
   bibleFontSize = signal(1.125);
@@ -135,7 +179,10 @@ export class AppComponent implements OnInit {
   });
 
   currentChapterVerses = computed(() => {
-    return Array.from({ length: 60 }, (_, i) => i + 1);
+    const data = this.bibleData();
+    // Use the actual number of verses if data is available, otherwise generic 150
+    const count = (data && data.verses.length > 0) ? data.verses.length : 150;
+    return Array.from({ length: count }, (_, i) => i + 1);
   });
 
   targetAudiences = [
@@ -177,6 +224,9 @@ export class AppComponent implements OnInit {
   });
 
   bibleData = signal<BibleChapterData | null>(null);
+  bookIntroduction = signal('');
+  isIntroLoading = signal(false);
+  showBookIntro = signal(false);
 
   readingVerse = signal<{ ref: string, text: string, keywords?: string[], crossRefs?: string[] } | null>(null);
   comparisonData = signal<{ ref: string, versions: { name: string, text: string }[] } | null>(null);
@@ -207,6 +257,7 @@ export class AppComponent implements OnInit {
   showLibraryVerseText = signal(true);
 
   isLibraryLoading = signal(false);
+  isReadingLibrary = signal(false);
   isExtractingVerses = signal(false);
 
   steps = [
@@ -220,6 +271,13 @@ export class AppComponent implements OnInit {
     effect(() => {
       const messages = this.chatMessages();
       setTimeout(() => this.scrollToBottom(), 100);
+    });
+
+    // Auto-load bible passage when entering Bible view if not loaded
+    effect(() => {
+      if (this.currentView() === 'bible' && !this.bibleData() && this.aiService.hasKey()) {
+        this.searchBiblePassage();
+      }
     });
 
     this.bgAudio.src = this.defaultAudioUrl;
@@ -332,15 +390,37 @@ export class AppComponent implements OnInit {
     if (this.chatContainer) {
       try { this.chatContainer.nativeElement.scrollTop = this.chatContainer.nativeElement.scrollHeight; } catch (err) { }
     }
+    if (this.chatContainerMain) {
+      try { this.chatContainerMain.nativeElement.scrollTop = this.chatContainerMain.nativeElement.scrollHeight; } catch (err) { }
+    }
   }
 
   login() {
     if (this.username() === 'admin' && this.password() === 'admin') {
       this.isAuthenticated.set(true);
       this.loginError.set(false);
+      this.currentView.set('dashboard');
     } else {
       this.loginError.set(true);
       this.password.set('');
+    }
+  }
+
+  toggleSettings() {
+    this.showSettings.update(v => !v);
+    if (this.showSettings()) {
+      this.apiKeyInput.set(localStorage.getItem('gemini_api_key') || '');
+    }
+  }
+
+  saveApiKey() {
+    const key = this.apiKeyInput().trim();
+    if (key) {
+      this.aiService.updateApiKey(key);
+      this.showSettings.set(false);
+      alert('Chave API salva com sucesso! O sistema agora está conectado.');
+    } else {
+      alert('Por favor, insira uma chave válida.');
     }
   }
 
@@ -357,9 +437,33 @@ export class AppComponent implements OnInit {
     }
   }
 
-  selectBook(bookName: string) {
+  async selectBook(bookName: string) {
     this.bibleSearch.update(s => ({ ...s, book: bookName, chapter: '1', verse: '' }));
     this.activeSelector.set('chapters');
+
+    // Sequential operations to avoid hitting API rate limits (429) simultaneously
+    try {
+      await this.loadBookIntroduction(bookName);
+      await this.searchBiblePassage();
+    } catch (e) {
+      console.error("Erro ao carregar livro:", e);
+    }
+  }
+
+  async loadBookIntroduction(bookName: string) {
+    if (!this.aiService.hasKey()) return;
+    this.isIntroLoading.set(true);
+    this.bookIntroduction.set('');
+    try {
+      const intro = await this.aiService.getBookIntroduction(bookName);
+      this.bookIntroduction.set(intro);
+      this.showBookIntro.set(true);
+    } catch (e) {
+      console.error(e);
+      this.bookIntroduction.set('Erro ao carregar introdução.');
+    } finally {
+      this.isIntroLoading.set(false);
+    }
   }
 
   selectChapter(chapter: number) {
@@ -380,19 +484,41 @@ export class AppComponent implements OnInit {
     this.searchBiblePassage();
   }
 
+  increaseFontSize() {
+    this.bibleFontSize.update(v => Math.min(v + 0.125, 3));
+  }
+
+  decreaseFontSize() {
+    this.bibleFontSize.update(v => Math.max(v - 0.125, 0.8));
+  }
+
   toggleNotesMinimize() { this.isNotesMinimized.update(v => !v); }
-  increaseFontSize() { this.bibleFontSize.update(s => Math.min(s + 0.125, 3.0)); }
-  decreaseFontSize() { this.bibleFontSize.update(s => Math.max(s - 0.125, 0.875)); }
 
   async sendMessage() {
-    const text = this.chatInput().trim();
+    if (!this.aiService.hasKey()) { this.showSettings.set(true); return; }
+
+    const isAcademic = this.isAcademicChatOpen();
+    const text = isAcademic ? this.academicChatInput().trim() : this.chatInput().trim();
+
     if (!text || this.isChatLoading()) return;
+
     this.chatMessages.update(m => [...m, { role: 'user', text }]);
-    this.chatInput.set('');
+
+    if (isAcademic) {
+      this.academicChatInput.set('');
+    } else {
+      this.chatInput.set('');
+    }
+
     this.isChatLoading.set(true);
     try {
       const history = this.chatMessages().slice(-10);
-      const response = await this.aiService.chatWithTheologian(history, this.sermon());
+      let response = '';
+      if (isAcademic) {
+        response = await this.aiService.chatWithAcademic(history, this.sermon());
+      } else {
+        response = await this.aiService.chatWithTheologian(history, this.sermon());
+      }
       this.chatMessages.update(m => [...m, { role: 'assistant', text: response }]);
     } catch (e) {
       console.error(e);
@@ -403,6 +529,7 @@ export class AppComponent implements OnInit {
   }
 
   async generateDraft() {
+    if (!this.aiService.hasKey()) { this.showSettings.set(true); return; }
     if (this.isDraftLoading()) return;
     this.isDraftLoading.set(true);
     try {
@@ -477,20 +604,47 @@ export class AppComponent implements OnInit {
   }
 
   async searchBiblePassage() {
+    if (!this.aiService.hasKey()) { this.showSettings.set(true); return; }
+
+    // Immediate feedback: clear data and show general loading
     this.isLoading.set(true);
+    this.bibleData.set(null);
+
     try {
       const { version, book, chapter, verse } = this.bibleSearch();
       const versionObj = this.bibleVersions.find(v => v.id === version);
       const versionName = versionObj ? versionObj.name : version;
+
       const result = await this.aiService.consultBible(versionName, book, chapter, verse);
+
+      if (!result || !result.verses || result.verses.length === 0) {
+        throw new Error("Nenhum versículo retornado da IA.");
+      }
+
       this.bibleData.set({
         ref: `${book} ${chapter}`,
         book,
         chapter,
         version,
-        verses: result.verses.map(v => ({ ...v, highlighted: false, analysis: null, loadingAnalysis: false, copied: false, addedToNotes: false, analysisAddedToNotes: false, analysisAddedToStructure: false, isPlaying: false, keywords: v.keywords || [] }))
+        verses: result.verses.map(v => ({
+          ...v,
+          highlighted: false,
+          analysis: null,
+          loadingAnalysis: false,
+          copied: false,
+          addedToNotes: false,
+          analysisAddedToNotes: false,
+          analysisAddedToStructure: false,
+          isPlaying: false,
+          keywords: v.keywords || []
+        }))
       });
-    } catch (e) { console.error(e); alert('Erro ao buscar o texto bíblico. Tente novamente.'); } finally { this.isLoading.set(false); }
+    } catch (e) {
+      console.error("Erro na busca bíblica:", e);
+      alert(`Não conseguimos obter o texto bíblico. Erro: ${e}`);
+    } finally {
+      this.isLoading.set(false);
+    }
   }
 
   toggleHighlight(index: number) {
@@ -621,11 +775,13 @@ export class AppComponent implements OnInit {
   removeKeyword(index: number) { this.sermon.update(s => ({ ...s, keywords: s.keywords.filter((_, i) => i !== index) })); }
 
   async suggestTheme() {
+    if (!this.aiService.hasKey()) { this.showSettings.set(true); return; }
     this.isLoading.set(true);
     try { const themes = await this.aiService.suggestTheme(this.sermon().theme || 'Um sermão edificante'); this.suggestedThemes.set(themes); this.showThemeSuggestions.set(true); this.showVerseResults.set(false); } catch (e) { } finally { this.isLoading.set(false); }
   }
 
   async searchVerses() {
+    if (!this.aiService.hasKey()) { this.showSettings.set(true); return; }
     if (!this.sermon().theme) return;
     this.isLoading.set(true);
     try { const verses = await this.aiService.searchVerses(this.sermon().theme); this.allVerses.update(map => { const newMap = new Map(map); verses.forEach((v: any) => newMap.set(v.ref, v)); return newMap; }); this.suggestedVerses.set(verses.map((v: any) => ({ ...v, selected: false }))); this.showVerseResults.set(true); this.showThemeSuggestions.set(false); } catch (e) { } finally { this.isLoading.set(false); }
@@ -639,7 +795,7 @@ export class AppComponent implements OnInit {
 
   addSelectedToReferences() {
     const selected = this.suggestedVerses().filter(v => v.selected); if (selected.length === 0) return;
-    this.sermon.update(s => ({ ...s, crossReferences: [...new Set([...s.crossReferences, ...selected.map(v => v.ref)])] }));
+    this.sermon.update(s => ({ ...s, crossReferences: Array.from(new Set([...s.crossReferences, ...selected.map(v => v.ref)])) }));
     this.suggestedVerses.update(vs => vs.map(v => ({ ...v, selected: false }))); this.fetchMissingVerses();
   }
 
@@ -661,11 +817,16 @@ export class AppComponent implements OnInit {
   }
 
   async generateStructure() {
+    if (!this.aiService.hasKey()) { this.showSettings.set(true); return; }
     this.isLoading.set(true);
     try { const structure = await this.aiService.generateStructure(this.sermon()); this.sermon.update(s => ({ ...s, introduction: structure.introduction, biblicalContext: structure.biblicalContext, points: structure.points, finalApplication: structure.finalApplication, conclusion: structure.conclusion })); await this.fetchMissingVerses(); } catch (e) { } finally { this.isLoading.set(false); }
   }
 
   async fetchMissingVerses() {
+    if (!this.aiService.hasKey()) {
+      this.showSettings.set(true);
+      return;
+    }
     const neededRefs = new Set<string>();
     this.sermon().crossReferences.forEach(r => neededRefs.add(r));
     this.sermon().points.forEach(p => p.verses.forEach(v => { if (v) neededRefs.add(v); }));
@@ -740,12 +901,13 @@ export class AppComponent implements OnInit {
       clonedElement.style.padding = '20mm';
 
       // Fix para evitar que saia em branco
-      clonedElement.style.position = 'fixed';
+      clonedElement.style.position = 'absolute';
       clonedElement.style.left = '0';
       clonedElement.style.top = '0';
-      clonedElement.style.zIndex = '-9999';
+      clonedElement.style.zIndex = '50'; // Abaixo do loading (z-100) mas visível no DOM
+      clonedElement.style.backgroundColor = 'white'; // Garantir fundo branco
 
-      // Remove sombras e transformações
+      // Remove sombras e transformações que podem afetar o PDF
       clonedElement.style.boxShadow = 'none';
       clonedElement.style.transform = 'none';
 
@@ -870,8 +1032,39 @@ export class AppComponent implements OnInit {
   }
 
   stopAudio() {
-    window.speechSynthesis.cancel(); this.isReadingChapter.set(false);
+    window.speechSynthesis.cancel();
+    this.isReadingChapter.set(false);
+    this.isReadingLibrary.set(false);
     this.bibleData.update(d => { if (!d) return null; return { ...d, verses: d.verses.map(v => ({ ...v, isPlaying: false })) }; });
+  }
+
+  toggleLibraryAudio() {
+    if (this.isReadingLibrary()) {
+      this.stopAudio();
+    } else {
+      this.readLibraryResult();
+    }
+  }
+
+  readLibraryResult() {
+    this.stopAudio();
+    const text = this.libraryResult();
+    if (!text) return;
+
+    this.isReadingLibrary.set(true);
+    const utterance = new SpeechSynthesisUtterance(text);
+    utterance.lang = 'pt-BR';
+    utterance.rate = 0.95;
+
+    if (this.selectedVoice()) {
+      const voice = this.availableVoices().find(vx => vx.name === this.selectedVoice());
+      if (voice) utterance.voice = voice;
+    }
+
+    utterance.onend = () => { this.isReadingLibrary.set(false); };
+    utterance.onerror = (e) => { console.error(e); this.stopAudio(); };
+
+    window.speechSynthesis.speak(utterance);
   }
 
   toggleMeditation() {

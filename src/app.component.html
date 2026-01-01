@@ -1,165 +1,363 @@
-
 @if (!isAuthenticated()) {
-  <div class="min-h-screen bg-slate-100 flex items-center justify-center p-4">
-    <div class="max-w-md w-full bg-white rounded-2xl shadow-xl overflow-hidden border border-slate-200 animate-in zoom-in-95 duration-300">
-      <div class="bg-indigo-900 p-10 text-center relative overflow-hidden">
-        <div class="absolute inset-0 opacity-10" style="background-image: radial-gradient(#fff 1px, transparent 1px); background-size: 20px 20px;"></div>
-        <div class="relative z-10 flex flex-col items-center">
-          <div class="flex items-baseline gap-2 mb-2">
-             <span class="text-6xl text-amber-400 logo-font font-bold">Λ</span>
-             <span class="text-5xl text-white logo-font tracking-tight">LOGOS</span>
-          </div>
-          <div class="flex items-center gap-3 w-full justify-center px-8">
-             <span class="h-[1px] bg-amber-500/40 flex-grow"></span>
-             <span class="text-amber-400 text-sm font-bold tracking-[0.4em] logo-font">PRO</span>
-             <span class="h-[1px] bg-amber-500/40 flex-grow"></span>
-          </div>
+<div class="min-h-screen bg-slate-100 flex items-center justify-center p-4">
+    <div
+        class="max-w-md w-full bg-white rounded-2xl shadow-xl overflow-hidden border border-slate-200 animate-in zoom-in-95 duration-300">
+        <div class="bg-indigo-900 p-10 text-center relative overflow-hidden">
+            <div class="absolute inset-0 opacity-10"
+                style="background-image: radial-gradient(#fff 1px, transparent 1px); background-size: 20px 20px;"></div>
+            <div class="relative z-10 flex flex-col items-center">
+                <div class="flex items-baseline gap-2 mb-2">
+                    <span class="text-6xl text-amber-400 logo-font font-bold">Λ</span>
+                    <span class="text-5xl text-white logo-font tracking-tight">LOGOS</span>
+                </div>
+                <div class="flex items-center gap-3 w-full justify-center px-8">
+                    <span class="h-[1px] bg-amber-500/40 flex-grow"></span>
+                    <span class="text-amber-400 text-sm font-bold tracking-[0.4em] logo-font">PRO</span>
+                    <span class="h-[1px] bg-amber-500/40 flex-grow"></span>
+                </div>
+            </div>
         </div>
-      </div>
-      <div class="p-8 space-y-6">
-        <h2 class="text-xl font-bold text-slate-800 text-center">Bem-vindo, Pastor(a)</h2>
-        <form (submit)="login(); $event.preventDefault()" class="space-y-4">
-          <input type="text" [(ngModel)]="username" name="username" class="w-full p-3 border rounded-lg" placeholder="Usuário">
-          <input type="password" [(ngModel)]="password" name="password" class="w-full p-3 border rounded-lg" placeholder="Senha">
-          @if (loginError()) { <div class="text-red-600 text-sm">Credenciais incorretas.</div> }
-          <button type="submit" class="w-full bg-indigo-900 text-white font-bold py-3.5 rounded-lg hover:bg-indigo-800 transition-colors">Acessar Plataforma</button>
-        </form>
-      </div>
+        <div class="p-8 space-y-6">
+            <h2 class="text-xl font-bold text-slate-800 text-center">Bem-vindo, Pastor(a)</h2>
+            <form (submit)="login(); $event.preventDefault()" class="space-y-4">
+                <input type="text" [(ngModel)]="username" name="username" class="w-full p-3 border rounded-lg"
+                    placeholder="Usuário">
+                <input type="password" [(ngModel)]="password" name="password" class="w-full p-3 border rounded-lg"
+                    placeholder="Senha">
+                @if (loginError()) { <div class="text-red-600 text-sm">Credenciais incorretas.</div> }
+                <button type="submit"
+                    class="w-full bg-indigo-900 text-white font-bold py-3.5 rounded-lg hover:bg-indigo-800 transition-colors">Acessar
+                    Plataforma</button>
+            </form>
+        </div>
     </div>
-  </div>
+</div>
 } @else {
-  <!-- LAYOUT PRINCIPAL -->
-  <div class="min-h-screen flex flex-col bg-slate-50 relative">
-    
+<!-- LAYOUT PRINCIPAL -->
+<div class="min-h-screen flex flex-col bg-slate-50 relative">
+
     <!-- HEADER -->
     <header class="bg-indigo-900 text-white p-4 shadow-lg no-print z-50 sticky top-0">
-      <div class="max-w-[1920px] mx-auto flex flex-col md:flex-row items-center justify-between gap-4 w-full">
-        
-        <!-- Grupo Esquerdo: Logo e Navegação -->
-        <div class="flex flex-col md:flex-row items-center gap-6">
-            <!-- Logo -->
-            <div class="flex items-center gap-3">
-              <div class="flex items-center gap-2 select-none cursor-pointer" (click)="currentView.set('sermon')">
-                 <span class="text-3xl text-amber-400 logo-font font-bold leading-none">Λ</span>
-                 <div class="flex flex-col">
-                    <span class="text-xl text-white logo-font tracking-tight leading-none">LOGOS</span>
-                    <span class="text-[0.6rem] text-amber-400 font-bold tracking-[0.3em] logo-font leading-none text-justify flex justify-between"><span>P</span><span>R</span><span>O</span></span>
-                 </div>
-              </div>
-            </div>
+        <div class="max-w-[1920px] mx-auto flex flex-col md:flex-row items-center justify-between gap-4 w-full">
 
-            <!-- Navegação -->
-            <div class="flex bg-indigo-800/50 p-1 rounded-lg gap-1">
-              <button (click)="currentView.set('sermon')" class="px-4 py-2 rounded text-sm font-bold transition-all" [class.bg-white]="currentView() === 'sermon'" [class.text-indigo-900]="currentView() === 'sermon'">Construtor</button>
-              <button (click)="currentView.set('bible')" class="px-4 py-2 rounded text-sm font-bold transition-all" [class.bg-white]="currentView() === 'bible'" [class.text-indigo-900]="currentView() === 'bible'">Bíblia Online</button>
-              <button (click)="currentView.set('library')" class="px-4 py-2 rounded text-sm font-bold transition-all flex items-center gap-1" [class.bg-white]="currentView() === 'library'" [class.text-indigo-900]="currentView() === 'library'">
-                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5S19.832 5.477 21 6.253v13C19.832 18.477 18.246 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"></path></svg>
-                Biblioteca
-              </button>
-              <button (click)="currentView.set('documents')" class="px-4 py-2 rounded text-sm font-bold transition-all flex items-center gap-1" [class.bg-white]="currentView() === 'documents'" [class.text-indigo-900]="currentView() === 'documents'">
-                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path></svg>
-                Meus Arquivos
-              </button>
-            </div>
-        </div>
+            <!-- Grupo Esquerdo: Logo e Botão Home -->
+            <div class="flex flex-col md:flex-row items-center gap-6">
+                <!-- Logo -->
+                <div class="flex items-center gap-3">
+                    <div class="flex items-center gap-2 select-none cursor-pointer"
+                        (click)="currentView.set('dashboard')">
+                        <span class="text-3xl text-amber-400 logo-font font-bold leading-none">Λ</span>
+                        <div class="flex flex-col">
+                            <span class="text-xl text-white logo-font tracking-tight leading-none">LOGOS</span>
+                            <span
+                                class="text-[0.6rem] text-amber-400 font-bold tracking-[0.3em] logo-font leading-none text-justify flex justify-between"><span>P</span><span>R</span><span>O</span></span>
+                        </div>
+                    </div>
+                </div>
 
-        <!-- Controles Globais (Direita) -->
-        <div class="flex items-center gap-4">
-            <!-- BOTÃO SALVAR (Visível apenas na view sermon) -->
-            @if (currentView() === 'sermon') {
-               <button (click)="saveCurrentSermon()" class="flex items-center gap-2 bg-emerald-500 hover:bg-emerald-600 text-white px-4 py-2 rounded-full font-bold text-xs uppercase tracking-wide transition-colors shadow-lg" title="Salvar Sermão Atual">
-                  <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7H5a2 2 0 00-2 2v9a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-3m-1 4l-3 3m0 0l-3-3m3 3V4"></path></svg>
-                  Salvar
-               </button>
-            }
-
-            <!-- PLAYER DE MÚSICA DE FUNDO -->
-            <div class="flex items-center gap-1 bg-indigo-800/40 rounded-full p-1 border border-indigo-500/30">
-                <label class="w-8 h-8 flex items-center justify-center rounded-full hover:bg-indigo-700 cursor-pointer transition-colors text-indigo-200 hover:text-white" title="Fazer Upload de Música (MP3)">
-                    <input type="file" accept="audio/*" class="hidden" (change)="handleAudioUpload($event)">
-                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12"></path></svg>
-                </label>
-                <div class="w-[1px] h-4 bg-indigo-700/50"></div>
-                <button (click)="toggleMeditation()" class="w-8 h-8 flex items-center justify-center rounded-full transition-colors" [class.bg-amber-400]="isMeditationMode()" [class.text-indigo-900]="isMeditationMode()" [class.text-indigo-200]="!isMeditationMode()" [class.hover:bg-indigo-700]="!isMeditationMode()" title="Ligar/Desligar Fundo Musical">
-                    @if(isMeditationMode()){
-                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 9v6m4-6v6m7-3a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
-                    } @else {
-                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19V6l12-3v13M9 19c0 1.105-1.343 2-3 2s-3-.895-3-2 1.343-2 3-2 3 .895 3 2zm12-3c0 1.105-1.343 2-3 2s-3-.895-3-2 1.343-2 3-2 3 .895 3 2zM9 10l12-3"></path></svg>
-                    }
+                <!-- Botão Home / Dashboard -->
+                <button (click)="currentView.set('dashboard')"
+                    class="flex items-center gap-2 px-4 py-2 rounded-lg transition-all hover:bg-indigo-700"
+                    [class.bg-amber-400]="currentView() === 'dashboard'"
+                    [class.text-indigo-900]="currentView() === 'dashboard'"
+                    [class.font-bold]="currentView() === 'dashboard'" title="Painel Administrativo">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6">
+                        </path>
+                    </svg>
+                    <span class="text-sm">Painel</span>
                 </button>
             </div>
 
-            @if (currentView() === 'sermon') { 
-                <button (click)="resetSermon()" class="text-xs text-indigo-200 hover:text-white font-bold border border-indigo-700 hover:border-white px-3 py-1.5 rounded transition-colors">Novo Sermão</button> 
-            }
-        </div>
-      </div>
-    </header>
+            <!-- Controles Globais (Direita) -->
+            <div class="flex items-center gap-4">
+                <!-- BOTÃO SALVAR (Visível apenas na view sermon) -->
+                @if (currentView() === 'sermon') {
+                <button (click)="saveCurrentSermon()"
+                    class="flex items-center gap-2 bg-emerald-500 hover:bg-emerald-600 text-white px-4 py-2 rounded-full font-bold text-xs uppercase tracking-wide transition-colors shadow-lg"
+                    title="Salvar Sermão Atual">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M8 7H5a2 2 0 00-2 2v9a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-3m-1 4l-3 3m0 0l-3-3m3 3V4">
+                        </path>
+                    </svg>
+                    Salvar
+                </button>
+                }
 
-    <!-- VIEW: DOCUMENTS (Meus Arquivos) -->
-    @if (currentView() === 'documents') {
-        <div class="flex-grow p-8 bg-slate-50 min-h-[calc(100vh-80px)]">
-            <div class="max-w-6xl mx-auto">
-                <div class="flex justify-between items-center mb-8">
-                    <h1 class="text-3xl font-serif font-bold text-indigo-900">Meus Arquivos Salvos</h1>
-                    <button (click)="currentView.set('sermon'); resetSermon()" class="bg-indigo-600 hover:bg-indigo-700 text-white px-6 py-2 rounded-lg font-bold text-sm shadow-md transition-colors flex items-center gap-2">
-                        <span>+ Criar Novo</span>
+                <!-- PLAYER DE MÚSICA DE FUNDO -->
+                <div class="flex items-center gap-1 bg-indigo-800/40 rounded-full p-1 border border-indigo-500/30">
+                    <label
+                        class="w-8 h-8 flex items-center justify-center rounded-full hover:bg-indigo-700 cursor-pointer transition-colors text-indigo-200 hover:text-white"
+                        title="Fazer Upload de Música (MP3)">
+                        <input type="file" accept="audio/*" class="hidden" (change)="handleAudioUpload($event)">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12"></path>
+                        </svg>
+                    </label>
+                    <div class="w-[1px] h-4 bg-indigo-700/50"></div>
+                    <button (click)="toggleMeditation()"
+                        class="w-8 h-8 flex items-center justify-center rounded-full transition-colors"
+                        [class.bg-amber-400]="isMeditationMode()" [class.text-indigo-900]="isMeditationMode()"
+                        [class.text-indigo-200]="!isMeditationMode()" [class.hover:bg-indigo-700]="!isMeditationMode()"
+                        title="Ligar/Desligar Fundo Musical">
+                        @if(isMeditationMode()){
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M10 9v6m4-6v6m7-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                        </svg>
+                        } @else {
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M9 19V6l12-3v13M9 19c0 1.105-1.343 2-3 2s-3-.895-3-2 1.343-2 3-2 3 .895 3 2zm12-3c0 1.105-1.343 2-3 2s-3-.895-3-2 1.343-2 3-2 3 .895 3 2zM9 10l12-3">
+                            </path>
+                        </svg>
+                        }
                     </button>
                 </div>
 
-                @if (savedSermons().length === 0) {
-                    <div class="bg-white rounded-xl shadow-sm border border-slate-200 p-16 text-center flex flex-col items-center">
-                        <div class="w-20 h-20 bg-slate-100 rounded-full flex items-center justify-center mb-6 text-slate-400">
-                            <svg class="w-10 h-10" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 13h6m-3-3v6m5 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path></svg>
-                        </div>
-                        <h3 class="text-xl font-bold text-slate-800 mb-2">Nenhum arquivo salvo ainda</h3>
-                        <p class="text-slate-500 max-w-md mx-auto mb-8">Comece a escrever seus sermões e salve-os para acessar, editar ou imprimir posteriormente.</p>
-                        <button (click)="currentView.set('sermon')" class="text-indigo-600 font-bold hover:underline">Ir para o Construtor</button>
-                    </div>
-                } @else {
-                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                        @for (doc of savedSermons(); track doc.id) {
-                            <div class="bg-white rounded-xl shadow-sm border border-slate-200 overflow-hidden hover:shadow-md transition-shadow flex flex-col group">
-                                <div class="bg-indigo-900 h-2"></div>
-                                <div class="p-6 flex-grow">
-                                    <div class="flex justify-between items-start mb-2">
-                                        <span class="text-[10px] font-bold uppercase tracking-widest text-indigo-500 bg-indigo-50 px-2 py-1 rounded">{{ doc.type }}</span>
-                                        <span class="text-xs text-slate-400">{{ doc.date }}</span>
-                                    </div>
-                                    <h3 class="text-xl font-serif font-bold text-slate-800 mb-2 line-clamp-2 min-h-[3.5rem]">{{ doc.theme || 'Sem Título' }}</h3>
-                                    <p class="text-sm text-slate-500 mb-4 flex items-center gap-1">
-                                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5S19.832 5.477 21 6.253v13C19.832 18.477 18.246 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"></path></svg>
-                                        {{ doc.baseVerseRef }}
-                                    </p>
-                                    <div class="text-xs text-slate-400 italic line-clamp-3 mb-4 h-12">
-                                        "{{ doc.baseVerseText || 'Texto não definido...' }}"
-                                    </div>
-                                </div>
-                                <div class="bg-slate-50 p-4 border-t border-slate-100 flex justify-between items-center gap-2">
-                                    <button (click)="loadSermon(doc)" class="flex-1 bg-indigo-600 hover:bg-indigo-700 text-white text-xs font-bold py-2 rounded transition-colors">Editar</button>
-                                    <div class="flex gap-1">
-                                        <button (click)="printSavedSermon(doc)" class="p-2 text-slate-500 hover:text-indigo-600 hover:bg-white rounded transition-colors border border-transparent hover:border-slate-200" title="Imprimir"><svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z"></path></svg></button>
-                                        <button (click)="generatePDFForSaved(doc)" class="p-2 text-slate-500 hover:text-red-600 hover:bg-white rounded transition-colors border border-transparent hover:border-slate-200" title="PDF"><svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 21h10a2 2 0 002-2V9.414a1 1 0 00-.293-.707l-5.414-5.414A1 1 0 0012.586 3H7a2 2 0 00-2 2v14a2 2 0 002 2z"></path></svg></button>
-                                        <button (click)="deleteSermon(doc.id)" class="p-2 text-slate-400 hover:text-red-600 hover:bg-white rounded transition-colors border border-transparent hover:border-red-100" title="Excluir"><svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path></svg></button>
-                                    </div>
-                                </div>
-                            </div>
-                        }
-                    </div>
+                <!-- BOTÃO CONFIGURAÇÕES / ADMIN -->
+                <button (click)="toggleSettings()"
+                    class="w-8 h-8 flex items-center justify-center rounded-full hover:bg-indigo-700 transition-colors text-indigo-200 hover:text-white"
+                    title="Configurações da API">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z">
+                        </path>
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
+                    </svg>
+                </button>
+
+                @if (currentView() === 'sermon') {
+                <button (click)="resetSermon()"
+                    class="text-xs text-indigo-200 hover:text-white font-bold border border-indigo-700 hover:border-white px-3 py-1.5 rounded transition-colors">Novo
+                    Sermão</button>
                 }
             </div>
         </div>
+    </header>
+
+    <!-- VIEW: DASHBOARD / PAINEL ADMINISTRATIVO -->
+    @if (currentView() === 'dashboard') {
+    <div class="flex-grow bg-gradient-to-br from-slate-50 via-indigo-50 to-slate-100 min-h-[calc(100vh-80px)] p-8">
+        <div class="max-w-7xl mx-auto">
+            <!-- Header do Dashboard -->
+            <div class="text-center mb-12 animate-in fade-in slide-in-from-top duration-500">
+                <h1 class="text-5xl font-serif font-bold text-indigo-900 mb-4">Painel Administrativo</h1>
+                <p class="text-lg text-slate-600 max-w-2xl mx-auto">Bem-vindo ao Logos Pro. Escolha uma das opções
+                    abaixo para começar.</p>
+            </div>
+
+            <!-- Grid de Cards -->
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+                <!-- Card: Construtor de Sermões -->
+                <button (click)="currentView.set('sermon')"
+                    class="group bg-white rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300 p-8 text-left border-2 border-transparent hover:border-indigo-500 hover:scale-105 transform">
+                    <div
+                        class="w-16 h-16 bg-gradient-to-br from-indigo-500 to-indigo-700 rounded-xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform shadow-lg">
+                        <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z">
+                            </path>
+                        </svg>
+                    </div>
+                    <h3 class="text-2xl font-bold text-slate-800 mb-2 group-hover:text-indigo-600 transition-colors">
+                        Construtor</h3>
+                    <p class="text-sm text-slate-500 leading-relaxed">Crie sermões poderosos com assistência de IA,
+                        estrutura homilética e recursos bíblicos.</p>
+                    <div
+                        class="mt-4 flex items-center text-indigo-600 font-bold text-sm group-hover:translate-x-2 transition-transform">
+                        <span>Acessar</span>
+                        <svg class="w-4 h-4 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7">
+                            </path>
+                        </svg>
+                    </div>
+                </button>
+
+                <!-- Card: Bíblia Online -->
+                <button (click)="currentView.set('bible')"
+                    class="group bg-white rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300 p-8 text-left border-2 border-transparent hover:border-emerald-500 hover:scale-105 transform">
+                    <div
+                        class="w-16 h-16 bg-gradient-to-br from-emerald-500 to-emerald-700 rounded-xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform shadow-lg">
+                        <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5S19.832 5.477 21 6.253v13C19.832 18.477 18.246 18 16.5 18c-1.746 0-3.332.477-4.5 1.253">
+                            </path>
+                        </svg>
+                    </div>
+                    <h3 class="text-2xl font-bold text-slate-800 mb-2 group-hover:text-emerald-600 transition-colors">
+                        Bíblia Online</h3>
+                    <p class="text-sm text-slate-500 leading-relaxed">Leia, estude e analise as Escrituras com múltiplas
+                        versões e ferramentas de exegese.</p>
+                    <div
+                        class="mt-4 flex items-center text-emerald-600 font-bold text-sm group-hover:translate-x-2 transition-transform">
+                        <span>Acessar</span>
+                        <svg class="w-4 h-4 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7">
+                            </path>
+                        </svg>
+                    </div>
+                </button>
+
+                <!-- Card: Biblioteca -->
+                <button (click)="currentView.set('library')"
+                    class="group bg-white rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300 p-8 text-left border-2 border-transparent hover:border-purple-500 hover:scale-105 transform">
+                    <div
+                        class="w-16 h-16 bg-gradient-to-br from-purple-500 to-purple-700 rounded-xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform shadow-lg">
+                        <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M8 14v3m4-3v3m4-3v3M3 21h18M3 10h18M3 7l9-4 9 4M4 10h16v11H4V10z"></path>
+                        </svg>
+                    </div>
+                    <h3 class="text-2xl font-bold text-slate-800 mb-2 group-hover:text-purple-600 transition-colors">
+                        Biblioteca</h3>
+                    <p class="text-sm text-slate-500 leading-relaxed">Acesse estudos teológicos, arqueologia, história e
+                        recursos acadêmicos com IA.</p>
+                    <div
+                        class="mt-4 flex items-center text-purple-600 font-bold text-sm group-hover:translate-x-2 transition-transform">
+                        <span>Acessar</span>
+                        <svg class="w-4 h-4 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7">
+                            </path>
+                        </svg>
+                    </div>
+                </button>
+
+                <!-- Card: Meus Arquivos -->
+                <button (click)="currentView.set('documents')"
+                    class="group bg-white rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300 p-8 text-left border-2 border-transparent hover:border-amber-500 hover:scale-105 transform">
+                    <div
+                        class="w-16 h-16 bg-gradient-to-br from-amber-500 to-amber-700 rounded-xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform shadow-lg">
+                        <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z">
+                            </path>
+                        </svg>
+                    </div>
+                    <h3 class="text-2xl font-bold text-slate-800 mb-2 group-hover:text-amber-600 transition-colors">Meus
+                        Arquivos</h3>
+                    <p class="text-sm text-slate-500 leading-relaxed">Gerencie, edite e imprima todos os seus sermões e
+                        documentos salvos.</p>
+                    <div
+                        class="mt-4 flex items-center text-amber-600 font-bold text-sm group-hover:translate-x-2 transition-transform">
+                        <span>Acessar</span>
+                        <svg class="w-4 h-4 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7">
+                            </path>
+                        </svg>
+                    </div>
+                </button>
+            </div>
+        </div>
+    </div>
+    }
+
+    <!-- VIEW: DOCUMENTS (Meus Arquivos) -->
+    @if (currentView() === 'documents') {
+    <div class="flex-grow p-8 bg-slate-50 min-h-[calc(100vh-80px)]">
+        <div class="max-w-6xl mx-auto">
+            <div class="flex justify-between items-center mb-8">
+                <h1 class="text-3xl font-serif font-bold text-indigo-900">Meus Arquivos Salvos</h1>
+                <button (click)="currentView.set('sermon'); resetSermon()"
+                    class="bg-indigo-600 hover:bg-indigo-700 text-white px-6 py-2 rounded-lg font-bold text-sm shadow-md transition-colors flex items-center gap-2">
+                    <span>+ Criar Novo</span>
+                </button>
+            </div>
+
+            @if (savedSermons().length === 0) {
+            <div
+                class="bg-white rounded-xl shadow-sm border border-slate-200 p-16 text-center flex flex-col items-center">
+                <div class="w-20 h-20 bg-slate-100 rounded-full flex items-center justify-center mb-6 text-slate-400">
+                    <svg class="w-10 h-10" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M9 13h6m-3-3v6m5 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z">
+                        </path>
+                    </svg>
+                </div>
+                <h3 class="text-xl font-bold text-slate-800 mb-2">Nenhum arquivo salvo ainda</h3>
+                <p class="text-slate-500 max-w-md mx-auto mb-8">Comece a escrever seus sermões e salve-os para acessar,
+                    editar ou imprimir posteriormente.</p>
+                <button (click)="currentView.set('sermon')" class="text-indigo-600 font-bold hover:underline">Ir para o
+                    Construtor</button>
+            </div>
+            } @else {
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                @for (doc of savedSermons(); track doc.id) {
+                <div
+                    class="bg-white rounded-xl shadow-sm border border-slate-200 overflow-hidden hover:shadow-md transition-shadow flex flex-col group">
+                    <div class="bg-indigo-900 h-2"></div>
+                    <div class="p-6 flex-grow">
+                        <div class="flex justify-between items-start mb-2">
+                            <span
+                                class="text-[10px] font-bold uppercase tracking-widest text-indigo-500 bg-indigo-50 px-2 py-1 rounded">{{
+                                doc.type }}</span>
+                            <span class="text-xs text-slate-400">{{ doc.date }}</span>
+                        </div>
+                        <h3 class="text-xl font-serif font-bold text-slate-800 mb-2 line-clamp-2 min-h-[3.5rem]">{{
+                            doc.theme || 'Sem Título' }}</h3>
+                        <p class="text-sm text-slate-500 mb-4 flex items-center gap-1">
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5S19.832 5.477 21 6.253v13C19.832 18.477 18.246 18 16.5 18c-1.746 0-3.332.477-4.5 1.253">
+                                </path>
+                            </svg>
+                            {{ doc.baseVerseRef }}
+                        </p>
+                        <div class="text-xs text-slate-400 italic line-clamp-3 mb-4 h-12">
+                            "{{ doc.baseVerseText || 'Texto não definido...' }}"
+                        </div>
+                    </div>
+                    <div class="bg-slate-50 p-4 border-t border-slate-100 flex justify-between items-center gap-2">
+                        <button (click)="loadSermon(doc)"
+                            class="flex-1 bg-indigo-600 hover:bg-indigo-700 text-white text-xs font-bold py-2 rounded transition-colors">Editar</button>
+                        <div class="flex gap-1">
+                            <button (click)="printSavedSermon(doc)"
+                                class="p-2 text-slate-500 hover:text-indigo-600 hover:bg-white rounded transition-colors border border-transparent hover:border-slate-200"
+                                title="Imprimir"><svg class="w-4 h-4" fill="none" stroke="currentColor"
+                                    viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z">
+                                    </path>
+                                </svg></button>
+                            <button (click)="generatePDFForSaved(doc)"
+                                class="p-2 text-slate-500 hover:text-red-600 hover:bg-white rounded transition-colors border border-transparent hover:border-slate-200"
+                                title="PDF"><svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M7 21h10a2 2 0 002-2V9.414a1 1 0 00-.293-.707l-5.414-5.414A1 1 0 0012.586 3H7a2 2 0 00-2 2v14a2 2 0 002 2z">
+                                    </path>
+                                </svg></button>
+                            <button (click)="deleteSermon(doc.id)"
+                                class="p-2 text-slate-400 hover:text-red-600 hover:bg-white rounded transition-colors border border-transparent hover:border-red-100"
+                                title="Excluir"><svg class="w-4 h-4" fill="none" stroke="currentColor"
+                                    viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16">
+                                    </path>
+                                </svg></button>
+                        </div>
+                    </div>
+                </div>
+                }
+            </div>
+            }
+        </div>
+    </div>
     }
 
     <!-- VIEW: BIBLE ONLINE -->
     @if (currentView() === 'bible') {
-      <div class="flex flex-col md:flex-row h-[calc(100vh-64px)] overflow-hidden">
+    <div class="flex flex-col md:flex-row h-[calc(100vh-64px)] overflow-hidden">
         <!-- Sidebar de Navegação -->
         <aside class="w-full md:w-80 bg-white border-r border-slate-200 flex flex-col shrink-0 z-20">
             <!-- Seletor de Versão -->
             <div class="p-4 border-b bg-indigo-50">
                 <label class="text-[10px] font-bold uppercase text-slate-500 mb-1 block">Versão da Bíblia</label>
-                <select [ngModel]="bibleSearch().version" (ngModelChange)="updateBibleVersion($event)" class="w-full p-2 rounded border border-indigo-200 bg-white text-sm font-bold text-indigo-900 focus:outline-none focus:ring-2 focus:ring-indigo-500">
+                <select [ngModel]="bibleSearch().version" (ngModelChange)="updateBibleVersion($event)"
+                    class="w-full p-2 rounded border border-indigo-200 bg-white text-sm font-bold text-indigo-900 focus:outline-none focus:ring-2 focus:ring-indigo-500">
                     @for (v of bibleVersions; track v.id) { <option [value]="v.id">{{ v.name }}</option> }
                 </select>
             </div>
@@ -167,569 +365,1233 @@
             <!-- Navegação de Livros/Capítulos -->
             <div class="flex-grow overflow-y-auto custom-scrollbar">
                 @if (activeSelector() === 'none' || activeSelector() === 'books') {
-                   <div class="p-2">
-                       <button (click)="toggleSelector('books')" class="w-full text-left px-4 py-3 font-bold text-slate-800 bg-slate-50 rounded mb-2 flex justify-between items-center hover:bg-slate-100">
-                           <span>{{ bibleSearch().book }}</span>
-                           <svg class="w-4 h-4 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
-                       </button>
-                       @if (activeSelector() === 'books') {
-                           <div class="space-y-4 px-2">
-                               <div>
-                                   <h4 class="text-xs font-bold text-slate-400 uppercase mb-2">Antigo Testamento</h4>
-                                   <div class="grid grid-cols-3 gap-1">
-                                       @for (b of booksOT(); track b.name) { <button (click)="selectBook(b.name)" class="text-xs p-1.5 rounded hover:bg-indigo-50 hover:text-indigo-700 text-center truncate border border-transparent hover:border-indigo-100" [class.bg-indigo-100]="bibleSearch().book === b.name" [class.text-indigo-800]="bibleSearch().book === b.name">{{ b.name }}</button> }
-                                   </div>
-                               </div>
-                               <div>
-                                   <h4 class="text-xs font-bold text-slate-400 uppercase mb-2">Novo Testamento</h4>
-                                   <div class="grid grid-cols-3 gap-1">
-                                       @for (b of booksNT(); track b.name) { <button (click)="selectBook(b.name)" class="text-xs p-1.5 rounded hover:bg-indigo-50 hover:text-indigo-700 text-center truncate border border-transparent hover:border-indigo-100" [class.bg-indigo-100]="bibleSearch().book === b.name" [class.text-indigo-800]="bibleSearch().book === b.name">{{ b.name }}</button> }
-                                   </div>
-                               </div>
-                           </div>
-                       }
-                   </div>
+                <div class="p-2">
+                    <button (click)="toggleSelector('books')"
+                        class="w-full text-left px-4 py-3 font-bold text-slate-800 bg-slate-50 rounded mb-2 flex justify-between items-center hover:bg-slate-100">
+                        <span>{{ bibleSearch().book }}</span>
+                        <svg class="w-4 h-4 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7">
+                            </path>
+                        </svg>
+                    </button>
+                    @if (activeSelector() === 'books') {
+                    <div class="space-y-4 px-2">
+                        <div>
+                            <h4 class="text-xs font-bold text-slate-400 uppercase mb-2">Antigo Testamento</h4>
+                            <div class="grid grid-cols-3 gap-1">
+                                @for (b of booksOT(); track b.name) { <button (click)="selectBook(b.name)"
+                                    class="text-xs p-1.5 rounded hover:bg-indigo-50 hover:text-indigo-700 text-center truncate border border-transparent hover:border-indigo-100"
+                                    [class.bg-indigo-100]="bibleSearch().book === b.name"
+                                    [class.text-indigo-800]="bibleSearch().book === b.name">{{ b.name }}</button> }
+                            </div>
+                        </div>
+                        <div>
+                            <h4 class="text-xs font-bold text-slate-400 uppercase mb-2">Novo Testamento</h4>
+                            <div class="grid grid-cols-3 gap-1">
+                                @for (b of booksNT(); track b.name) { <button (click)="selectBook(b.name)"
+                                    class="text-xs p-1.5 rounded hover:bg-indigo-50 hover:text-indigo-700 text-center truncate border border-transparent hover:border-indigo-100"
+                                    [class.bg-indigo-100]="bibleSearch().book === b.name"
+                                    [class.text-indigo-800]="bibleSearch().book === b.name">{{ b.name }}</button> }
+                            </div>
+                        </div>
+                    </div>
+                    }
+                </div>
                 }
-                
+
                 @if (activeSelector() === 'none' || activeSelector() === 'chapters') {
-                   <div class="p-2 pt-0">
-                       <button (click)="toggleSelector('chapters')" class="w-full text-left px-4 py-3 font-bold text-slate-800 bg-slate-50 rounded mb-2 flex justify-between items-center hover:bg-slate-100">
-                           <span>Capítulo {{ bibleSearch().chapter }}</span>
-                           <svg class="w-4 h-4 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
-                       </button>
-                       @if (activeSelector() === 'chapters') {
-                           <div class="grid grid-cols-6 gap-2 p-2">
-                               @for (c of currentBookChapters(); track c) { <button (click)="selectChapter(c)" class="aspect-square flex items-center justify-center rounded hover:bg-indigo-600 hover:text-white text-sm font-bold border" [class.bg-indigo-600]="bibleSearch().chapter === c.toString()" [class.text-white]="bibleSearch().chapter === c.toString()">{{ c }}</button> }
-                           </div>
-                       }
-                   </div>
+                <div class="p-2 pt-0">
+                    <button (click)="toggleSelector('chapters')"
+                        class="w-full text-left px-4 py-3 font-bold text-slate-800 bg-slate-50 rounded mb-2 flex justify-between items-center hover:bg-slate-100">
+                        <span>Capítulo {{ bibleSearch().chapter }}</span>
+                        <svg class="w-4 h-4 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7">
+                            </path>
+                        </svg>
+                    </button>
+                    @if (activeSelector() === 'chapters') {
+                    <div class="grid grid-cols-6 gap-2 p-2">
+                        @for (c of currentBookChapters(); track c) { <button (click)="selectChapter(c)"
+                            class="aspect-square flex items-center justify-center rounded hover:bg-indigo-600 hover:text-white text-sm font-bold border"
+                            [class.bg-indigo-600]="bibleSearch().chapter === c.toString()"
+                            [class.text-white]="bibleSearch().chapter === c.toString()">{{ c }}</button> }
+                    </div>
+                    }
+                </div>
                 }
 
                 @if (activeSelector() === 'none') {
-                    <div class="p-4 border-t mt-4">
-                        <div class="flex items-center justify-between mb-4">
-                            <span class="text-xs font-bold text-slate-500 uppercase">Configurações</span>
-                        </div>
-                        <div class="flex items-center gap-4 mb-4">
-                           <button (click)="decreaseFontSize()" class="p-2 border rounded hover:bg-slate-50">A-</button>
-                           <button (click)="increaseFontSize()" class="p-2 border rounded hover:bg-slate-50">A+</button>
-                        </div>
-                        <button (click)="readFullChapter()" class="w-full py-2 bg-indigo-100 text-indigo-700 rounded-lg text-sm font-bold flex items-center justify-center gap-2 hover:bg-indigo-200">
-                            @if(isReadingChapter()){ 
-                                <div class="w-2 h-2 bg-indigo-700 rounded-full animate-pulse"></div> Parar Leitura
-                            } @else {
-                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z"></path></svg> Ouvir Capítulo 
-                            }
-                        </button>
+                <div class="p-4 border-t mt-4">
+                    <div class="flex items-center justify-between mb-4">
+                        <span class="text-xs font-bold text-slate-500 uppercase">Configurações</span>
                     </div>
+                    <div class="flex items-center gap-4 mb-4">
+                        <button (click)="decreaseFontSize()" class="p-2 border rounded hover:bg-slate-50">A-</button>
+                        <button (click)="increaseFontSize()" class="p-2 border rounded hover:bg-slate-50">A+</button>
+                    </div>
+                    <button (click)="readFullChapter()"
+                        class="w-full py-2 bg-indigo-100 text-indigo-700 rounded-lg text-sm font-bold flex items-center justify-center gap-2 hover:bg-indigo-200">
+                        @if(isReadingChapter()){
+                        <div class="w-2 h-2 bg-indigo-700 rounded-full animate-pulse"></div> Parar Leitura
+                        } @else {
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z">
+                            </path>
+                        </svg> Ouvir Capítulo
+                        }
+                    </button>
+                </div>
                 }
             </div>
         </aside>
 
         <!-- Área de Leitura -->
         <div class="flex-grow bg-slate-50 overflow-y-auto custom-scrollbar relative p-6 md:p-12" id="bible-text-area">
-             @if (!bibleData()) {
-                 <div class="h-full flex flex-col items-center justify-center text-slate-400">
-                     <svg class="w-16 h-16 mb-4 opacity-50" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5S19.832 5.477 21 6.253v13C19.832 18.477 18.246 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"></path></svg>
-                     <p>Selecione um livro para começar a leitura</p>
-                     <button (click)="activeSelector.set('books')" class="mt-4 px-6 py-2 bg-indigo-600 text-white rounded-full font-bold shadow-lg hover:bg-indigo-700">Abrir Índice</button>
-                 </div>
-             } @else {
-                 <div class="max-w-3xl mx-auto bg-white shadow-xl rounded-2xl min-h-full p-8 md:p-16 relative">
-                     <div class="text-center mb-12 border-b-2 border-slate-100 pb-8">
-                         <h1 class="text-4xl md:text-5xl font-serif font-bold text-slate-900 mb-2">{{ bibleData()?.book }} {{ bibleData()?.chapter }}</h1>
-                         <span class="text-sm font-bold text-indigo-500 tracking-widest uppercase">{{ bibleData()?.version }}</span>
-                     </div>
+            @if (!bibleData()) {
+            <div class="h-full flex flex-col items-center justify-center text-slate-400">
+                <svg class="w-16 h-16 mb-4 opacity-50" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
+                        d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5S19.832 5.477 21 6.253v13C19.832 18.477 18.246 18 16.5 18c-1.746 0-3.332.477-4.5 1.253">
+                    </path>
+                </svg>
+                <p>Selecione um livro para começar a leitura</p>
+                <button (click)="activeSelector.set('books')"
+                    class="mt-4 px-6 py-2 bg-indigo-600 text-white rounded-full font-bold shadow-lg hover:bg-indigo-700">Abrir
+                    Índice</button>
+            </div>
+            } @else {
+            <div class="max-w-3xl mx-auto bg-white shadow-xl rounded-2xl min-h-full p-8 md:p-16 relative">
+                <div class="text-center mb-12 border-b-2 border-slate-100 pb-8">
+                    <h1 class="text-4xl md:text-5xl font-serif font-bold text-slate-900 mb-2">{{ bibleData()?.book }} {{
+                        bibleData()?.chapter }}</h1>
+                    <span class="text-sm font-bold text-indigo-500 tracking-widest uppercase">{{ bibleData()?.version
+                        }}</span>
+                </div>
 
-                     <div class="space-y-6">
-                         @for (verse of bibleData()?.verses; track verse.number; let i = $index) {
-                             <div class="group relative pl-4 hover:bg-slate-50 rounded-lg transition-colors p-2" [class.bg-yellow-50]="verse.highlighted" [class.ring-2]="verse.isPlaying" [class.ring-indigo-300]="verse.isPlaying">
-                                 <span class="absolute left-0 top-3 text-[10px] font-bold text-indigo-300 w-4 text-right select-none group-hover:text-indigo-500">{{ verse.number }}</span>
-                                 <p class="font-serif text-slate-800 leading-relaxed" [style.fontSize.rem]="bibleFontSize()">
-                                     {{ verse.text }}
-                                 </p>
-                                 
-                                 <!-- Menu de Contexto do Versículo (Hover) -->
-                                 <div class="absolute right-2 -top-3 hidden group-hover:flex bg-white shadow-lg rounded-lg border border-slate-100 overflow-hidden z-10 animate-in fade-in zoom-in-95 duration-200">
-                                     <button (click)="playVerseAudio(i)" class="p-2 hover:bg-indigo-50 text-slate-500 hover:text-indigo-600" title="Ouvir"><svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z"></path></svg></button>
-                                     <button (click)="copyBibleText(i)" class="p-2 hover:bg-indigo-50 text-slate-500 hover:text-indigo-600" title="Copiar"><svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"></path></svg></button>
-                                     <button (click)="toggleHighlight(i)" class="p-2 hover:bg-indigo-50 text-slate-500 hover:text-amber-500" title="Destacar"><svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z"></path></svg></button>
-                                     <button (click)="analyzeVerse(i)" class="p-2 hover:bg-indigo-50 text-slate-500 hover:text-purple-600" title="Análise Teológica (IA)"><svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"></path></svg></button>
-                                     <button (click)="addToSermonNotes(i)" class="p-2 hover:bg-indigo-50 text-slate-500 hover:text-emerald-600" title="Adicionar às Notas"><svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path></svg></button>
-                                     <button (click)="sendToStructure(i)" class="p-2 hover:bg-indigo-50 text-slate-500 hover:text-blue-600" title="Usar como Texto Base"><svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11a7 7 0 01-7 7m0 0a7 7 0 01-7-7m7 7v4m0 0H8m4 0h4m-4-8a3 3 0 01-3-3V5a3 3 0 116 0v6a3 3 0 01-3 3z"></path></svg></button>
-                                     <button (click)="openVersionComparison(i)" class="p-2 hover:bg-indigo-50 text-slate-500 hover:text-orange-600" title="Comparar Versões"><svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7h12m0 0l-4-4m4 4l-4 4m0 6H4m0 0l4 4m-4-4l4-4"></path></svg></button>
-                                 </div>
+                <div class="space-y-6">
+                    @for (verse of bibleData()?.verses; track verse.number; let i = $index) {
+                    <div class="group relative pl-4 hover:bg-slate-50 rounded-lg transition-colors p-2"
+                        [class.bg-yellow-50]="verse.highlighted" [class.ring-2]="verse.isPlaying"
+                        [class.ring-indigo-300]="verse.isPlaying">
+                        <span
+                            class="absolute left-0 top-3 text-[10px] font-bold text-indigo-300 w-4 text-right select-none group-hover:text-indigo-500">{{
+                            verse.number }}</span>
+                        <p class="font-serif text-slate-800 leading-relaxed" [style.fontSize.rem]="bibleFontSize()">
+                            {{ verse.text }}
+                        </p>
 
-                                 <!-- Exibição de Análise IA -->
-                                 @if (verse.loadingAnalysis) {
-                                     <div class="mt-2 p-3 bg-purple-50 rounded-lg flex items-center gap-3 text-xs text-purple-700">
-                                         <div class="w-4 h-4 border-2 border-purple-600 border-t-transparent rounded-full animate-spin"></div>
-                                         Analisando teologia e contexto histórico...
-                                     </div>
-                                 }
-                                 @if (verse.analysis) {
-                                     <div class="mt-3 p-4 bg-slate-50 rounded-xl border-l-4 border-purple-500 shadow-inner space-y-2 relative group/analysis">
-                                         <button (click)="verse.analysis = null" class="absolute top-2 right-2 text-slate-300 hover:text-red-500 opacity-0 group-hover/analysis:opacity-100 transition-opacity">×</button>
-                                         <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                                            <div>
-                                                <h5 class="text-[10px] font-black uppercase text-purple-800 mb-1">Contexto Histórico</h5>
-                                                <p class="text-xs text-slate-700 leading-relaxed">{{ verse.analysis.historicalContext }}</p>
-                                            </div>
-                                            <div>
-                                                <h5 class="text-[10px] font-black uppercase text-purple-800 mb-1">Insight Teológico</h5>
-                                                <p class="text-xs text-slate-700 leading-relaxed">{{ verse.analysis.theologicalInsight }}</p>
-                                            </div>
-                                         </div>
-                                         <div class="pt-2 border-t border-slate-200 mt-2 flex justify-between items-center">
-                                             <div class="flex gap-2">
-                                                 <span class="text-[10px] bg-purple-100 text-purple-800 px-2 py-0.5 rounded font-bold">Palavra-Chave: {{ verse.analysis.keyword }}</span>
-                                             </div>
-                                             <div class="flex gap-2">
-                                                 <button (click)="addAnalysisToNotes(i)" class="text-[10px] bg-white border border-slate-200 hover:bg-purple-50 px-2 py-1 rounded text-purple-700 font-bold" [disabled]="verse.analysisAddedToNotes">{{ verse.analysisAddedToNotes ? 'Adicionado' : '+ Notas' }}</button>
-                                                 <button (click)="addAnalysisToStructure(i)" class="text-[10px] bg-purple-600 text-white px-2 py-1 rounded font-bold hover:bg-purple-700 shadow-sm" [disabled]="verse.analysisAddedToStructure">{{ verse.analysisAddedToStructure ? 'Adicionado' : '+ Estrutura' }}</button>
-                                             </div>
-                                         </div>
-                                     </div>
-                                 }
-                             </div>
-                         }
-                     </div>
-                 </div>
-             }
+                        <!-- Menu de Contexto do Versículo (Hover) -->
+                        <div
+                            class="absolute right-2 -top-3 hidden group-hover:flex bg-white shadow-lg rounded-lg border border-slate-100 overflow-hidden z-10 animate-in fade-in zoom-in-95 duration-200">
+                            <button (click)="playVerseAudio(i)"
+                                class="p-2 hover:bg-indigo-50 text-slate-500 hover:text-indigo-600" title="Ouvir"><svg
+                                    class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z">
+                                    </path>
+                                </svg></button>
+                            <button (click)="copyBibleText(i)"
+                                class="p-2 hover:bg-indigo-50 text-slate-500 hover:text-indigo-600" title="Copiar"><svg
+                                    class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z">
+                                    </path>
+                                </svg></button>
+                            <button (click)="toggleHighlight(i)"
+                                class="p-2 hover:bg-indigo-50 text-slate-500 hover:text-amber-500" title="Destacar"><svg
+                                    class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z">
+                                    </path>
+                                </svg></button>
+                            <button (click)="analyzeVerse(i)"
+                                class="p-2 hover:bg-indigo-50 text-slate-500 hover:text-purple-600"
+                                title="Análise Teológica (IA)"><svg class="w-4 h-4" fill="none" stroke="currentColor"
+                                    viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z">
+                                    </path>
+                                </svg></button>
+                            <button (click)="addToSermonNotes(i)"
+                                class="p-2 hover:bg-indigo-50 text-slate-500 hover:text-emerald-600"
+                                title="Adicionar às Notas"><svg class="w-4 h-4" fill="none" stroke="currentColor"
+                                    viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M12 4v16m8-8H4"></path>
+                                </svg></button>
+                            <button (click)="sendToStructure(i)"
+                                class="p-2 hover:bg-indigo-50 text-slate-500 hover:text-blue-600"
+                                title="Usar como Texto Base"><svg class="w-4 h-4" fill="none" stroke="currentColor"
+                                    viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M19 11a7 7 0 01-7 7m0 0a7 7 0 01-7-7m7 7v4m0 0H8m4 0h4m-4-8a3 3 0 01-3-3V5a3 3 0 116 0v6a3 3 0 01-3 3z">
+                                    </path>
+                                </svg></button>
+                            <button (click)="openVersionComparison(i)"
+                                class="p-2 hover:bg-indigo-50 text-slate-500 hover:text-orange-600"
+                                title="Comparar Versões"><svg class="w-4 h-4" fill="none" stroke="currentColor"
+                                    viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M8 7h12m0 0l-4-4m4 4l-4 4m0 6H4m0 0l4 4m-4-4l4-4"></path>
+                                </svg></button>
+                        </div>
+
+                        <!-- Exibição de Análise IA -->
+                        @if (verse.loadingAnalysis) {
+                        <div class="mt-2 p-3 bg-purple-50 rounded-lg flex items-center gap-3 text-xs text-purple-700">
+                            <div
+                                class="w-4 h-4 border-2 border-purple-600 border-t-transparent rounded-full animate-spin">
+                            </div>
+                            Analisando teologia e contexto histórico...
+                        </div>
+                        }
+                        @if (verse.analysis) {
+                        <div
+                            class="mt-3 p-4 bg-slate-50 rounded-xl border-l-4 border-purple-500 shadow-inner space-y-2 relative group/analysis">
+                            <button (click)="verse.analysis = null"
+                                class="absolute top-2 right-2 text-slate-300 hover:text-red-500 opacity-0 group-hover/analysis:opacity-100 transition-opacity">×</button>
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                <div>
+                                    <h5 class="text-[10px] font-black uppercase text-purple-800 mb-1">Contexto Histórico
+                                    </h5>
+                                    <p class="text-xs text-slate-700 leading-relaxed">{{
+                                        verse.analysis.historicalContext }}</p>
+                                </div>
+                                <div>
+                                    <h5 class="text-[10px] font-black uppercase text-purple-800 mb-1">Insight Teológico
+                                    </h5>
+                                    <p class="text-xs text-slate-700 leading-relaxed">{{
+                                        verse.analysis.theologicalInsight }}</p>
+                                </div>
+                            </div>
+                            <div class="pt-2 border-t border-slate-200 mt-2 flex justify-between items-center">
+                                <div class="flex gap-2">
+                                    <span
+                                        class="text-[10px] bg-purple-100 text-purple-800 px-2 py-0.5 rounded font-bold">Palavra-Chave:
+                                        {{ verse.analysis.keyword }}</span>
+                                </div>
+                                <div class="flex gap-2">
+                                    <button (click)="addAnalysisToNotes(i)"
+                                        class="text-[10px] bg-white border border-slate-200 hover:bg-purple-50 px-2 py-1 rounded text-purple-700 font-bold"
+                                        [disabled]="verse.analysisAddedToNotes">{{ verse.analysisAddedToNotes ?
+                                        'Adicionado' : '+ Notas' }}</button>
+                                    <button (click)="addAnalysisToStructure(i)"
+                                        class="text-[10px] bg-purple-600 text-white px-2 py-1 rounded font-bold hover:bg-purple-700 shadow-sm"
+                                        [disabled]="verse.analysisAddedToStructure">{{ verse.analysisAddedToStructure ?
+                                        'Adicionado' : '+ Estrutura' }}</button>
+                                </div>
+                            </div>
+                        </div>
+                        }
+                    </div>
+                    }
+                </div>
+            </div>
+            }
         </div>
-      </div>
+    </div>
     }
 
     <!-- VIEW: BIBLIOTECA -->
     @if (currentView() === 'library') {
-      <div class="flex flex-col h-[calc(100vh-64px)] bg-slate-100">
-          @if (!activeLibraryCategory()) {
-              <!-- Menu Principal da Biblioteca -->
-              <div class="flex-grow overflow-y-auto p-8">
-                  <div class="max-w-6xl mx-auto">
-                      <div class="text-center mb-12">
-                          <h1 class="text-4xl font-serif font-bold text-indigo-900 mb-4">Biblioteca Logos Pro</h1>
-                          <p class="text-slate-600 max-w-2xl mx-auto">Acesso a vasto conteúdo teológico, histórico e arqueológico com curadoria de Inteligência Artificial.</p>
-                      </div>
-                      
-                      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                          @for (cat of libraryCategories; track cat.id) {
-                              <button (click)="selectLibraryCategory(cat)" class="bg-white p-8 rounded-2xl shadow-sm hover:shadow-xl transition-all text-left border border-slate-200 group relative overflow-hidden">
-                                  <div class="absolute top-0 right-0 p-4 opacity-10 group-hover:opacity-20 transition-opacity">
-                                      <svg class="w-24 h-24 text-indigo-900" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" [attr.d]="cat.icon"></path></svg>
-                                  </div>
-                                  <div class="relative z-10">
-                                      <div class="w-12 h-12 bg-indigo-50 rounded-xl flex items-center justify-center text-indigo-700 mb-6 group-hover:scale-110 transition-transform">
-                                          <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" [attr.d]="cat.icon"></path></svg>
-                                      </div>
-                                      <h3 class="text-xl font-bold text-slate-800 mb-2">{{ cat.title }}</h3>
-                                      <p class="text-sm text-slate-500 leading-relaxed">{{ cat.description }}</p>
-                                  </div>
-                              </button>
-                          }
-                      </div>
-                  </div>
-              </div>
-          } @else {
-              <!-- Interface de Pesquisa da Categoria -->
-              <div class="flex flex-col h-full">
-                  <!-- Header da Pesquisa -->
-                  <div class="bg-white border-b p-6 shadow-sm z-20">
-                      <div class="max-w-4xl mx-auto">
-                          <button (click)="activeLibraryCategory.set(null)" class="text-xs font-bold text-slate-400 uppercase tracking-widest mb-4 hover:text-indigo-600 flex items-center gap-1">
-                              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path></svg> Voltar para Biblioteca
-                          </button>
-                          <div class="flex items-center gap-4">
-                              <div class="p-3 bg-indigo-100 rounded-lg text-indigo-700">
-                                  <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" [attr.d]="activeLibraryCategory()?.icon"></path></svg>
-                              </div>
-                              <h2 class="text-2xl font-bold text-slate-800">{{ activeLibraryCategory()?.title }}</h2>
-                          </div>
-                          <div class="mt-6 flex gap-2">
-                              <input [(ngModel)]="libraryQuery" (keyup.enter)="searchLibrary()" [placeholder]="activeLibraryCategory()?.placeholder" class="flex-grow p-4 border rounded-xl shadow-inner bg-slate-50 text-lg focus:outline-none focus:ring-2 focus:ring-indigo-500">
-                              <button (click)="searchLibrary()" [disabled]="isLibraryLoading() || !libraryQuery()" class="bg-indigo-900 text-white px-8 rounded-xl font-bold text-lg hover:bg-indigo-800 disabled:opacity-50 transition-colors shadow-lg flex items-center gap-2">
-                                  @if(isLibraryLoading()){ <div class="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin"></div> }
-                                  Pesquisar
-                              </button>
-                          </div>
-                      </div>
-                  </div>
+    <div class="flex flex-col h-[calc(100vh-64px)] bg-slate-100">
+        @if (!activeLibraryCategory()) {
+        <!-- Menu Principal da Biblioteca -->
+        <div class="flex-grow overflow-y-auto p-8">
+            <div class="max-w-6xl mx-auto">
+                <div class="text-center mb-12">
+                    <h1 class="text-4xl font-serif font-bold text-indigo-900 mb-4">Biblioteca Logos Pro</h1>
+                    <p class="text-slate-600 max-w-2xl mx-auto">Acesso a vasto conteúdo teológico, histórico e
+                        arqueológico com curadoria de Inteligência Artificial.</p>
+                </div>
 
-                  <!-- Resultados -->
-                  <div class="flex-grow overflow-y-auto bg-slate-50 p-6">
-                      <div class="max-w-4xl mx-auto">
-                          @if (libraryResult() || libraryImage()) {
-                              <div class="bg-white rounded-2xl shadow-lg border border-slate-200 overflow-hidden" id="library-content">
-                                  <div class="p-8 md:p-12">
-                                      <div class="flex justify-between items-start mb-8 no-print">
-                                          <span class="bg-indigo-50 text-indigo-800 px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wide">{{ activeLibraryCategory()?.title }}</span>
-                                          <div class="flex gap-2">
-                                              <button (click)="printLibrary()" class="p-2 hover:bg-slate-100 rounded text-slate-400 hover:text-indigo-600" title="Imprimir"><svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z"></path></svg></button>
-                                              <button (click)="downloadLibraryPDF()" class="p-2 hover:bg-slate-100 rounded text-slate-400 hover:text-red-600" title="PDF"><svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path></svg></button>
-                                          </div>
-                                      </div>
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                    @for (cat of libraryCategories; track cat.id) {
+                    <button (click)="selectLibraryCategory(cat)"
+                        class="bg-white p-8 rounded-2xl shadow-sm hover:shadow-xl transition-all text-left border border-slate-200 group relative overflow-hidden">
+                        <div class="absolute top-0 right-0 p-4 opacity-10 group-hover:opacity-20 transition-opacity">
+                            <svg class="w-24 h-24 text-indigo-900" fill="none" stroke="currentColor"
+                                viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
+                                    [attr.d]="cat.icon"></path>
+                            </svg>
+                        </div>
+                        <div class="relative z-10">
+                            <div
+                                class="w-12 h-12 bg-indigo-50 rounded-xl flex items-center justify-center text-indigo-700 mb-6 group-hover:scale-110 transition-transform">
+                                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        [attr.d]="cat.icon"></path>
+                                </svg>
+                            </div>
+                            <h3 class="text-xl font-bold text-slate-800 mb-2">{{ cat.title }}</h3>
+                            <p class="text-sm text-slate-500 leading-relaxed">{{ cat.description }}</p>
+                        </div>
+                    </button>
+                    }
+                </div>
+            </div>
+        </div>
+        } @else {
+        <!-- Interface de Pesquisa da Categoria -->
+        <div class="flex flex-col h-full">
+            <!-- Header da Pesquisa -->
+            <div class="bg-white border-b p-6 shadow-sm z-20">
+                <div class="max-w-4xl mx-auto">
+                    <button (click)="activeLibraryCategory.set(null)"
+                        class="text-xs font-bold text-slate-400 uppercase tracking-widest mb-4 hover:text-indigo-600 flex items-center gap-1">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M10 19l-7-7m0 0l7-7m-7 7h18"></path>
+                        </svg> Voltar para Biblioteca
+                    </button>
+                    <div class="flex items-center gap-4">
+                        <div class="p-3 bg-indigo-100 rounded-lg text-indigo-700">
+                            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    [attr.d]="activeLibraryCategory()?.icon"></path>
+                            </svg>
+                        </div>
+                        <h2 class="text-2xl font-bold text-slate-800">{{ activeLibraryCategory()?.title }}</h2>
+                    </div>
+                    <div class="mt-6 flex gap-2">
+                        <input [(ngModel)]="libraryQuery" (keyup.enter)="searchLibrary()"
+                            [placeholder]="activeLibraryCategory()?.placeholder"
+                            class="flex-grow p-4 border rounded-xl shadow-inner bg-slate-50 text-lg focus:outline-none focus:ring-2 focus:ring-indigo-500">
+                        <button (click)="searchLibrary()" [disabled]="isLibraryLoading() || !libraryQuery()"
+                            class="bg-indigo-900 text-white px-8 rounded-xl font-bold text-lg hover:bg-indigo-800 disabled:opacity-50 transition-colors shadow-lg flex items-center gap-2">
+                            @if(isLibraryLoading()){ <div
+                                class="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin"></div>
+                            }
+                            Pesquisar
+                        </button>
+                    </div>
+                </div>
+            </div>
 
-                                      <h1 class="text-3xl font-serif font-bold text-slate-900 mb-6 capitalize">{{ libraryQuery() }}</h1>
+            <!-- Resultados -->
+            <div class="flex-grow overflow-y-auto bg-slate-50 p-6">
+                <div class="max-w-4xl mx-auto">
+                    @if (libraryResult() || libraryImage()) {
+                    <div class="bg-white rounded-2xl shadow-lg border border-slate-200 overflow-hidden"
+                        id="library-content">
+                        <div class="p-8 md:p-12">
+                            <div class="flex justify-between items-start mb-8 no-print">
+                                <span
+                                    class="bg-indigo-50 text-indigo-800 px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wide">{{
+                                    activeLibraryCategory()?.title }}</span>
+                                <div class="flex gap-2">
+                                    <button (click)="printLibrary()"
+                                        class="p-2 hover:bg-slate-100 rounded text-slate-400 hover:text-indigo-600"
+                                        title="Imprimir"><svg class="w-5 h-5" fill="none" stroke="currentColor"
+                                            viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z">
+                                            </path>
+                                        </svg></button>
+                                    <button (click)="downloadLibraryPDF()"
+                                        class="p-2 hover:bg-slate-100 rounded text-slate-400 hover:text-red-600"
+                                        title="PDF"><svg class="w-5 h-5" fill="none" stroke="currentColor"
+                                            viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z">
+                                            </path>
+                                        </svg></button>
+                                </div>
+                            </div>
 
-                                      @if (libraryImage()) {
-                                          <div class="mb-8 rounded-xl overflow-hidden shadow-lg">
-                                              <img [src]="libraryImage()" class="w-full h-auto object-cover" alt="Imagem gerada por IA">
-                                              <p class="text-[10px] text-slate-400 text-center mt-2 italic">Imagem gerada artificialmente para ilustração histórica/geográfica.</p>
-                                          </div>
-                                      }
+                            <h1 class="text-3xl font-serif font-bold text-slate-900 mb-6 capitalize">{{ libraryQuery()
+                                }}</h1>
 
-                                      <div class="prose prose-slate max-w-none prose-headings:font-serif prose-headings:text-indigo-900">
-                                          <p class="whitespace-pre-wrap text-lg leading-relaxed text-slate-700">{{ libraryResult() }}</p>
-                                      </div>
+                            @if (libraryImage()) {
+                            <div class="mb-8 rounded-xl overflow-hidden shadow-lg">
+                                <img [src]="libraryImage()" class="w-full h-auto object-cover"
+                                    alt="Imagem gerada por IA">
+                                <p class="text-[10px] text-slate-400 text-center mt-2 italic">Imagem gerada
+                                    artificialmente para ilustração histórica/geográfica.</p>
+                            </div>
+                            }
 
-                                      @if (libraryReferences().length > 0) {
-                                          <div class="mt-12 pt-8 border-t border-slate-100">
-                                              <div class="flex justify-between items-center mb-6">
-                                                 <h3 class="text-lg font-bold text-slate-800 flex items-center gap-2"><svg class="w-5 h-5 text-indigo-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5S19.832 5.477 21 6.253v13C19.832 18.477 18.246 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"></path></svg> Referências Bíblicas Citadas</h3>
-                                                 <button (click)="toggleLibraryVerseText()" class="text-xs font-bold text-indigo-600 hover:underline">{{ showLibraryVerseText() ? 'Ocultar Textos' : 'Mostrar Textos' }}</button>
-                                              </div>
-                                              <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                                                  @for (ref of libraryReferences(); track ref.ref) {
-                                                      <div class="bg-indigo-50/50 p-4 rounded-lg border border-indigo-100">
-                                                          <div class="flex justify-between items-start mb-2">
-                                                              <span class="font-bold text-indigo-900 text-sm">{{ ref.ref }}</span>
-                                                              <div class="flex gap-2">
-                                                                  <button (click)="useAsBaseVerse(ref)" class="text-[10px] bg-white border border-indigo-200 px-2 py-1 rounded hover:bg-indigo-100 text-indigo-700 font-bold">Usar Base</button>
-                                                                  <button (click)="openVerseReading(ref.ref)" class="text-[10px] bg-white border border-indigo-200 px-2 py-1 rounded hover:bg-indigo-100 text-indigo-700 font-bold">Ler</button>
-                                                              </div>
-                                                          </div>
-                                                          @if (showLibraryVerseText()) {
-                                                              <p class="text-xs text-slate-600 italic leading-relaxed">"{{ ref.text }}"</p>
-                                                          }
-                                                      </div>
-                                                  }
-                                              </div>
-                                          </div>
-                                      }
-                                  </div>
-                              </div>
-                          } @else if (!isLibraryLoading()) {
-                              <div class="flex flex-col items-center justify-center h-64 text-slate-400">
-                                  <svg class="w-16 h-16 mb-4 opacity-20" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
-                                  <p>Digite um termo acima para iniciar sua pesquisa.</p>
-                              </div>
-                          }
-                      </div>
-                  </div>
-              </div>
-          }
-      </div>
+                            <div
+                                class="prose prose-slate max-w-none prose-headings:font-serif prose-headings:text-indigo-900">
+                                <p class="whitespace-pre-wrap text-lg leading-relaxed text-slate-700">{{ libraryResult()
+                                    }}</p>
+                            </div>
+
+                            @if (libraryReferences().length > 0) {
+                            <div class="mt-12 pt-8 border-t border-slate-100">
+                                <div class="flex justify-between items-center mb-6">
+                                    <h3 class="text-lg font-bold text-slate-800 flex items-center gap-2"><svg
+                                            class="w-5 h-5 text-indigo-600" fill="none" stroke="currentColor"
+                                            viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5S19.832 5.477 21 6.253v13C19.832 18.477 18.246 18 16.5 18c-1.746 0-3.332.477-4.5 1.253">
+                                            </path>
+                                        </svg> Referências Bíblicas Citadas</h3>
+                                    <button (click)="toggleLibraryVerseText()"
+                                        class="text-xs font-bold text-indigo-600 hover:underline">{{
+                                        showLibraryVerseText() ? 'Ocultar Textos' : 'Mostrar Textos' }}</button>
+                                </div>
+                                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                    @for (ref of libraryReferences(); track ref.ref) {
+                                    <div class="bg-indigo-50/50 p-4 rounded-lg border border-indigo-100">
+                                        <div class="flex justify-between items-start mb-2">
+                                            <span class="font-bold text-indigo-900 text-sm">{{ ref.ref }}</span>
+                                            <div class="flex gap-2">
+                                                <button (click)="useAsBaseVerse(ref)"
+                                                    class="text-[10px] bg-white border border-indigo-200 px-2 py-1 rounded hover:bg-indigo-100 text-indigo-700 font-bold">Usar
+                                                    Base</button>
+                                                <button (click)="openVerseReading(ref.ref)"
+                                                    class="text-[10px] bg-white border border-indigo-200 px-2 py-1 rounded hover:bg-indigo-100 text-indigo-700 font-bold">Ler</button>
+                                            </div>
+                                        </div>
+                                        @if (showLibraryVerseText()) {
+                                        <p class="text-xs text-slate-600 italic leading-relaxed">"{{ ref.text }}"</p>
+                                        }
+                                    </div>
+                                    }
+                                </div>
+                            </div>
+                            }
+                        </div>
+                    </div>
+                    } @else if (!isLibraryLoading()) {
+                    <div class="flex flex-col items-center justify-center h-64 text-slate-400">
+                        <svg class="w-16 h-16 mb-4 opacity-20" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+                        </svg>
+                        <p>Digite um termo acima para iniciar sua pesquisa.</p>
+                    </div>
+                    }
+                </div>
+            </div>
+        </div>
+        }
+    </div>
     }
 
     <!-- VIEW: SERMON (CONSTRUTOR) -->
     @if (currentView() === 'sermon') {
-      <nav class="bg-white border-b no-print flex-shrink-0 sticky top-[64px] z-30 shadow-sm">
+    <nav class="bg-white border-b no-print flex-shrink-0 sticky top-[64px] z-30 shadow-sm">
         <div class="max-w-5xl mx-auto px-6">
-          <div class="flex justify-between">
-            @for (step of steps; track step.id) {
-              <button (click)="currentStep.set(step.id)" 
-                      class="flex-1 py-4 flex flex-col items-center gap-1 border-b-2 transition-all"
-                      [class.border-indigo-600]="currentStep() === step.id"
-                      [class.border-transparent]="currentStep() !== step.id"
-                      [class.text-indigo-600]="currentStep() === step.id"
-                      [class.text-slate-400]="currentStep() !== step.id">
-                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" [attr.d]="step.icon"></path></svg>
-                <span class="text-[10px] font-bold uppercase tracking-wider">{{ step.name }}</span>
-              </button>
-            }
-          </div>
+            <div class="flex justify-between">
+                @for (step of steps; track step.id) {
+                <button (click)="currentStep.set(step.id)"
+                    class="flex-1 py-4 flex flex-col items-center gap-1 border-b-2 transition-all"
+                    [class.border-indigo-600]="currentStep() === step.id"
+                    [class.border-transparent]="currentStep() !== step.id"
+                    [class.text-indigo-600]="currentStep() === step.id"
+                    [class.text-slate-400]="currentStep() !== step.id">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" [attr.d]="step.icon">
+                        </path>
+                    </svg>
+                    <span class="text-[10px] font-bold uppercase tracking-wider">{{ step.name }}</span>
+                </button>
+                }
+            </div>
         </div>
-      </nav>
+    </nav>
 
-      <main class="flex-grow w-full p-6 pb-24">
+    <main class="flex-grow w-full p-6 pb-24">
         <div class="max-w-5xl mx-auto w-full">
-            
+
             <!-- STEP 1: DETALHES -->
-            @if (currentStep() === 1) { 
-              <div class="space-y-6">
+            @if (currentStep() === 1) {
+            <div class="space-y-6">
                 <div class="bg-white p-6 rounded-xl shadow-sm border border-slate-200">
-                  <h2 class="text-lg font-semibold text-slate-800 mb-6 flex items-center gap-2"><span class="bg-indigo-100 text-indigo-600 w-6 h-6 rounded-full flex items-center justify-center text-xs">1</span> Fundamentos</h2>
-                  <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                    
-                    <!-- VERSÍCULO BASE (MOVIDO PARA CIMA) -->
-                    <div class="md:col-span-2 bg-indigo-50/50 p-6 rounded-xl border border-indigo-100">
-                      <label class="block text-sm font-bold text-indigo-900 mb-2">Versículo Base (Ponto de Partida)</label>
-                      <div class="flex gap-2 mb-3">
-                          <input [(ngModel)]="sermon().baseVerseRef" placeholder="Ex: João 3:16" class="flex-grow p-3 border rounded-lg font-bold text-lg text-indigo-900" (keyup.enter)="analyzeBaseVerse()">
-                          <button (click)="analyzeBaseVerse()" [disabled]="isLoading()" class="bg-indigo-600 text-white px-6 py-3 rounded-lg font-bold shadow-md hover:bg-indigo-700 flex items-center gap-2">
-                              @if(isLoading()){ <div class="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin"></div> }
-                              🔍 Explorar Versículo
-                          </button>
-                      </div>
-                      <textarea [(ngModel)]="sermon().baseVerseText" rows="2" class="w-full p-3 border rounded-lg bg-white text-sm" placeholder="Texto do versículo (preenchido automaticamente)..."></textarea>
-                    </div>
+                    <h2 class="text-lg font-semibold text-slate-800 mb-6 flex items-center gap-2"><span
+                            class="bg-indigo-100 text-indigo-600 w-6 h-6 rounded-full flex items-center justify-center text-xs">1</span>
+                        Fundamentos</h2>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
 
-                    <div class="md:col-span-2 relative">
-                      <label class="block text-sm font-medium text-slate-600 mb-1">Tema (Gerado ou Manual)</label>
-                      <div class="flex flex-wrap gap-2">
-                        <input [(ngModel)]="sermon().theme" placeholder="Ex: O Fruto do Espírito" class="flex-grow min-w-[300px] p-3 border rounded-lg">
-                        <button (click)="suggestTheme()" [disabled]="isLoading()" class="px-4 bg-indigo-50 text-indigo-700 rounded-lg text-sm font-bold">Sugerir</button>
-                        <button (click)="searchVerses()" [disabled]="isLoading() || !sermon().theme" class="px-4 bg-amber-50 text-amber-700 rounded-lg text-sm font-bold border border-amber-200">Pesquisar por Tema</button>
-                      </div>
-                      
-                      @if (showThemeSuggestions()) { 
-                        <div class="absolute z-10 w-full mt-2 bg-white border rounded-xl shadow-xl overflow-hidden">
-                          <div class="p-3 bg-slate-50 border-b flex justify-between items-center"><span class="text-xs font-bold uppercase">Sugestões</span><button (click)="showThemeSuggestions.set(false)">×</button></div>
-                          @for (t of suggestedThemes(); track t) { <button (click)="selectTheme(t)" class="w-full text-left px-4 py-3 hover:bg-indigo-50 border-b text-sm">{{ t }}</button> }
-                        </div> 
-                      }
-                    </div>
-
-                    @if (showVerseResults()) { 
-                      <div class="md:col-span-2 bg-slate-50 p-6 rounded-xl border border-slate-200 animate-in fade-in slide-in-from-top-4">
-                        <div class="flex justify-between items-center mb-6">
-                          <h3 class="text-xs font-black uppercase tracking-widest text-slate-500">Versículos Relacionados & Exegese</h3>
-                          <button (click)="showVerseResults.set(false)" class="text-slate-400 hover:text-slate-600">×</button>
+                        <!-- VERSÍCULO BASE (MOVIDO PARA CIMA) -->
+                        <div class="md:col-span-2 bg-indigo-50/50 p-6 rounded-xl border border-indigo-100">
+                            <label class="block text-sm font-bold text-indigo-900 mb-2">Versículo Base (Ponto de
+                                Partida)</label>
+                            <div class="flex gap-2 mb-3">
+                                <input [(ngModel)]="sermon().baseVerseRef" placeholder="Ex: João 3:16"
+                                    class="flex-grow p-3 border rounded-lg font-bold text-lg text-indigo-900"
+                                    (keyup.enter)="analyzeBaseVerse()">
+                                <button (click)="analyzeBaseVerse()" [disabled]="isLoading()"
+                                    class="bg-indigo-600 text-white px-6 py-3 rounded-lg font-bold shadow-md hover:bg-indigo-700 flex items-center gap-2">
+                                    @if(isLoading()){ <div
+                                        class="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin">
+                                    </div> }
+                                    🔍 Explorar Versículo
+                                </button>
+                            </div>
+                            <textarea [(ngModel)]="sermon().baseVerseText" rows="2"
+                                class="w-full p-3 border rounded-lg bg-white text-sm"
+                                placeholder="Texto do versículo (preenchido automaticamente)..."></textarea>
                         </div>
-                        
-                        <div class="space-y-4 mb-6">
-                          @for (v of suggestedVerses(); track $index) { 
-                            <div class="bg-white p-5 rounded-xl border shadow-sm hover:shadow-md transition-all group" [class.border-indigo-400]="v.selected" [class.ring-1]="v.selected" [class.ring-indigo-400]="v.selected">
-                              <div class="flex items-start gap-4">
-                                <div class="pt-1">
-                                    <input type="checkbox" [checked]="v.selected" (change)="toggleVerseSelection($index)" class="w-5 h-5 rounded text-indigo-600 focus:ring-indigo-500 cursor-pointer">
-                                </div>
-                                <div class="flex-grow space-y-3">
-                                  <div>
-                                      <div class="flex justify-between items-start">
-                                          <p class="text-base font-bold text-indigo-900">{{ v.ref }}</p>
-                                          @if(v.keywords && v.keywords.length > 0) {
-                                              <div class="flex gap-1 flex-wrap justify-end">
-                                                  @for(kw of v.keywords; track kw) {
-                                                      <span class="text-[9px] bg-amber-100 text-amber-800 px-1.5 py-0.5 rounded uppercase font-bold tracking-wide">{{kw}}</span>
-                                                  }
-                                              </div>
-                                          }
-                                      </div>
-                                      <p class="text-sm text-slate-700 italic mt-1 leading-relaxed border-l-2 border-indigo-100 pl-3">"{{ v.text }}"</p>
-                                  </div>
-                                  
-                                  @if(v.explanation) {
-                                      <div class="bg-slate-50 p-3 rounded text-xs text-slate-600 leading-relaxed border border-slate-100">
-                                          <span class="font-bold text-slate-400 uppercase text-[9px] block mb-1">Conexão Teológica:</span>
-                                          {{ v.explanation }}
-                                      </div>
-                                  }
 
-                                  <!-- BOTÕES DE AÇÃO DO VERSÍCULO -->
-                                  <div class="flex flex-wrap justify-between items-center pt-3 border-t border-slate-50 gap-2">
-                                      <div class="flex gap-2">
-                                           @if(v.crossRefs && v.crossRefs.length > 0) {
-                                              <div class="flex items-center gap-1 text-[10px] text-slate-400 bg-slate-100 px-2 py-1 rounded">
-                                                  <span class="font-bold">Refs:</span> {{ v.crossRefs.join(', ') }}
-                                              </div>
-                                           }
-                                      </div>
-                                      <div class="flex gap-2">
-                                          <button (click)="addVerseToNotes(v)" class="text-[10px] bg-emerald-50 border border-emerald-200 text-emerald-700 px-3 py-1.5 rounded font-bold uppercase tracking-wide hover:bg-emerald-100 transition-colors flex items-center gap-1">
-                                              <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"></path></svg>
-                                              Notas
-                                          </button>
-                                          <button (click)="generateExegesis(v)" class="text-[10px] bg-purple-50 border border-purple-200 text-purple-700 px-3 py-1.5 rounded font-bold uppercase tracking-wide hover:bg-purple-100 transition-colors flex items-center gap-1">
-                                              <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5S19.832 5.477 21 6.253v13C19.832 18.477 18.246 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"></path></svg>
-                                              Exegese
-                                          </button>
-                                          <button (click)="generateDevotional(v)" class="text-[10px] bg-blue-50 border border-blue-200 text-blue-700 px-3 py-1.5 rounded font-bold uppercase tracking-wide hover:bg-blue-100 transition-colors flex items-center gap-1">
-                                              <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5S19.832 5.477 21 6.253v13C19.832 18.477 18.246 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"></path></svg>
-                                              Estudo
-                                          </button>
-                                      </div>
-                                  </div>
-                                </div>
-                              </div>
-                            </div> 
-                          }
-                        </div>
-                        
-                        @if (selectedCount() > 0) { 
-                          <div class="flex gap-3 justify-end bg-white p-4 rounded-lg shadow-lg border border-indigo-100 sticky bottom-4 z-20">
-                             <div class="flex items-center gap-2 mr-auto text-sm font-bold text-indigo-900">
-                                 <span class="bg-indigo-600 text-white w-6 h-6 rounded-full flex items-center justify-center text-xs">{{ selectedCount() }}</span>
-                                 Selecionados
-                             </div>
-                             <button (click)="addSelectedToReferences()" class="bg-white text-slate-600 px-4 py-2 rounded-lg font-bold text-xs uppercase border border-slate-200 hover:bg-slate-50">Adicionar Referências</button>
-                             <button (click)="addSelectedToStructure()" class="bg-indigo-600 text-white px-4 py-2 rounded-lg font-bold text-xs uppercase shadow-md hover:bg-indigo-700">Adicionar à Estrutura</button>
-                          </div> 
-                        }
-                      </div> 
-                    }
+                        <div class="md:col-span-2 relative">
+                            <label class="block text-sm font-medium text-slate-600 mb-1">Tema (Gerado ou Manual)</label>
+                            <div class="flex flex-wrap gap-2">
+                                <input [(ngModel)]="sermon().theme" placeholder="Ex: O Fruto do Espírito"
+                                    class="flex-grow min-w-[300px] p-3 border rounded-lg">
+                                <button (click)="suggestTheme()" [disabled]="isLoading()"
+                                    class="px-4 bg-indigo-50 text-indigo-700 rounded-lg text-sm font-bold">Sugerir</button>
+                                <button (click)="searchVerses()" [disabled]="isLoading() || !sermon().theme"
+                                    class="px-4 bg-amber-50 text-amber-700 rounded-lg text-sm font-bold border border-amber-200">Pesquisar
+                                    por Tema</button>
+                            </div>
 
-                    <div><label class="block text-sm text-slate-600">Pregador</label><input [(ngModel)]="sermon().preacher" class="w-full p-3 border rounded-lg"></div>
-                    <div>
-                      <label class="block text-sm text-slate-600">Público</label>
-                      <select [(ngModel)]="sermon().targetAudience" class="w-full p-3 border rounded-lg bg-white text-slate-700">
-                         <option value="" disabled selected>Selecione o público alvo...</option>
-                         @for(opt of targetAudiences; track opt){ <option [value]="opt">{{opt}}</option> }
-                      </select>
-                    </div>
-                    <div>
-                      <label class="block text-sm text-slate-600 flex items-center gap-1 group relative w-fit">
-                         Objetivo
-                         <div class="relative cursor-help ml-1">
-                             <svg class="w-4 h-4 text-slate-400 hover:text-indigo-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.228 9c.549-1.165 2.03-2 3.772-2 2.21 0 4 1.343 4 3 0 1.4-1.278 2.575-3.006 2.907-.542.104-.994.54-.994 1.093m0 3h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
-                             <div class="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 w-48 bg-slate-800 text-white text-[10px] p-2 rounded hidden group-hover:block z-10 shadow-lg text-center">
-                                O que você espera que os ouvintes façam ou sintam após o sermão? (A meta espiritual)
-                             </div>
-                         </div>
-                      </label>
-                      <input [(ngModel)]="sermon().sermonObjective" class="w-full p-3 border rounded-lg" placeholder="Ex: Levar ao arrependimento, Consolar, Ensinar doutrina...">
-                    </div>
-                    <div><label class="block text-sm text-slate-600">Versão</label><select [(ngModel)]="sermon().bibleVersion" class="w-full p-3 border rounded-lg">@for (v of bibleVersions; track v.id) { <option [value]="v.id">{{ v.name }}</option> }</select></div>
-                    
-                    <div class="md:col-span-2 border-t pt-4">
-                      <div class="mt-4">
-                        <label class="block text-sm text-slate-600 mb-1">Palavras-Chave (Extraídas do Versículo)</label>
-                        @if (sermon().keywords.length > 0) { 
-                          <div class="flex flex-wrap gap-2">
-                            @for (kw of sermon().keywords; track $index) { 
-                              <div class="text-xs bg-white border pl-2 pr-1 py-1 rounded flex items-center gap-2 group hover:border-indigo-300 transition-colors">
-                                <button (click)="searchByKeyword(kw)" title="Pesquisar versículos sobre este tema" class="font-medium hover:text-indigo-600 flex items-center gap-1">{{ kw }}<svg class="w-3 h-3 text-slate-300 group-hover:text-indigo-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg></button>
-                                <div class="h-3 w-[1px] bg-slate-200"></div>
-                                <button (click)="removeKeyword($index)" class="text-slate-400 hover:text-red-500 font-bold px-1">×</button>
-                              </div> 
+                            @if (showThemeSuggestions()) {
+                            <div class="absolute z-10 w-full mt-2 bg-white border rounded-xl shadow-xl overflow-hidden">
+                                <div class="p-3 bg-slate-50 border-b flex justify-between items-center"><span
+                                        class="text-xs font-bold uppercase">Sugestões</span><button
+                                        (click)="showThemeSuggestions.set(false)">×</button></div>
+                                @for (t of suggestedThemes(); track t) { <button (click)="selectTheme(t)"
+                                    class="w-full text-left px-4 py-3 hover:bg-indigo-50 border-b text-sm">{{ t
+                                    }}</button> }
+                            </div>
                             }
-                          </div> 
+                        </div>
+
+                        @if (showVerseResults()) {
+                        <div
+                            class="md:col-span-2 bg-slate-50 p-6 rounded-xl border border-slate-200 animate-in fade-in slide-in-from-top-4">
+                            <div class="flex justify-between items-center mb-6">
+                                <h3 class="text-xs font-black uppercase tracking-widest text-slate-500">Versículos
+                                    Relacionados & Exegese</h3>
+                                <button (click)="showVerseResults.set(false)"
+                                    class="text-slate-400 hover:text-slate-600">×</button>
+                            </div>
+
+                            <div class="space-y-4 mb-6">
+                                @for (v of suggestedVerses(); track $index) {
+                                <div class="bg-white p-5 rounded-xl border shadow-sm hover:shadow-md transition-all group"
+                                    [class.border-indigo-400]="v.selected" [class.ring-1]="v.selected"
+                                    [class.ring-indigo-400]="v.selected">
+                                    <div class="flex items-start gap-4">
+                                        <div class="pt-1">
+                                            <input type="checkbox" [checked]="v.selected"
+                                                (change)="toggleVerseSelection($index)"
+                                                class="w-5 h-5 rounded text-indigo-600 focus:ring-indigo-500 cursor-pointer">
+                                        </div>
+                                        <div class="flex-grow space-y-3">
+                                            <div>
+                                                <div class="flex justify-between items-start">
+                                                    <p class="text-base font-bold text-indigo-900">{{ v.ref }}</p>
+                                                    @if(v.keywords && v.keywords.length > 0) {
+                                                    <div class="flex gap-1 flex-wrap justify-end">
+                                                        @for(kw of v.keywords; track kw) {
+                                                        <span
+                                                            class="text-[9px] bg-amber-100 text-amber-800 px-1.5 py-0.5 rounded uppercase font-bold tracking-wide">{{kw}}</span>
+                                                        }
+                                                    </div>
+                                                    }
+                                                </div>
+                                                <p
+                                                    class="text-sm text-slate-700 italic mt-1 leading-relaxed border-l-2 border-indigo-100 pl-3">
+                                                    "{{ v.text }}"</p>
+                                            </div>
+
+                                            @if(v.explanation) {
+                                            <div
+                                                class="bg-slate-50 p-3 rounded text-xs text-slate-600 leading-relaxed border border-slate-100">
+                                                <span
+                                                    class="font-bold text-slate-400 uppercase text-[9px] block mb-1">Conexão
+                                                    Teológica:</span>
+                                                {{ v.explanation }}
+                                            </div>
+                                            }
+
+                                            <!-- BOTÕES DE AÇÃO DO VERSÍCULO -->
+                                            <div
+                                                class="flex flex-wrap justify-between items-center pt-3 border-t border-slate-50 gap-2">
+                                                <div class="flex gap-2">
+                                                    @if(v.crossRefs && v.crossRefs.length > 0) {
+                                                    <div
+                                                        class="flex items-center gap-1 text-[10px] text-slate-400 bg-slate-100 px-2 py-1 rounded">
+                                                        <span class="font-bold">Refs:</span> {{ v.crossRefs.join(', ')
+                                                        }}
+                                                    </div>
+                                                    }
+                                                </div>
+                                                <div class="flex gap-2">
+                                                    <button (click)="addVerseToNotes(v)"
+                                                        class="text-[10px] bg-emerald-50 border border-emerald-200 text-emerald-700 px-3 py-1.5 rounded font-bold uppercase tracking-wide hover:bg-emerald-100 transition-colors flex items-center gap-1">
+                                                        <svg class="w-3 h-3" fill="none" stroke="currentColor"
+                                                            viewBox="0 0 24 24">
+                                                            <path stroke-linecap="round" stroke-linejoin="round"
+                                                                stroke-width="2"
+                                                                d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z">
+                                                            </path>
+                                                        </svg>
+                                                        Notas
+                                                    </button>
+                                                    <button (click)="generateExegesis(v)"
+                                                        class="text-[10px] bg-purple-50 border border-purple-200 text-purple-700 px-3 py-1.5 rounded font-bold uppercase tracking-wide hover:bg-purple-100 transition-colors flex items-center gap-1">
+                                                        <svg class="w-3 h-3" fill="none" stroke="currentColor"
+                                                            viewBox="0 0 24 24">
+                                                            <path stroke-linecap="round" stroke-linejoin="round"
+                                                                stroke-width="2"
+                                                                d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5S19.832 5.477 21 6.253v13C19.832 18.477 18.246 18 16.5 18c-1.746 0-3.332.477-4.5 1.253">
+                                                            </path>
+                                                        </svg>
+                                                        Exegese
+                                                    </button>
+                                                    <button (click)="generateDevotional(v)"
+                                                        class="text-[10px] bg-blue-50 border border-blue-200 text-blue-700 px-3 py-1.5 rounded font-bold uppercase tracking-wide hover:bg-blue-100 transition-colors flex items-center gap-1">
+                                                        <svg class="w-3 h-3" fill="none" stroke="currentColor"
+                                                            viewBox="0 0 24 24">
+                                                            <path stroke-linecap="round" stroke-linejoin="round"
+                                                                stroke-width="2"
+                                                                d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5S19.832 5.477 21 6.253v13C19.832 18.477 18.246 18 16.5 18c-1.746 0-3.332.477-4.5 1.253">
+                                                            </path>
+                                                        </svg>
+                                                        Estudo
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                }
+                            </div>
+
+                            @if (selectedCount() > 0) {
+                            <div
+                                class="flex gap-3 justify-end bg-white p-4 rounded-lg shadow-lg border border-indigo-100 sticky bottom-4 z-20">
+                                <div class="flex items-center gap-2 mr-auto text-sm font-bold text-indigo-900">
+                                    <span
+                                        class="bg-indigo-600 text-white w-6 h-6 rounded-full flex items-center justify-center text-xs">{{
+                                        selectedCount() }}</span>
+                                    Selecionados
+                                </div>
+                                <button (click)="addSelectedToReferences()"
+                                    class="bg-white text-slate-600 px-4 py-2 rounded-lg font-bold text-xs uppercase border border-slate-200 hover:bg-slate-50">Adicionar
+                                    Referências</button>
+                                <button (click)="addSelectedToStructure()"
+                                    class="bg-indigo-600 text-white px-4 py-2 rounded-lg font-bold text-xs uppercase shadow-md hover:bg-indigo-700">Adicionar
+                                    à Estrutura</button>
+                            </div>
+                            }
+                        </div>
                         }
-                      </div>
+
+                        <div><label class="block text-sm text-slate-600">Pregador</label><input
+                                [(ngModel)]="sermon().preacher" class="w-full p-3 border rounded-lg"></div>
+                        <div>
+                            <label class="block text-sm text-slate-600">Público</label>
+                            <select [(ngModel)]="sermon().targetAudience"
+                                class="w-full p-3 border rounded-lg bg-white text-slate-700">
+                                <option value="" disabled selected>Selecione o público alvo...</option>
+                                @for(opt of targetAudiences; track opt){ <option [value]="opt">{{opt}}</option> }
+                            </select>
+                        </div>
+                        <div>
+                            <label class="block text-sm text-slate-600 flex items-center gap-1 group relative w-fit">
+                                Objetivo
+                                <div class="relative cursor-help ml-1">
+                                    <svg class="w-4 h-4 text-slate-400 hover:text-indigo-500" fill="none"
+                                        stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                            d="M8.228 9c.549-1.165 2.03-2 3.772-2 2.21 0 4 1.343 4 3 0 1.4-1.278 2.575-3.006 2.907-.542.104-.994.54-.994 1.093m0 3h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z">
+                                        </path>
+                                    </svg>
+                                    <div
+                                        class="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 w-48 bg-slate-800 text-white text-[10px] p-2 rounded hidden group-hover:block z-10 shadow-lg text-center">
+                                        O que você espera que os ouvintes façam ou sintam após o sermão? (A meta
+                                        espiritual)
+                                    </div>
+                                </div>
+                            </label>
+                            <input [(ngModel)]="sermon().sermonObjective" class="w-full p-3 border rounded-lg"
+                                placeholder="Ex: Levar ao arrependimento, Consolar, Ensinar doutrina...">
+                        </div>
+                        <div><label class="block text-sm text-slate-600">Versão</label><select
+                                [(ngModel)]="sermon().bibleVersion" class="w-full p-3 border rounded-lg">@for (v of
+                                bibleVersions; track v.id) { <option [value]="v.id">{{ v.name }}</option> }</select>
+                        </div>
+
+                        <div class="md:col-span-2 border-t pt-4">
+                            <div class="mt-4">
+                                <label class="block text-sm text-slate-600 mb-1">Palavras-Chave (Extraídas do
+                                    Versículo)</label>
+                                @if (sermon().keywords.length > 0) {
+                                <div class="flex flex-wrap gap-2">
+                                    @for (kw of sermon().keywords; track $index) {
+                                    <div
+                                        class="text-xs bg-white border pl-2 pr-1 py-1 rounded flex items-center gap-2 group hover:border-indigo-300 transition-colors">
+                                        <button (click)="searchByKeyword(kw)"
+                                            title="Pesquisar versículos sobre este tema"
+                                            class="font-medium hover:text-indigo-600 flex items-center gap-1">{{ kw
+                                            }}<svg class="w-3 h-3 text-slate-300 group-hover:text-indigo-400"
+                                                fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                    d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+                                            </svg></button>
+                                        <div class="h-3 w-[1px] bg-slate-200"></div>
+                                        <button (click)="removeKeyword($index)"
+                                            class="text-slate-400 hover:text-red-500 font-bold px-1">×</button>
+                                    </div>
+                                    }
+                                </div>
+                                }
+                            </div>
+                        </div>
                     </div>
-                  </div>
                 </div>
-              </div> 
+            </div>
             }
-            
+
             <!-- STEP 2: ESTRUTURA -->
-            @if (currentStep() === 2) { <div class="space-y-6"><div class="bg-white rounded-xl shadow-md overflow-hidden border border-indigo-100"><div class="bg-indigo-900 px-6 py-4 flex justify-between items-center"><h3 class="font-bold text-white flex items-center gap-2"><svg class="w-5 h-5 text-amber-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5S19.832 5.477 21 6.253v13C19.832 18.477 18.246 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"></path></svg>Painel de Recursos Bíblicos</h3><div class="flex gap-2"><button (click)="currentView.set('bible')" class="text-xs bg-indigo-800 text-indigo-200 px-3 py-1.5 rounded hover:text-white hover:bg-indigo-700 transition-colors">Buscar Mais na Bíblia</button><button (click)="generateStructure()" class="text-xs bg-amber-400 text-indigo-900 font-bold px-3 py-1.5 rounded hover:bg-amber-500 shadow-sm transition-colors">Gerar Estrutura com IA</button></div></div><div class="p-6 grid gap-6 md:grid-cols-2"><div class="md:col-span-2"><span class="text-[10px] font-black uppercase text-slate-400 tracking-widest block mb-2">Versículo Base Selecionado</span><div class="bg-slate-50 border-l-4 border-indigo-500 p-4 rounded-r-lg"><p class="text-lg serif text-slate-800 italic mb-2">"{{ sermon().baseVerseText || 'Nenhum versículo selecionado' }}"</p><p class="text-right font-bold text-indigo-900 text-sm">{{ sermon().baseVerseRef }}</p></div></div><div><span class="text-[10px] font-black uppercase text-slate-400 tracking-widest block mb-2">Palavras-Chave Importadas</span>@if (sermon().keywords.length > 0) { <div class="flex flex-wrap gap-2">@for (k of sermon().keywords; track k) { <button (click)="searchByKeyword(k)" title="Pesquisar versículos sobre: {{ k }}" class="bg-amber-100 text-amber-800 px-3 py-1 rounded-full text-xs font-bold border border-amber-200 flex items-center gap-1 hover:bg-amber-200 hover:scale-105 transition-all cursor-pointer">{{ k }}<svg class="w-3 h-3 text-amber-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg></button> }</div> } @else { <p class="text-xs text-slate-400 italic">Nenhuma palavra-chave selecionada.</p> }</div><div class="md:col-span-2 border-t border-indigo-100 pt-4 mt-2"><div class="flex justify-between items-center mb-2"><span class="text-[10px] font-black uppercase text-slate-400 tracking-widest">Referências Cruzadas & Textos de Apoio</span>@if (sermon().crossReferences.length > 0) { <button (click)="fetchMissingVerses()" class="text-[10px] bg-indigo-50 text-indigo-600 px-2 py-1 rounded font-bold hover:bg-indigo-100">Atualizar Textos</button> }</div>@if (sermon().crossReferences.length > 0) { <div class="grid grid-cols-1 gap-2 max-h-60 overflow-y-auto pr-2 custom-scrollbar">@for (ref of sermon().crossReferences; track ref) { <div class="bg-slate-50 p-3 rounded border border-slate-200 flex gap-3 group hover:border-indigo-200 transition-colors"><div class="shrink-0"><span class="text-xs font-bold text-indigo-900 bg-white border border-indigo-100 px-2 py-1 rounded block text-center min-w-[80px]">{{ ref }}</span></div><div class="flex-grow"><p class="text-sm text-slate-700 leading-snug">{{ getVerseByRef(ref)?.text || 'Carregando texto...' }}</p></div><div class="shrink-0 flex flex-col gap-1 opacity-0 group-hover:opacity-100 transition-opacity"><button (click)="removeReference(ref)" class="text-slate-400 hover:text-red-500" title="Remover"><svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg></button></div></div> }</div> } @else { <div class="text-center py-4 bg-slate-50 rounded border border-dashed border-slate-300"><p class="text-xs text-slate-400 italic">Nenhuma referência importada.</p></div> }</div></div></div><div class="bg-white p-6 rounded-xl border border-slate-200 space-y-4 shadow-sm"><div><label class="text-xs font-bold uppercase text-slate-400">Introdução</label><textarea [(ngModel)]="sermon().introduction" rows="4" class="w-full p-3 border rounded-lg"></textarea></div><div><label class="text-xs font-bold uppercase text-slate-400">Contexto Bíblico</label><textarea [(ngModel)]="sermon().biblicalContext" rows="4" class="w-full p-3 border rounded-lg bg-slate-50"></textarea></div><div class="space-y-4"><label class="text-xs font-bold uppercase text-slate-400">Tópicos do Sermão</label>@for (point of sermon().points; track $index) { <div class="p-4 bg-slate-50 rounded border relative"><button (click)="removePoint($index)" class="absolute top-2 right-2 text-slate-300 hover:text-red-500">×</button><input [(ngModel)]="point.title" class="w-full p-2 font-bold mb-2 border rounded" placeholder="Título do Tópico"><textarea [(ngModel)]="point.subpoints[0]" class="w-full p-2 text-sm border rounded mb-2" rows="2" placeholder="Conteúdo do ponto..."></textarea><input [(ngModel)]="point.verses[0]" class="w-full p-2 text-xs italic border rounded bg-white" placeholder="Referência bíblica de apoio (ex: Rm 3:23)"></div> }<button (click)="addPoint()" class="w-full py-2 border-2 border-dashed rounded text-sm text-slate-400 hover:border-indigo-400 hover:text-indigo-500 transition-colors">+ Adicionar Tópico</button></div><div><label class="text-xs font-bold uppercase text-slate-400">Aplicação Prática Final</label><textarea [(ngModel)]="sermon().finalApplication" rows="4" class="w-full p-3 border rounded-lg bg-slate-50"></textarea></div><div><label class="text-xs font-bold uppercase text-slate-400">Conclusão</label><textarea [(ngModel)]="sermon().conclusion" rows="4" class="w-full p-3 border rounded-lg"></textarea></div><button (click)="currentStep.set(3)" class="w-full py-3 bg-indigo-600 text-white font-bold rounded-lg mt-4">Próximo</button></div></div> }
-            
+            @if (currentStep() === 2) { <div class="space-y-6">
+                <div class="bg-white rounded-xl shadow-md overflow-hidden border border-indigo-100">
+                    <div class="bg-indigo-900 px-6 py-4 flex justify-between items-center">
+                        <h3 class="font-bold text-white flex items-center gap-2"><svg class="w-5 h-5 text-amber-400"
+                                fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5S19.832 5.477 21 6.253v13C19.832 18.477 18.246 18 16.5 18c-1.746 0-3.332.477-4.5 1.253">
+                                </path>
+                            </svg>Painel de Recursos Bíblicos</h3>
+                        <div class="flex gap-2"><button (click)="currentView.set('bible')"
+                                class="text-xs bg-indigo-800 text-indigo-200 px-3 py-1.5 rounded hover:text-white hover:bg-indigo-700 transition-colors">Buscar
+                                Mais na Bíblia</button><button (click)="generateStructure()"
+                                class="text-xs bg-amber-400 text-indigo-900 font-bold px-3 py-1.5 rounded hover:bg-amber-500 shadow-sm transition-colors">Gerar
+                                Estrutura com IA</button></div>
+                    </div>
+                    <div class="p-6 grid gap-6 md:grid-cols-2">
+                        <div class="md:col-span-2"><span
+                                class="text-[10px] font-black uppercase text-slate-400 tracking-widest block mb-2">Versículo
+                                Base Selecionado</span>
+                            <div class="bg-slate-50 border-l-4 border-indigo-500 p-4 rounded-r-lg">
+                                <p class="text-lg serif text-slate-800 italic mb-2">"{{ sermon().baseVerseText ||
+                                    'Nenhum versículo selecionado' }}"</p>
+                                <p class="text-right font-bold text-indigo-900 text-sm">{{ sermon().baseVerseRef }}</p>
+                            </div>
+                        </div>
+                        <div><span
+                                class="text-[10px] font-black uppercase text-slate-400 tracking-widest block mb-2">Palavras-Chave
+                                Importadas</span>@if (sermon().keywords.length > 0) { <div class="flex flex-wrap gap-2">
+                                @for (k of sermon().keywords; track k) { <button (click)="searchByKeyword(k)"
+                                    title="Pesquisar versículos sobre: {{ k }}"
+                                    class="bg-amber-100 text-amber-800 px-3 py-1 rounded-full text-xs font-bold border border-amber-200 flex items-center gap-1 hover:bg-amber-200 hover:scale-105 transition-all cursor-pointer">{{
+                                    k }}<svg class="w-3 h-3 text-amber-600" fill="none" stroke="currentColor"
+                                        viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                            d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+                                    </svg></button> }</div> } @else { <p class="text-xs text-slate-400 italic">Nenhuma
+                                palavra-chave selecionada.</p> }</div>
+                        <div class="md:col-span-2 border-t border-indigo-100 pt-4 mt-2">
+                            <div class="flex justify-between items-center mb-2"><span
+                                    class="text-[10px] font-black uppercase text-slate-400 tracking-widest">Referências
+                                    Cruzadas & Textos de Apoio</span>@if (sermon().crossReferences.length > 0) { <button
+                                    (click)="fetchMissingVerses()"
+                                    class="text-[10px] bg-indigo-50 text-indigo-600 px-2 py-1 rounded font-bold hover:bg-indigo-100">Atualizar
+                                    Textos</button> }</div>@if (sermon().crossReferences.length > 0) { <div
+                                class="grid grid-cols-1 gap-2 max-h-60 overflow-y-auto pr-2 custom-scrollbar">@for (ref
+                                of sermon().crossReferences; track ref) { <div
+                                    class="bg-slate-50 p-3 rounded border border-slate-200 flex gap-3 group hover:border-indigo-200 transition-colors">
+                                    <div class="shrink-0"><span
+                                            class="text-xs font-bold text-indigo-900 bg-white border border-indigo-100 px-2 py-1 rounded block text-center min-w-[80px]">{{
+                                            ref }}</span></div>
+                                    <div class="flex-grow">
+                                        <p class="text-sm text-slate-700 leading-snug">{{ getVerseByRef(ref)?.text ||
+                                            'Carregando texto...' }}</p>
+                                    </div>
+                                    <div
+                                        class="shrink-0 flex flex-col gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
+                                        <button (click)="removeReference(ref)" class="text-slate-400 hover:text-red-500"
+                                            title="Remover"><svg class="w-4 h-4" fill="none" stroke="currentColor"
+                                                viewBox="0 0 24 24">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                    d="M6 18L18 6M6 6l12 12"></path>
+                                            </svg></button>
+                                    </div>
+                                </div> }</div> } @else { <div
+                                class="text-center py-4 bg-slate-50 rounded border border-dashed border-slate-300">
+                                <p class="text-xs text-slate-400 italic">Nenhuma referência importada.</p>
+                            </div> }
+                        </div>
+                    </div>
+                </div>
+                <div class="bg-white p-6 rounded-xl border border-slate-200 space-y-4 shadow-sm">
+                    <div><label class="text-xs font-bold uppercase text-slate-400">Introdução</label><textarea
+                            [(ngModel)]="sermon().introduction" rows="4"
+                            class="w-full p-3 border rounded-lg"></textarea></div>
+                    <div><label class="text-xs font-bold uppercase text-slate-400">Contexto Bíblico</label><textarea
+                            [(ngModel)]="sermon().biblicalContext" rows="4"
+                            class="w-full p-3 border rounded-lg bg-slate-50"></textarea></div>
+                    <div class="space-y-4"><label class="text-xs font-bold uppercase text-slate-400">Tópicos do
+                            Sermão</label>@for (point of sermon().points; track $index) { <div
+                            class="p-4 bg-slate-50 rounded border relative"><button (click)="removePoint($index)"
+                                class="absolute top-2 right-2 text-slate-300 hover:text-red-500">×</button><input
+                                [(ngModel)]="point.title" class="w-full p-2 font-bold mb-2 border rounded"
+                                placeholder="Título do Tópico"><textarea [(ngModel)]="point.subpoints[0]"
+                                class="w-full p-2 text-sm border rounded mb-2" rows="2"
+                                placeholder="Conteúdo do ponto..."></textarea><input [(ngModel)]="point.verses[0]"
+                                class="w-full p-2 text-xs italic border rounded bg-white"
+                                placeholder="Referência bíblica de apoio (ex: Rm 3:23)"></div> }<button
+                            (click)="addPoint()"
+                            class="w-full py-2 border-2 border-dashed rounded text-sm text-slate-400 hover:border-indigo-400 hover:text-indigo-500 transition-colors">+
+                            Adicionar Tópico</button></div>
+                    <div><label class="text-xs font-bold uppercase text-slate-400">Aplicação Prática
+                            Final</label><textarea [(ngModel)]="sermon().finalApplication" rows="4"
+                            class="w-full p-3 border rounded-lg bg-slate-50"></textarea></div>
+                    <div><label class="text-xs font-bold uppercase text-slate-400">Conclusão</label><textarea
+                            [(ngModel)]="sermon().conclusion" rows="4" class="w-full p-3 border rounded-lg"></textarea>
+                    </div><button (click)="currentStep.set(3)"
+                        class="w-full py-3 bg-indigo-600 text-white font-bold rounded-lg mt-4">Próximo</button>
+                </div>
+            </div> }
+
             <!-- STEP 3: ANOTAÇÕES E EDITOR -->
-            @if (currentStep() === 3) { 
-                <div class="space-y-6 flex flex-col min-h-[600px]">
-                    <div class="flex justify-between shrink-0 items-center">
-                        <h2 class="font-bold text-xl text-slate-800">Editor e Assistente</h2>
-                        <!-- BOTÃO: FINALIZAR E VISUALIZAR -->
-                        <button (click)="currentStep.set(4); printSermon()" class="bg-indigo-600 text-white px-4 py-2 rounded-lg font-bold text-sm hover:bg-indigo-700 transition-colors shadow-sm flex items-center gap-2">
-                            <span>Finalizar e Visualizar</span>
-                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 5l7 7-7 7M5 5l7 7-7 7"></path></svg>
-                        </button>
-                    </div>
-                    <div class="grid md:grid-cols-2 gap-4 flex-grow">
-                        <!-- Editor -->
-                        <div class="flex flex-col bg-white border border-slate-200 rounded-xl overflow-hidden shadow-sm h-[600px] md:h-auto md:min-h-[600px]">
-                            <div class="bg-slate-50 px-4 py-2 border-b flex justify-between items-center flex-wrap gap-2 sticky top-0 z-10"><span class="font-bold text-sm text-slate-700">Corpo do Sermão / Anotações</span><div class="flex gap-2"><button (click)="importStructureToNotes()" class="text-xs bg-white border border-slate-300 text-slate-700 px-3 py-1 rounded hover:bg-slate-50 font-bold flex items-center gap-1">Importar Estrutura</button><button (click)="generateDraft()" [disabled]="isDraftLoading()" class="text-xs bg-indigo-600 text-white px-3 py-1 rounded hover:bg-indigo-700 font-bold flex items-center gap-1">@if(isDraftLoading()){ <div class="w-3 h-3 border-2 border-white/30 border-t-white rounded-full animate-spin"></div> } Gerar Texto Completo</button></div></div>
-                            <textarea [(ngModel)]="sermon().personalNotes" class="flex-grow w-full p-4 resize-none focus:outline-none bg-slate-50 text-slate-700 text-sm leading-relaxed custom-scrollbar overflow-y-auto" placeholder="Escreva seu sermão aqui ou use o botão 'Gerar Texto Completo' para criar um rascunho com IA..."></textarea>
+            @if (currentStep() === 3) {
+            <div class="space-y-6 flex flex-col min-h-[600px]">
+                <div class="flex justify-between shrink-0 items-center">
+                    <h2 class="font-bold text-xl text-slate-800">Editor e Assistente</h2>
+                    <!-- BOTÃO: FINALIZAR E VISUALIZAR -->
+                    <button (click)="currentStep.set(4); printSermon()"
+                        class="bg-indigo-600 text-white px-4 py-2 rounded-lg font-bold text-sm hover:bg-indigo-700 transition-colors shadow-sm flex items-center gap-2">
+                        <span>Finalizar e Visualizar</span>
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M13 5l7 7-7 7M5 5l7 7-7 7"></path>
+                        </svg>
+                    </button>
+                </div>
+                <div class="grid md:grid-cols-2 gap-4 flex-grow">
+                    <!-- Editor -->
+                    <div
+                        class="flex flex-col bg-white border border-slate-200 rounded-xl overflow-hidden shadow-sm h-[600px] md:h-auto md:min-h-[600px]">
+                        <div
+                            class="bg-slate-50 px-4 py-2 border-b flex justify-between items-center flex-wrap gap-2 sticky top-0 z-10">
+                            <span class="font-bold text-sm text-slate-700">Corpo do Sermão / Anotações</span>
+                            <div class="flex gap-2"><button (click)="importStructureToNotes()"
+                                    class="text-xs bg-white border border-slate-300 text-slate-700 px-3 py-1 rounded hover:bg-slate-50 font-bold flex items-center gap-1">Importar
+                                    Estrutura</button><button (click)="generateDraft()" [disabled]="isDraftLoading()"
+                                    class="text-xs bg-indigo-600 text-white px-3 py-1 rounded hover:bg-indigo-700 font-bold flex items-center gap-1">@if(isDraftLoading()){
+                                    <div
+                                        class="w-3 h-3 border-2 border-white/30 border-t-white rounded-full animate-spin">
+                                    </div> } Gerar Texto Completo
+                                </button></div>
                         </div>
-                        <!-- Chat AI -->
-                        <div class="flex flex-col bg-white border border-indigo-100 rounded-xl overflow-hidden shadow-md h-[500px] md:h-auto md:min-h-[600px]">
-                            <div class="bg-indigo-900 px-4 py-3 flex justify-between items-center text-white sticky top-0 z-10"><div class="flex items-center gap-2"><div class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></div><span class="font-bold text-sm">Assistente Teológico</span></div><span class="text-[10px] bg-indigo-800 px-2 py-0.5 rounded text-indigo-200">Logos Pro AI</span></div>
-                            <div #chatContainer class="flex-grow overflow-y-auto p-4 space-y-4 bg-slate-50">@for (msg of chatMessages(); track $index) { <div class="flex flex-col gap-1" [class.items-end]="msg.role === 'user'" [class.items-start]="msg.role === 'assistant'"><div class="max-w-[90%] px-4 py-3 rounded-2xl text-sm leading-relaxed whitespace-pre-wrap shadow-sm" [class.bg-indigo-600]="msg.role === 'user'" [class.text-white]="msg.role === 'user'" [class.bg-white]="msg.role === 'assistant'" [class.text-slate-700]="msg.role === 'assistant'" [class.border]="msg.role === 'assistant'" [class.border-slate-200]="msg.role === 'assistant'">{{ msg.text }}</div>@if (msg.role === 'assistant') { <button (click)="copyToNotes(msg.text)" class="text-[10px] text-indigo-500 hover:text-indigo-700 font-bold self-start ml-2 flex items-center gap-1"><svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"></path></svg>Copiar para Editor</button> }</div> }@if (isChatLoading()) { <div class="flex items-center gap-2 text-slate-400 text-xs pl-2"><div class="w-2 h-2 bg-slate-400 rounded-full animate-bounce"></div><div class="w-2 h-2 bg-slate-400 rounded-full animate-bounce delay-75"></div><div class="w-2 h-2 bg-slate-400 rounded-full animate-bounce delay-150"></div><span>Digitando...</span></div> }</div>
-                            <div class="p-3 bg-white border-t border-slate-100 flex gap-2"><input [(ngModel)]="chatInput" (keyup.enter)="sendMessage()" [disabled]="isChatLoading()" class="flex-grow border border-slate-200 rounded-full px-4 py-2 text-sm focus:outline-none focus:border-indigo-400 focus:ring-1 focus:ring-indigo-400" placeholder="Ex: Crie uma ilustração histórica sobre fé..."><button (click)="sendMessage()" [disabled]="!chatInput() || isChatLoading()" class="bg-indigo-600 text-white p-2 rounded-full hover:bg-indigo-700 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"><svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8"></path></svg></button></div>
-                        </div>
+                        <textarea [(ngModel)]="sermon().personalNotes"
+                            class="flex-grow w-full p-4 resize-none focus:outline-none bg-slate-50 text-slate-700 text-sm leading-relaxed custom-scrollbar overflow-y-auto"
+                            placeholder="Escreva seu sermão aqui ou use o botão 'Gerar Texto Completo' para criar um rascunho com IA..."></textarea>
                     </div>
-                </div> 
+                    <!-- Chat AI -->
+                    <div
+                        class="flex flex-col bg-white border border-indigo-100 rounded-xl overflow-hidden shadow-md h-[500px] md:h-auto md:min-h-[600px]">
+                        <div
+                            class="bg-indigo-900 px-4 py-3 flex justify-between items-center text-white sticky top-0 z-10">
+                            <div class="flex items-center gap-2">
+                                <div class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></div><span
+                                    class="font-bold text-sm">Assistente Teológico</span>
+                            </div><span class="text-[10px] bg-indigo-800 px-2 py-0.5 rounded text-indigo-200">Logos Pro
+                                AI</span>
+                        </div>
+                        <div #chatContainer class="flex-grow overflow-y-auto p-4 space-y-4 bg-slate-50">@for (msg of
+                            chatMessages(); track $index) { <div class="flex flex-col gap-1"
+                                [class.items-end]="msg.role === 'user'" [class.items-start]="msg.role === 'assistant'">
+                                <div class="max-w-[90%] px-4 py-3 rounded-2xl text-sm leading-relaxed whitespace-pre-wrap shadow-sm"
+                                    [class.bg-indigo-600]="msg.role === 'user'" [class.text-white]="msg.role === 'user'"
+                                    [class.bg-white]="msg.role === 'assistant'"
+                                    [class.text-slate-700]="msg.role === 'assistant'"
+                                    [class.border]="msg.role === 'assistant'"
+                                    [class.border-slate-200]="msg.role === 'assistant'">{{ msg.text }}</div>@if
+                                (msg.role === 'assistant') { <button (click)="copyToNotes(msg.text)"
+                                    class="text-[10px] text-indigo-500 hover:text-indigo-700 font-bold self-start ml-2 flex items-center gap-1"><svg
+                                        class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                            d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z">
+                                        </path>
+                                    </svg>Copiar para Editor</button> }
+                            </div> }@if (isChatLoading()) { <div
+                                class="flex items-center gap-2 text-slate-400 text-xs pl-2">
+                                <div class="w-2 h-2 bg-slate-400 rounded-full animate-bounce"></div>
+                                <div class="w-2 h-2 bg-slate-400 rounded-full animate-bounce delay-75"></div>
+                                <div class="w-2 h-2 bg-slate-400 rounded-full animate-bounce delay-150"></div>
+                                <span>Digitando...</span>
+                            </div> }</div>
+                        <div class="p-3 bg-white border-t border-slate-100 flex gap-2"><input [(ngModel)]="chatInput"
+                                (keyup.enter)="sendMessage()" [disabled]="isChatLoading()"
+                                class="flex-grow border border-slate-200 rounded-full px-4 py-2 text-sm focus:outline-none focus:border-indigo-400 focus:ring-1 focus:ring-indigo-400"
+                                placeholder="Ex: Crie uma ilustração histórica sobre fé..."><button
+                                (click)="sendMessage()" [disabled]="!chatInput() || isChatLoading()"
+                                class="bg-indigo-600 text-white p-2 rounded-full hover:bg-indigo-700 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"><svg
+                                    class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8"></path>
+                                </svg></button></div>
+                    </div>
+                </div>
+            </div>
             }
 
             <!-- STEP 4: PRÉ-IMPRESSÃO (WYSIWYG) -->
             @if (currentStep() === 4) {
-                <div class="w-full flex flex-col gap-6">
-                    <!-- Toolbar -->
-                    <div class="bg-white p-4 rounded-xl shadow-sm border border-slate-200 flex flex-wrap justify-between items-center gap-4 no-print sticky top-[130px] z-20">
-                        <div class="flex items-center gap-3">
-                            <span class="text-sm font-bold text-slate-700 uppercase tracking-wide">Modo de Visualização:</span>
-                            <div class="flex bg-slate-100 p-1 rounded-lg">
-                                <button (click)="isABNTMode.set(false)" class="px-3 py-1.5 rounded text-xs font-bold transition-all" [class.bg-white]="!isABNTMode()" [class.shadow-sm]="!isABNTMode()" [class.text-indigo-700]="!isABNTMode()" [class.text-slate-500]="isABNTMode()">Padrão Moderno</button>
-                                <button (click)="isABNTMode.set(true)" class="px-3 py-1.5 rounded text-xs font-bold transition-all" [class.bg-white]="isABNTMode()" [class.shadow-sm]="isABNTMode()" [class.text-indigo-700]="isABNTMode()" [class.text-slate-500]="!isABNTMode()">Acadêmico (ABNT)</button>
-                            </div>
-                        </div>
-                        <div class="flex gap-2">
-                            <button (click)="printSermon()" class="flex items-center gap-2 bg-slate-800 text-white px-5 py-2 rounded-lg font-bold text-sm hover:bg-slate-900 transition-colors shadow-sm">
-                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z"></path></svg>
-                                Imprimir
-                            </button>
-                            <button (click)="downloadPDF()" class="flex items-center gap-2 bg-red-600 text-white px-5 py-2 rounded-lg font-bold text-sm hover:bg-red-700 transition-colors shadow-sm">
-                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 21h10a2 2 0 002-2V9.414a1 1 0 00-.293-.707l-5.414-5.414A1 1 0 0012.586 3H7a2 2 0 00-2 2v14a2 2 0 002 2z"></path></svg>
-                                Salvar PDF
-                            </button>
+            <div class="w-full flex flex-col gap-6">
+                <!-- Toolbar -->
+                <div
+                    class="bg-white p-4 rounded-xl shadow-sm border border-slate-200 flex flex-wrap justify-between items-center gap-4 no-print sticky top-[130px] z-20">
+                    <div class="flex items-center gap-3">
+                        <span class="text-sm font-bold text-slate-700 uppercase tracking-wide">Modo de
+                            Visualização:</span>
+                        <div class="flex bg-slate-100 p-1 rounded-lg">
+                            <button (click)="isABNTMode.set(false)"
+                                class="px-3 py-1.5 rounded text-xs font-bold transition-all"
+                                [class.bg-white]="!isABNTMode()" [class.shadow-sm]="!isABNTMode()"
+                                [class.text-indigo-700]="!isABNTMode()" [class.text-slate-500]="isABNTMode()">Padrão
+                                Moderno</button>
+                            <button (click)="isABNTMode.set(true)"
+                                class="px-3 py-1.5 rounded text-xs font-bold transition-all"
+                                [class.bg-white]="isABNTMode()" [class.shadow-sm]="isABNTMode()"
+                                [class.text-indigo-700]="isABNTMode()" [class.text-slate-500]="!isABNTMode()">Acadêmico
+                                (ABNT)</button>
                         </div>
                     </div>
-
-                    <!-- Área de Visualização -->
-                    <div class="bg-slate-200/50 p-8 rounded-xl border border-slate-300 overflow-auto flex justify-center min-h-[800px]">
-                        @if (isABNTMode()) {
-                            <div id="sermon-document-abnt" class="abnt-paper shadow-2xl scale-95 origin-top">
-                                <h1>{{ sermon().theme || 'TÍTULO DO SERMÃO' }}</h1>
-                                <p><strong>Autor:</strong> {{ sermon().preacher }}</p>
-                                <p><strong>Data:</strong> {{ sermon().date }}</p>
-                                <p><strong>Texto Base:</strong> {{ sermon().baseVerseRef }}</p>
-                                <br>
-                                <h2>1. Introdução</h2>
-                                <p>{{ sermon().introduction }}</p>
-                                <h2>2. Contexto Bíblico</h2>
-                                <p>{{ sermon().biblicalContext }}</p>
-                                <h2>3. Desenvolvimento</h2>
-                                @for (p of sermon().points; track $index) {
-                                    <h3>3.{{ $index + 1 }}. {{ p.title }}</h3>
-                                    <p>{{ p.subpoints[0] }}</p>
-                                    @if(p.verses[0]) { <div class="abnt-quote">"{{ getVerseByRef(p.verses[0])?.text || '...' }}" ({{ p.verses[0] }})</div> }
-                                }
-                                <h2>4. Aplicação Prática</h2>
-                                <p>{{ sermon().finalApplication }}</p>
-                                <h2>5. Conclusão</h2>
-                                <p>{{ sermon().conclusion }}</p>
-                                @if (sermon().personalNotes) { 
-                                    <h2>Apêndice: Notas Adicionais</h2>
-                                    <p class="whitespace-pre-wrap">{{ sermon().personalNotes }}</p> 
-                                }
-                            </div>
-                        } @else {
-                            <div id="sermon-preview-standard" class="bg-white shadow-2xl w-[210mm] min-h-[297mm] mx-auto p-[1.5cm] text-slate-900 scale-95 origin-top">
-                                <div class="text-center mb-10 border-b-2 border-slate-900 pb-6">
-                                    <h1 class="text-4xl font-serif font-bold text-slate-900 mb-3 leading-tight">{{ sermon().theme }}</h1>
-                                    <p class="text-xs font-bold text-slate-500 uppercase tracking-[0.3em]">{{ sermon().date }} • {{ sermon().preacher }}</p>
-                                </div>
-                                <div class="grid grid-cols-12 gap-8">
-                                    <div class="col-span-8 pr-4 border-r border-slate-100">
-                                        <div class="mb-8"><h3 class="font-bold text-slate-900 uppercase text-xs tracking-widest mb-3 border-l-4 border-indigo-600 pl-3">Introdução</h3><p class="text-justify text-slate-800 leading-relaxed text-sm font-serif">{{ sermon().introduction }}</p></div>
-                                        <div class="bg-slate-50 p-4 mb-8 rounded-r border-l-4 border-slate-300"><h3 class="font-bold text-slate-700 text-[10px] uppercase mb-1">Contexto Histórico</h3><p class="text-xs italic text-slate-600 leading-relaxed text-justify">{{ sermon().biblicalContext }}</p></div>
-                                        <div class="space-y-8">
-                                            @for (p of sermon().points; track $index) {
-                                                <div><h3 class="font-bold text-indigo-900 text-lg mb-2 font-serif">{{ $index + 1 }}. {{ p.title }}</h3><p class="text-justify text-slate-800 leading-relaxed text-sm whitespace-pre-wrap font-serif">{{ p.subpoints[0] }}</p></div>
-                                            }
-                                        </div>
-                                        <div class="mt-8 pt-6 border-t border-slate-200"><h3 class="font-bold text-slate-900 uppercase text-xs tracking-widest mb-3">Conclusão</h3><p class="text-justify text-slate-800 leading-relaxed text-sm italic font-serif">{{ sermon().conclusion }}</p></div>
-                                        
-                                        <!-- SEÇÃO DE ANOTAÇÕES/MANUSCRITO ADICIONADA -->
-                                        @if (sermon().personalNotes) {
-                                            <div class="mt-8 pt-6 border-t border-slate-200">
-                                                <h3 class="font-bold text-slate-900 uppercase text-xs tracking-widest mb-3">Manuscrito / Notas</h3>
-                                                <div class="text-justify text-slate-800 leading-relaxed text-sm font-serif whitespace-pre-wrap">
-                                                    {{ sermon().personalNotes }}
-                                                </div>
-                                            </div>
-                                        }
-                                    </div>
-                                    <div class="col-span-4 pl-2">
-                                        <div class="mb-8 bg-indigo-50 p-4 rounded-lg border border-indigo-100"><h2 class="text-[10px] font-black uppercase tracking-widest text-indigo-800 mb-3">Texto Base</h2><p class="font-serif italic text-lg text-indigo-900 leading-relaxed mb-2">"{{ sermon().baseVerseText }}"</p><p class="text-right font-bold text-xs text-indigo-700">{{ sermon().baseVerseRef }}</p></div>
-                                        <div class="mb-8"><h2 class="text-[10px] font-black uppercase tracking-widest text-slate-400 mb-3 border-b pb-1">Palavras-Chave</h2><ul class="space-y-1">@for (kw of sermon().keywords; track kw) { <li class="text-xs font-bold text-slate-600 uppercase flex items-center gap-2"><span class="w-1 h-1 rounded-full bg-slate-400"></span> {{ kw }}</li> }</ul></div>
-                                        <div><h2 class="text-[10px] font-black uppercase tracking-widest text-slate-400 mb-3 border-b pb-1">Refs Cruzadas</h2><div class="space-y-3">@for (ref of sermon().crossReferences; track ref) { <div class="bg-white border border-slate-100 p-3 rounded shadow-sm"><span class="inline-block bg-slate-100 text-slate-700 text-[9px] font-bold px-1.5 py-0.5 rounded mb-1">{{ ref }}</span><p class="text-[10px] text-slate-500 leading-tight italic text-justify">{{ getVerseByRef(ref)?.text }}</p></div> }</div></div>
-                                    </div>
-                                </div>
-                            </div>
-                        }
+                    <div class="flex gap-2">
+                        <button (click)="printSermon()"
+                            class="flex items-center gap-2 bg-slate-800 text-white px-5 py-2 rounded-lg font-bold text-sm hover:bg-slate-900 transition-colors shadow-sm">
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z">
+                                </path>
+                            </svg>
+                            Imprimir
+                        </button>
+                        <button (click)="downloadPDF()"
+                            class="flex items-center gap-2 bg-red-600 text-white px-5 py-2 rounded-lg font-bold text-sm hover:bg-red-700 transition-colors shadow-sm">
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M7 21h10a2 2 0 002-2V9.414a1 1 0 00-.293-.707l-5.414-5.414A1 1 0 0012.586 3H7a2 2 0 00-2 2v14a2 2 0 002 2z">
+                                </path>
+                            </svg>
+                            Salvar PDF
+                        </button>
                     </div>
                 </div>
+
+                <!-- Área de Visualização -->
+                <div
+                    class="bg-slate-200/50 p-8 rounded-xl border border-slate-300 overflow-auto flex justify-center min-h-[800px]">
+                    @if (isABNTMode()) {
+                    <div id="sermon-document-abnt" class="abnt-paper shadow-2xl scale-95 origin-top">
+                        <h1>{{ sermon().theme || 'TÍTULO DO SERMÃO' }}</h1>
+                        <p><strong>Autor:</strong> {{ sermon().preacher }}</p>
+                        <p><strong>Data:</strong> {{ sermon().date }}</p>
+                        <p><strong>Texto Base:</strong> {{ sermon().baseVerseRef }}</p>
+                        <br>
+                        <h2>1. Introdução</h2>
+                        <p>{{ sermon().introduction }}</p>
+                        <h2>2. Contexto Bíblico</h2>
+                        <p>{{ sermon().biblicalContext }}</p>
+                        <h2>3. Desenvolvimento</h2>
+                        @for (p of sermon().points; track $index) {
+                        <h3>3.{{ $index + 1 }}. {{ p.title }}</h3>
+                        <p>{{ p.subpoints[0] }}</p>
+                        @if(p.verses[0]) { <div class="abnt-quote">"{{ getVerseByRef(p.verses[0])?.text || '...' }}" ({{
+                            p.verses[0] }})</div> }
+                        }
+                        <h2>4. Aplicação Prática</h2>
+                        <p>{{ sermon().finalApplication }}</p>
+                        <h2>5. Conclusão</h2>
+                        <p>{{ sermon().conclusion }}</p>
+                        @if (sermon().personalNotes) {
+                        <h2>Apêndice: Notas Adicionais</h2>
+                        <p class="whitespace-pre-wrap">{{ sermon().personalNotes }}</p>
+                        }
+                    </div>
+                    } @else {
+                    <div id="sermon-preview-standard"
+                        class="bg-white shadow-2xl w-[210mm] min-h-[297mm] mx-auto p-[1.5cm] text-slate-900 scale-95 origin-top">
+                        <div class="text-center mb-10 border-b-2 border-slate-900 pb-6">
+                            <h1 class="text-4xl font-serif font-bold text-slate-900 mb-3 leading-tight">{{
+                                sermon().theme }}</h1>
+                            <p class="text-xs font-bold text-slate-500 uppercase tracking-[0.3em]">{{ sermon().date }} •
+                                {{ sermon().preacher }}</p>
+                        </div>
+                        <div class="grid grid-cols-12 gap-8">
+                            <div class="col-span-8 pr-4 border-r border-slate-100">
+                                <div class="mb-8">
+                                    <h3
+                                        class="font-bold text-slate-900 uppercase text-xs tracking-widest mb-3 border-l-4 border-indigo-600 pl-3">
+                                        Introdução</h3>
+                                    <p class="text-justify text-slate-800 leading-relaxed text-sm font-serif">{{
+                                        sermon().introduction }}</p>
+                                </div>
+                                <div class="bg-slate-50 p-4 mb-8 rounded-r border-l-4 border-slate-300">
+                                    <h3 class="font-bold text-slate-700 text-[10px] uppercase mb-1">Contexto Histórico
+                                    </h3>
+                                    <p class="text-xs italic text-slate-600 leading-relaxed text-justify">{{
+                                        sermon().biblicalContext }}</p>
+                                </div>
+                                <div class="space-y-8">
+                                    @for (p of sermon().points; track $index) {
+                                    <div>
+                                        <h3 class="font-bold text-indigo-900 text-lg mb-2 font-serif">{{ $index + 1 }}.
+                                            {{ p.title }}</h3>
+                                        <p
+                                            class="text-justify text-slate-800 leading-relaxed text-sm whitespace-pre-wrap font-serif">
+                                            {{ p.subpoints[0] }}</p>
+                                    </div>
+                                    }
+                                </div>
+                                <div class="mt-8 pt-6 border-t border-slate-200">
+                                    <h3 class="font-bold text-slate-900 uppercase text-xs tracking-widest mb-3">
+                                        Conclusão</h3>
+                                    <p class="text-justify text-slate-800 leading-relaxed text-sm italic font-serif">{{
+                                        sermon().conclusion }}</p>
+                                </div>
+
+                                <!-- SEÇÃO DE ANOTAÇÕES/MANUSCRITO ADICIONADA -->
+                                @if (sermon().personalNotes) {
+                                <div class="mt-8 pt-6 border-t border-slate-200">
+                                    <h3 class="font-bold text-slate-900 uppercase text-xs tracking-widest mb-3">
+                                        Manuscrito / Notas</h3>
+                                    <div
+                                        class="text-justify text-slate-800 leading-relaxed text-sm font-serif whitespace-pre-wrap">
+                                        {{ sermon().personalNotes }}
+                                    </div>
+                                </div>
+                                }
+                            </div>
+                            <div class="col-span-4 pl-2">
+                                <div class="mb-8 bg-indigo-50 p-4 rounded-lg border border-indigo-100">
+                                    <h2 class="text-[10px] font-black uppercase tracking-widest text-indigo-800 mb-3">
+                                        Texto Base</h2>
+                                    <p class="font-serif italic text-lg text-indigo-900 leading-relaxed mb-2">"{{
+                                        sermon().baseVerseText }}"</p>
+                                    <p class="text-right font-bold text-xs text-indigo-700">{{ sermon().baseVerseRef }}
+                                    </p>
+                                </div>
+                                <div class="mb-8">
+                                    <h2
+                                        class="text-[10px] font-black uppercase tracking-widest text-slate-400 mb-3 border-b pb-1">
+                                        Palavras-Chave</h2>
+                                    <ul class="space-y-1">@for (kw of sermon().keywords; track kw) { <li
+                                            class="text-xs font-bold text-slate-600 uppercase flex items-center gap-2">
+                                            <span class="w-1 h-1 rounded-full bg-slate-400"></span> {{ kw }}
+                                        </li> }</ul>
+                                </div>
+                                <div>
+                                    <h2
+                                        class="text-[10px] font-black uppercase tracking-widest text-slate-400 mb-3 border-b pb-1">
+                                        Refs Cruzadas</h2>
+                                    <div class="space-y-3">@for (ref of sermon().crossReferences; track ref) { <div
+                                            class="bg-white border border-slate-100 p-3 rounded shadow-sm"><span
+                                                class="inline-block bg-slate-100 text-slate-700 text-[9px] font-bold px-1.5 py-0.5 rounded mb-1">{{
+                                                ref }}</span>
+                                            <p class="text-[10px] text-slate-500 leading-tight italic text-justify">{{
+                                                getVerseByRef(ref)?.text }}</p>
+                                        </div> }</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    }
+                </div>
+            </div>
             }
         </div>
-      </main>
-      <footer class="fixed bottom-0 left-0 right-0 bg-white border-t p-4 no-print flex justify-between max-w-5xl mx-auto z-50 shadow-up"><button (click)="prevStep()" [disabled]="currentStep() === 1" class="text-slate-500 font-bold text-xs uppercase tracking-widest disabled:opacity-30">Anterior</button><div class="flex gap-2">@for(s of steps; track s.id){ <div class="w-2 h-2 rounded-full" [class.bg-indigo-600]="currentStep() === s.id" [class.bg-slate-200]="currentStep() !== s.id"></div> }</div><button (click)="nextStep()" [disabled]="currentStep() === 4" class="bg-indigo-600 text-white px-6 py-2 rounded font-bold text-xs uppercase tracking-widest disabled:opacity-30">Próximo</button></footer>
+    </main>
+    <footer
+        class="fixed bottom-0 left-0 right-0 bg-white border-t p-4 no-print flex justify-between max-w-5xl mx-auto z-50 shadow-up">
+        <button (click)="prevStep()" [disabled]="currentStep() === 1"
+            class="text-slate-500 font-bold text-xs uppercase tracking-widest disabled:opacity-30">Anterior</button>
+        <div class="flex gap-2">@for(s of steps; track s.id){ <div class="w-2 h-2 rounded-full"
+                [class.bg-indigo-600]="currentStep() === s.id" [class.bg-slate-200]="currentStep() !== s.id"></div> }
+        </div><button (click)="nextStep()" [disabled]="currentStep() === 4"
+            class="bg-indigo-600 text-white px-6 py-2 rounded font-bold text-xs uppercase tracking-widest disabled:opacity-30">Próximo</button>
+    </footer>
     }
-    
+
     <!-- LOADING/MODALS -->
-    @if (isLoading()) { <div class="fixed inset-0 bg-slate-900/60 backdrop-blur z-[100] flex items-center justify-center"><div class="bg-white p-8 rounded-2xl flex flex-col items-center"><div class="w-12 h-12 border-4 border-indigo-600 border-t-transparent rounded-full animate-spin mb-4"></div><p class="font-bold text-slate-800">Processando...</p></div></div> }
-    @if (readingVerse()) { <div class="fixed inset-0 bg-slate-900/50 backdrop-blur-sm z-[200] flex items-center justify-center p-4 animate-in fade-in"><div class="bg-white w-full max-w-lg rounded-2xl shadow-2xl overflow-hidden animate-in zoom-in-95 duration-200 flex flex-col max-h-[90vh]"><div class="bg-indigo-900 px-6 py-4 flex justify-between items-center shrink-0"><h3 class="text-white font-bold text-lg">{{ readingVerse()?.ref }}</h3><button (click)="closeReadingModal()" class="text-indigo-200 hover:text-white"><svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg></button></div><div class="p-8 overflow-y-auto"><p class="text-xl serif text-slate-800 leading-relaxed text-center font-medium mb-8">"{{ readingVerse()?.text }}"</p>@if (readingVerse()?.keywords && readingVerse()?.keywords!.length > 0) { <div class="mb-6"><p class="text-xs font-bold uppercase text-slate-400 mb-2 tracking-widest text-center">Palavras-Chave</p><div class="flex flex-wrap gap-2 justify-center">@for (kw of readingVerse()?.keywords; track kw) { <span class="bg-amber-100 text-amber-800 px-3 py-1 rounded-full text-xs font-bold border border-amber-200">{{ kw }}</span> }</div></div> }@if (readingVerse()?.crossRefs && readingVerse()?.crossRefs!.length > 0) { <div><p class="text-xs font-bold uppercase text-slate-400 mb-2 tracking-widest text-center">Referências Cruzadas</p><div class="flex flex-wrap gap-2 justify-center">@for (ref of readingVerse()?.crossRefs; track ref) { <button (click)="openVerseReading(ref)" class="bg-indigo-50 text-indigo-700 px-3 py-1.5 rounded-lg text-xs font-bold border border-indigo-100 hover:bg-indigo-100 hover:border-indigo-300 transition-all flex items-center gap-1"><span>{{ ref }}</span><svg class="w-3 h-3 text-indigo-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg></button> }</div><button (click)="sendToStructure('modal')" class="w-full mt-6 bg-amber-400 text-indigo-900 font-bold text-sm uppercase py-3 rounded-xl hover:bg-amber-500 shadow-lg transition-colors flex items-center justify-center gap-2"><svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg>Enviar para Estrutura</button></div> }</div><div class="bg-slate-50 px-6 py-4 flex justify-end gap-3 border-t shrink-0"><button (click)="closeReadingModal()" class="px-4 py-2 text-slate-600 font-bold hover:bg-slate-200 rounded-lg text-sm">Fechar</button><button (click)="goToChapterFromModal()" class="px-4 py-2 bg-indigo-600 text-white font-bold rounded-lg hover:bg-indigo-700 text-sm flex items-center gap-2"><span>Ler Capítulo Completo</span><svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path></svg></button></div></div></div> }
-    @if (comparisonData()) { <div class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-[200] flex items-center justify-center p-4 animate-in fade-in"><div class="bg-white w-full max-w-4xl rounded-2xl shadow-2xl overflow-hidden animate-in zoom-in-95 duration-200 flex flex-col max-h-[90vh]"><div class="bg-indigo-900 px-6 py-4 flex justify-between items-center shrink-0"><div class="flex flex-col"><span class="text-indigo-300 text-xs font-bold uppercase tracking-widest">Comparação de Versões</span><h3 class="text-white font-bold text-2xl serif">{{ comparisonData()?.ref }}</h3></div><button (click)="closeComparisonModal()" class="text-indigo-200 hover:text-white bg-indigo-800/50 p-2 rounded-lg"><svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg></button></div><div class="p-6 overflow-y-auto bg-slate-50"><div class="grid grid-cols-1 gap-4">@for (ver of comparisonData()?.versions; track ver.name) { <div class="bg-white p-5 rounded-xl border border-slate-200 shadow-sm hover:shadow-md transition-shadow"><div class="flex justify-between items-start mb-2"><span class="bg-indigo-50 text-indigo-700 px-2 py-1 rounded text-xs font-black uppercase tracking-wide border border-indigo-100">{{ ver.name }}</span><button class="text-slate-400 hover:text-indigo-600" title="Copiar" (click)="fallbackCopyText(ver.text + ' (' + ver.name + ')')"><svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"></path></svg></button></div><p class="text-slate-800 text-lg serif leading-relaxed">{{ ver.text }}</p></div> }</div></div></div></div> }
-  </div>
+    @if (isLoading()) { <div
+        class="fixed inset-0 bg-slate-900/60 backdrop-blur z-[100] flex items-center justify-center">
+        <div class="bg-white p-8 rounded-2xl flex flex-col items-center">
+            <div class="w-12 h-12 border-4 border-indigo-600 border-t-transparent rounded-full animate-spin mb-4"></div>
+            <p class="font-bold text-slate-800">Processando...</p>
+        </div>
+    </div> }
+    @if (readingVerse()) { <div
+        class="fixed inset-0 bg-slate-900/50 backdrop-blur-sm z-[200] flex items-center justify-center p-4 animate-in fade-in">
+        <div
+            class="bg-white w-full max-w-lg rounded-2xl shadow-2xl overflow-hidden animate-in zoom-in-95 duration-200 flex flex-col max-h-[90vh]">
+            <div class="bg-indigo-900 px-6 py-4 flex justify-between items-center shrink-0">
+                <h3 class="text-white font-bold text-lg">{{ readingVerse()?.ref }}</h3><button
+                    (click)="closeReadingModal()" class="text-indigo-200 hover:text-white"><svg class="w-6 h-6"
+                        fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12">
+                        </path>
+                    </svg></button>
+            </div>
+            <div class="p-8 overflow-y-auto">
+                <p class="text-xl serif text-slate-800 leading-relaxed text-center font-medium mb-8">"{{
+                    readingVerse()?.text }}"</p>@if (readingVerse()?.keywords && readingVerse()?.keywords!.length > 0) {
+                <div class="mb-6">
+                    <p class="text-xs font-bold uppercase text-slate-400 mb-2 tracking-widest text-center">
+                        Palavras-Chave</p>
+                    <div class="flex flex-wrap gap-2 justify-center">@for (kw of readingVerse()?.keywords; track kw) {
+                        <span
+                            class="bg-amber-100 text-amber-800 px-3 py-1 rounded-full text-xs font-bold border border-amber-200">{{
+                            kw }}</span> }
+                    </div>
+                </div> }@if (readingVerse()?.crossRefs && readingVerse()?.crossRefs!.length > 0) { <div>
+                    <p class="text-xs font-bold uppercase text-slate-400 mb-2 tracking-widest text-center">Referências
+                        Cruzadas</p>
+                    <div class="flex flex-wrap gap-2 justify-center">@for (ref of readingVerse()?.crossRefs; track ref)
+                        { <button (click)="openVerseReading(ref)"
+                            class="bg-indigo-50 text-indigo-700 px-3 py-1.5 rounded-lg text-xs font-bold border border-indigo-100 hover:bg-indigo-100 hover:border-indigo-300 transition-all flex items-center gap-1"><span>{{
+                                ref }}</span><svg class="w-3 h-3 text-indigo-400" fill="none" stroke="currentColor"
+                                viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7">
+                                </path>
+                            </svg></button> }</div><button (click)="sendToStructure('modal')"
+                        class="w-full mt-6 bg-amber-400 text-indigo-900 font-bold text-sm uppercase py-3 rounded-xl hover:bg-amber-500 shadow-lg transition-colors flex items-center justify-center gap-2"><svg
+                            class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M13 10V3L4 14h7v7l9-11h-7z"></path>
+                        </svg>Enviar para Estrutura</button>
+                </div> }
+            </div>
+            <div class="bg-slate-50 px-6 py-4 flex justify-end gap-3 border-t shrink-0"><button
+                    (click)="closeReadingModal()"
+                    class="px-4 py-2 text-slate-600 font-bold hover:bg-slate-200 rounded-lg text-sm">Fechar</button><button
+                    (click)="goToChapterFromModal()"
+                    class="px-4 py-2 bg-indigo-600 text-white font-bold rounded-lg hover:bg-indigo-700 text-sm flex items-center gap-2"><span>Ler
+                        Capítulo Completo</span><svg class="w-4 h-4" fill="none" stroke="currentColor"
+                        viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M14 5l7 7m0 0l-7 7m7-7H3"></path>
+                    </svg></button></div>
+        </div>
+    </div> }
+    @if (comparisonData()) { <div
+        class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-[200] flex items-center justify-center p-4 animate-in fade-in">
+        <div
+            class="bg-white w-full max-w-4xl rounded-2xl shadow-2xl overflow-hidden animate-in zoom-in-95 duration-200 flex flex-col max-h-[90vh]">
+            <div class="bg-indigo-900 px-6 py-4 flex justify-between items-center shrink-0">
+                <div class="flex flex-col"><span
+                        class="text-indigo-300 text-xs font-bold uppercase tracking-widest">Comparação de Versões</span>
+                    <h3 class="text-white font-bold text-2xl serif">{{ comparisonData()?.ref }}</h3>
+                </div><button (click)="closeComparisonModal()"
+                    class="text-indigo-200 hover:text-white bg-indigo-800/50 p-2 rounded-lg"><svg class="w-6 h-6"
+                        fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12">
+                        </path>
+                    </svg></button>
+            </div>
+            <div class="p-6 overflow-y-auto bg-slate-50">
+                <div class="grid grid-cols-1 gap-4">@for (ver of comparisonData()?.versions; track ver.name) { <div
+                        class="bg-white p-5 rounded-xl border border-slate-200 shadow-sm hover:shadow-md transition-shadow">
+                        <div class="flex justify-between items-start mb-2"><span
+                                class="bg-indigo-50 text-indigo-700 px-2 py-1 rounded text-xs font-black uppercase tracking-wide border border-indigo-100">{{
+                                ver.name }}</span><button class="text-slate-400 hover:text-indigo-600" title="Copiar"
+                                (click)="fallbackCopyText(ver.text + ' (' + ver.name + ')')"><svg class="w-4 h-4"
+                                    fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z">
+                                    </path>
+                                </svg></button></div>
+                        <p class="text-slate-800 text-lg serif leading-relaxed">{{ ver.text }}</p>
+                    </div> }</div>
+            </div>
+        </div>
+    </div> }
+
+    <!-- MODAL: PAINEL ADMINISTRATIVO / CONFIGURAÇÕES -->
+    @if (showSettings()) {
+    <div
+        class="fixed inset-0 bg-slate-900/70 backdrop-blur-sm z-[300] flex items-center justify-center p-4 animate-in fade-in">
+        <div
+            class="bg-white w-full max-w-2xl rounded-2xl shadow-2xl overflow-hidden animate-in zoom-in-95 duration-200">
+            <!-- Header -->
+            <div class="bg-gradient-to-r from-indigo-900 to-indigo-800 px-8 py-6 flex justify-between items-center">
+                <div class="flex items-center gap-3">
+                    <div class="w-12 h-12 bg-amber-400 rounded-full flex items-center justify-center">
+                        <svg class="w-6 h-6 text-indigo-900" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z">
+                            </path>
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
+                        </svg>
+                    </div>
+                    <div>
+                        <h2 class="text-2xl font-bold text-white">Painel Administrativo</h2>
+                        <p class="text-indigo-200 text-sm">Configurações da IA Gemini</p>
+                    </div>
+                </div>
+                <button (click)="toggleSettings()" class="text-indigo-200 hover:text-white transition-colors">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12">
+                        </path>
+                    </svg>
+                </button>
+            </div>
+
+            <!-- Body -->
+            <div class="p-8 space-y-6">
+                <!-- Informação -->
+                <div class="bg-blue-50 border-l-4 border-blue-500 p-4 rounded-r-lg">
+                    <div class="flex items-start gap-3">
+                        <svg class="w-5 h-5 text-blue-600 mt-0.5 flex-shrink-0" fill="none" stroke="currentColor"
+                            viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                        </svg>
+                        <div class="text-sm text-blue-800">
+                            <p class="font-bold mb-1">Como obter sua chave API gratuita:</p>
+                            <ol class="list-decimal list-inside space-y-1 text-xs">
+                                <li>Acesse <a href="https://aistudio.google.com/app/apikey" target="_blank"
+                                        class="underline font-bold hover:text-blue-600">Google AI Studio</a></li>
+                                <li>Faça login com sua conta Google</li>
+                                <li>Clique em "Get API Key" ou "Create API Key"</li>
+                                <li>Copie a chave e cole abaixo</li>
+                            </ol>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Campo de API Key -->
+                <div class="space-y-2">
+                    <label class="block text-sm font-bold text-slate-700 uppercase tracking-wide">
+                        Chave API do Google Gemini
+                    </label>
+                    <input type="password" [(ngModel)]="apiKeyInput"
+                        placeholder="Cole sua chave API aqui (ex: AIzaSy...)"
+                        class="w-full p-4 border-2 border-slate-200 rounded-xl focus:outline-none focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 transition-all font-mono text-sm">
+                    <p class="text-xs text-slate-500 italic">
+                        Sua chave é armazenada localmente no navegador e nunca é compartilhada.
+                    </p>
+                </div>
+
+                <!-- Status da Conexão -->
+                @if (apiKeyInput()) {
+                <div class="bg-slate-50 p-4 rounded-lg border border-slate-200">
+                    <div class="flex items-center gap-2">
+                        <div class="w-2 h-2 bg-green-500 rounded-full animate-pulse"></div>
+                        <span class="text-sm font-bold text-slate-700">Chave detectada - Pronta para salvar</span>
+                    </div>
+                </div>
+                }
+            </div>
+
+            <!-- Footer -->
+            <div class="bg-slate-50 px-8 py-5 border-t flex justify-between items-center gap-4">
+                <button (click)="toggleSettings()"
+                    class="px-6 py-2.5 text-slate-600 font-bold hover:bg-slate-200 rounded-lg transition-colors">
+                    Cancelar
+                </button>
+                <button (click)="saveApiKey()" [disabled]="!apiKeyInput()"
+                    class="px-8 py-2.5 bg-indigo-600 text-white font-bold rounded-lg hover:bg-indigo-700 disabled:opacity-50 disabled:cursor-not-allowed transition-all shadow-lg hover:shadow-xl flex items-center gap-2">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                    </svg>
+                    Salvar Configuração
+                </button>
+            </div>
+        </div>
+    </div>
+    }
+</div>
 }
