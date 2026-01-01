@@ -19,16 +19,17 @@ export class AIService {
   private genAILibrary: GoogleGenerativeAI | null = null;
   private genAISermon: GoogleGenerativeAI | null = null;
 
-  private modelName = 'gemini-1.5-flash-latest';
+  private modelName = 'gemini-1.5-flash';
 
   constructor() {
     this.refreshKeys();
   }
 
   refreshKeys() {
-    this.bibleKey = localStorage.getItem('logos_pro_bible_key') || (environment.geminiApiKey || 'AIzaSyAS6DXX-OmzwSQD-LOYLokvmdN4-0Z5qXU');
-    this.libraryKey = localStorage.getItem('logos_pro_library_key') || (environment.geminiApiKey || 'AIzaSyAS6DXX-OmzwSQD-LOYLokvmdN4-0Z5qXU');
-    this.sermonKey = localStorage.getItem('logos_pro_sermon_key') || (environment.geminiApiKey || 'AIzaSyAS6DXX-OmzwSQD-LOYLokvmdN4-0Z5qXU');
+    const defaultKey = environment.geminiApiKey || 'AIzaSyD6nyYBQVzTv_wV1me4g_cXaC-TdlieviY';
+    this.bibleKey = localStorage.getItem('logos_pro_bible_key') || defaultKey;
+    this.libraryKey = localStorage.getItem('logos_pro_library_key') || defaultKey;
+    this.sermonKey = localStorage.getItem('logos_pro_sermon_key') || defaultKey;
 
     try {
       if (this.bibleKey) this.genAIBible = new GoogleGenerativeAI(this.bibleKey);
