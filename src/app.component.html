@@ -118,18 +118,8 @@
                     </button>
                 </div>
 
-                <!-- BOTÃO CONFIGURAÇÕES / ADMIN -->
-                <button (click)="toggleSettings()"
-                    class="w-8 h-8 flex items-center justify-center rounded-full hover:bg-indigo-700 transition-colors text-indigo-200 hover:text-white"
-                    title="Configurações da API">
-                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                            d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z">
-                        </path>
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                            d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
-                    </svg>
-                </button>
+                <!-- BOTÃO CONFIGURAÇÕES / ADMIN (REMOVIDO) -->
+                <!-- <button (click)="toggleSettings()" ... > ... </button> -->
 
                 @if (currentView() === 'sermon') {
                 <button (click)="resetSermon()"
@@ -1499,99 +1489,3 @@
     </div> }
 
     <!-- MODAL: PAINEL ADMINISTRATIVO / CONFIGURAÇÕES -->
-    @if (showSettings()) {
-    <div
-        class="fixed inset-0 bg-slate-900/70 backdrop-blur-sm z-[300] flex items-center justify-center p-4 animate-in fade-in">
-        <div
-            class="bg-white w-full max-w-2xl rounded-2xl shadow-2xl overflow-hidden animate-in zoom-in-95 duration-200">
-            <!-- Header -->
-            <div class="bg-gradient-to-r from-indigo-900 to-indigo-800 px-8 py-6 flex justify-between items-center">
-                <div class="flex items-center gap-3">
-                    <div class="w-12 h-12 bg-amber-400 rounded-full flex items-center justify-center">
-                        <svg class="w-6 h-6 text-indigo-900" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z">
-                            </path>
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
-                        </svg>
-                    </div>
-                    <div>
-                        <h2 class="text-2xl font-bold text-white">Painel Administrativo</h2>
-                        <p class="text-indigo-200 text-sm">Configurações da IA Gemini</p>
-                    </div>
-                </div>
-                <button (click)="toggleSettings()" class="text-indigo-200 hover:text-white transition-colors">
-                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12">
-                        </path>
-                    </svg>
-                </button>
-            </div>
-
-            <!-- Body -->
-            <div class="p-8 space-y-6">
-                <!-- Informação -->
-                <div class="bg-blue-50 border-l-4 border-blue-500 p-4 rounded-r-lg">
-                    <div class="flex items-start gap-3">
-                        <svg class="w-5 h-5 text-blue-600 mt-0.5 flex-shrink-0" fill="none" stroke="currentColor"
-                            viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
-                        </svg>
-                        <div class="text-sm text-blue-800">
-                            <p class="font-bold mb-1">Como obter sua chave API gratuita:</p>
-                            <ol class="list-decimal list-inside space-y-1 text-xs">
-                                <li>Acesse <a href="https://aistudio.google.com/app/apikey" target="_blank"
-                                        class="underline font-bold hover:text-blue-600">Google AI Studio</a></li>
-                                <li>Faça login com sua conta Google</li>
-                                <li>Clique em "Get API Key" ou "Create API Key"</li>
-                                <li>Copie a chave e cole abaixo</li>
-                            </ol>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Campo de API Key -->
-                <div class="space-y-2">
-                    <label class="block text-sm font-bold text-slate-700 uppercase tracking-wide">
-                        Chave API do Google Gemini
-                    </label>
-                    <input type="password" [(ngModel)]="apiKeyInput"
-                        placeholder="Cole sua chave API aqui (ex: AIzaSy...)"
-                        class="w-full p-4 border-2 border-slate-200 rounded-xl focus:outline-none focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 transition-all font-mono text-sm">
-                    <p class="text-xs text-slate-500 italic">
-                        Sua chave é armazenada localmente no navegador e nunca é compartilhada.
-                    </p>
-                </div>
-
-                <!-- Status da Conexão -->
-                @if (apiKeyInput()) {
-                <div class="bg-slate-50 p-4 rounded-lg border border-slate-200">
-                    <div class="flex items-center gap-2">
-                        <div class="w-2 h-2 bg-green-500 rounded-full animate-pulse"></div>
-                        <span class="text-sm font-bold text-slate-700">Chave detectada - Pronta para salvar</span>
-                    </div>
-                </div>
-                }
-            </div>
-
-            <!-- Footer -->
-            <div class="bg-slate-50 px-8 py-5 border-t flex justify-between items-center gap-4">
-                <button (click)="toggleSettings()"
-                    class="px-6 py-2.5 text-slate-600 font-bold hover:bg-slate-200 rounded-lg transition-colors">
-                    Cancelar
-                </button>
-                <button (click)="saveApiKey()" [disabled]="!apiKeyInput()"
-                    class="px-8 py-2.5 bg-indigo-600 text-white font-bold rounded-lg hover:bg-indigo-700 disabled:opacity-50 disabled:cursor-not-allowed transition-all shadow-lg hover:shadow-xl flex items-center gap-2">
-                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
-                    </svg>
-                    Salvar Configuração
-                </button>
-            </div>
-        </div>
-    </div>
-    }
-</div>
-}

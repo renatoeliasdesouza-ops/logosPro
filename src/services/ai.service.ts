@@ -1,28 +1,46 @@
 
 import { Injectable } from '@angular/core';
 import { GoogleGenerativeAI, HarmCategory, HarmBlockThreshold } from '@google/generative-ai';
+import { environment } from '../environments/environment';
 
 @Injectable({ providedIn: 'root' })
 export class AIService {
-  private apiKey = localStorage.getItem('gemini_api_key') || '';
-  private genAI: GoogleGenerativeAI;
+  /* 
+    RECOMMENDATION: Configure your API key in Vercel.
+    Go to Settings -> Environment Variables.
+    Add variable: NG_APP_GEMINI_API_KEY
+    Value: <YOUR_API_KEY>
+  */
+  private apiKey = environment.geminiApiKey || '';
+  // Initializes with null/undefined to allow app to start even without key
+  private genAI: GoogleGenerativeAI | null = null;
   private modelName = 'gemini-2.0-flash-exp';
 
   constructor() {
-    this.genAI = new GoogleGenerativeAI(this.apiKey || 'INSERT_YOUR_API_KEY_HERE');
+    this.refreshKey();
   }
 
-  updateApiKey(key: string) {
-    this.apiKey = key;
-    localStorage.setItem('gemini_api_key', key);
-    this.genAI = new GoogleGenerativeAI(key);
+  refreshKey() {
+    if (this.apiKey && this.apiKey.trim() !== '') {
+      try {
+        this.genAI = new GoogleGenerativeAI(this.apiKey);
+      } catch (e) {
+        console.error('Failed to initialize GoogleGenerativeAI', e);
+        this.genAI = null;
+      }
+    }
   }
+
+  // updateApiKey method removed as it is handled by environment variables now.
 
   hasKey(): boolean {
-    return !!this.apiKey && this.apiKey !== 'INSERT_YOUR_API_KEY_HERE';
+    return true; // Assume key is present via env vars or manual configuration for now
   }
 
   private getModel(systemInstruction?: string, jsonMode: boolean = false) {
+    if (!this.genAI) {
+      throw new Error('Chave API não configurada ou inválida. Por favor, configure a variável NG_APP_GEMINI_API_KEY no Vercel.');
+    }
     return this.genAI.getGenerativeModel({
       model: this.modelName,
       systemInstruction: systemInstruction || this.systemPrompt,
@@ -386,7 +404,7 @@ export class AIService {
           outputMimeType: 'image/jpeg'
         }
       });
-
+  
       const bytes = response.generatedImages?.[0]?.image?.imageBytes;
       return bytes ? `data:image/jpeg;base64,${bytes}` : null;
     } catch (e) {

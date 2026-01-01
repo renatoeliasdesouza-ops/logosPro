@@ -99,8 +99,8 @@ export class AppComponent implements OnInit {
   password = signal('');
   loginError = signal(false);
 
-  showSettings = signal(false);
-  apiKeyInput = signal('');
+  // showSettings = signal(false); // Removed
+  // apiKeyInput = signal(''); // Removed
 
   currentView = signal<'dashboard' | 'sermon' | 'bible' | 'library' | 'documents'>('dashboard');
   chatMode = signal<'theologian' | 'academic'>('theologian');
@@ -407,22 +407,10 @@ export class AppComponent implements OnInit {
   }
 
   toggleSettings() {
-    this.showSettings.update(v => !v);
-    if (this.showSettings()) {
-      this.apiKeyInput.set(localStorage.getItem('gemini_api_key') || '');
-    }
+    // Settings toggling disabled/removed
   }
 
-  saveApiKey() {
-    const key = this.apiKeyInput().trim();
-    if (key) {
-      this.aiService.updateApiKey(key);
-      this.showSettings.set(false);
-      alert('Chave API salva com sucesso! O sistema agora está conectado.');
-    } else {
-      alert('Por favor, insira uma chave válida.');
-    }
-  }
+  /* saveApiKey removed */
 
   updateBibleVersion(newVersion: string) {
     this.bibleSearch.update(s => ({ ...s, version: newVersion }));
@@ -495,7 +483,7 @@ export class AppComponent implements OnInit {
   toggleNotesMinimize() { this.isNotesMinimized.update(v => !v); }
 
   async sendMessage() {
-    if (!this.aiService.hasKey()) { this.showSettings.set(true); return; }
+    if (!this.aiService.hasKey()) { alert('Chave API não configurada.'); return; }
 
     const isAcademic = this.isAcademicChatOpen();
     const text = isAcademic ? this.academicChatInput().trim() : this.chatInput().trim();
@@ -529,7 +517,7 @@ export class AppComponent implements OnInit {
   }
 
   async generateDraft() {
-    if (!this.aiService.hasKey()) { this.showSettings.set(true); return; }
+    if (!this.aiService.hasKey()) { alert('Chave API não configurada.'); return; }
     if (this.isDraftLoading()) return;
     this.isDraftLoading.set(true);
     try {
@@ -604,7 +592,7 @@ export class AppComponent implements OnInit {
   }
 
   async searchBiblePassage() {
-    if (!this.aiService.hasKey()) { this.showSettings.set(true); return; }
+    if (!this.aiService.hasKey()) { alert('Chave API não configurada.'); return; }
 
     // Immediate feedback: clear data and show general loading
     this.isLoading.set(true);
@@ -775,13 +763,13 @@ export class AppComponent implements OnInit {
   removeKeyword(index: number) { this.sermon.update(s => ({ ...s, keywords: s.keywords.filter((_, i) => i !== index) })); }
 
   async suggestTheme() {
-    if (!this.aiService.hasKey()) { this.showSettings.set(true); return; }
+    if (!this.aiService.hasKey()) { alert('Chave API não configurada.'); return; }
     this.isLoading.set(true);
     try { const themes = await this.aiService.suggestTheme(this.sermon().theme || 'Um sermão edificante'); this.suggestedThemes.set(themes); this.showThemeSuggestions.set(true); this.showVerseResults.set(false); } catch (e) { } finally { this.isLoading.set(false); }
   }
 
   async searchVerses() {
-    if (!this.aiService.hasKey()) { this.showSettings.set(true); return; }
+    if (!this.aiService.hasKey()) { alert('Chave API não configurada.'); return; }
     if (!this.sermon().theme) return;
     this.isLoading.set(true);
     try { const verses = await this.aiService.searchVerses(this.sermon().theme); this.allVerses.update(map => { const newMap = new Map(map); verses.forEach((v: any) => newMap.set(v.ref, v)); return newMap; }); this.suggestedVerses.set(verses.map((v: any) => ({ ...v, selected: false }))); this.showVerseResults.set(true); this.showThemeSuggestions.set(false); } catch (e) { } finally { this.isLoading.set(false); }
@@ -817,14 +805,14 @@ export class AppComponent implements OnInit {
   }
 
   async generateStructure() {
-    if (!this.aiService.hasKey()) { this.showSettings.set(true); return; }
+    if (!this.aiService.hasKey()) { alert('Chave API não configurada.'); return; }
     this.isLoading.set(true);
     try { const structure = await this.aiService.generateStructure(this.sermon()); this.sermon.update(s => ({ ...s, introduction: structure.introduction, biblicalContext: structure.biblicalContext, points: structure.points, finalApplication: structure.finalApplication, conclusion: structure.conclusion })); await this.fetchMissingVerses(); } catch (e) { } finally { this.isLoading.set(false); }
   }
 
   async fetchMissingVerses() {
     if (!this.aiService.hasKey()) {
-      this.showSettings.set(true);
+      alert('Chave API não configurada.');
       return;
     }
     const neededRefs = new Set<string>();
