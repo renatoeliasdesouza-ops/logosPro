@@ -11,7 +11,7 @@ export class AIService {
     Add variable: NG_APP_GEMINI_API_KEY
     Value: <YOUR_API_KEY>
   */
-  private apiKey = environment.geminiApiKey || '';
+  private apiKey = environment.geminiApiKey || 'AIzaSyD6nyYBQVzTv_wV1me4g_cXaC-TdlieviY';
   // Initializes with null/undefined to allow app to start even without key
   private genAI: GoogleGenerativeAI | null = null;
   private modelName = 'gemini-2.0-flash-exp';
