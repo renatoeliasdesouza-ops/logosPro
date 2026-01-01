@@ -6,51 +6,60 @@ import { environment } from '../environments/environment';
 @Injectable({ providedIn: 'root' })
 export class AIService {
   /* 
-    RECOMMENDATION: Configure your API key in Vercel.
-    Go to Settings -> Environment Variables.
-    Add variable: NG_APP_GEMINI_API_KEY
-    Value: <YOUR_API_KEY>
+    Order of priority for keys:
+    1. LocalStorage (user preference)
+    2. Environment Variables (Vercel/Dev)
+    3. Fallback (Hardcoded)
   */
-  private apiKey = (environment.geminiApiKey && environment.geminiApiKey.trim() !== '')
-    ? environment.geminiApiKey
-    : 'AIzaSyDgt-eosu5Xmhm1gWwk3C_BV8ERQCvPB-g';
+  private bibleKey = '';
+  private libraryKey = '';
+  private sermonKey = '';
 
-  // Initializes with null/undefined to allow app to start even without key
-  private genAI: GoogleGenerativeAI | null = null;
-  private modelName = 'gemini-1.5-flash'; // Switching to a more stable model for verification
+  private genAIBible: GoogleGenerativeAI | null = null;
+  private genAILibrary: GoogleGenerativeAI | null = null;
+  private genAISermon: GoogleGenerativeAI | null = null;
+
+  private modelName = 'gemini-1.5-flash';
 
   constructor() {
-    this.refreshKey();
+    this.refreshKeys();
   }
 
-  refreshKey() {
-    const keyToUse = this.apiKey;
-    const isFallback = keyToUse === 'AIzaSyDgt-eosu5Xmhm1gWwk3C_BV8ERQCvPB-g';
-    console.log('AIService: Initializing with', isFallback ? 'Fallback Key' : 'Environment Key');
+  refreshKeys() {
+    this.bibleKey = localStorage.getItem('logos_pro_bible_key') || (environment.geminiApiKey || 'AIzaSyDgt-eosu5Xmhm1gWwk3C_BV8ERQCvPB-g');
+    this.libraryKey = localStorage.getItem('logos_pro_library_key') || (environment.geminiApiKey || 'AIzaSyDgt-eosu5Xmhm1gWwk3C_BV8ERQCvPB-g');
+    this.sermonKey = localStorage.getItem('logos_pro_sermon_key') || (environment.geminiApiKey || 'AIzaSyDgt-eosu5Xmhm1gWwk3C_BV8ERQCvPB-g');
 
-    if (keyToUse && keyToUse.trim() !== '') {
-      try {
-        this.genAI = new GoogleGenerativeAI(keyToUse);
-      } catch (e) {
-        console.error('Failed to initialize GoogleGenerativeAI', e);
-        this.genAI = null;
-      }
+    try {
+      if (this.bibleKey) this.genAIBible = new GoogleGenerativeAI(this.bibleKey);
+      if (this.libraryKey) this.genAILibrary = new GoogleGenerativeAI(this.libraryKey);
+      if (this.sermonKey) this.genAISermon = new GoogleGenerativeAI(this.sermonKey);
+      console.log('AIService: Keys refreshed and providers initialized.');
+    } catch (e) {
+      console.error('Failed to initialize GoogleGenerativeAI providers', e);
     }
   }
 
-  // updateApiKey method removed as it is handled by environment variables now.
-
-  hasKey(): boolean {
-    return true; // Assume key is present via env vars or manual configuration for now
+  hasKey(module: 'bible' | 'library' | 'sermon' = 'bible'): boolean {
+    if (module === 'bible') return !!this.genAIBible;
+    if (module === 'library') return !!this.genAILibrary;
+    if (module === 'sermon') return !!this.genAISermon;
+    return false;
   }
 
-  private getModel(systemInstruction?: string, jsonMode: boolean = false) {
-    if (!this.genAI) {
-      throw new Error('Chave API não configurada ou inválida. Por favor, configure a variável NG_APP_GEMINI_API_KEY no Vercel.');
+  private getModel(module: 'bible' | 'library' | 'sermon', systemInstruction?: string, jsonMode: boolean = false) {
+    let genAI = null;
+    if (module === 'bible') genAI = this.genAIBible;
+    else if (module === 'library') genAI = this.genAILibrary;
+    else genAI = this.genAISermon;
+
+    if (!genAI) {
+      throw new Error(`Chave API para o módulo ${module} não configurada.`);
     }
-    return this.genAI.getGenerativeModel({
+
+    return genAI.getGenerativeModel({
       model: this.modelName,
-      systemInstruction: systemInstruction || this.systemPrompt,
+      systemInstruction: systemInstruction || (module === 'library' ? this.libraryPrompt : this.systemPrompt),
       generationConfig: {
         responseMimeType: jsonMode ? 'application/json' : 'text/plain'
       },
@@ -88,14 +97,14 @@ export class AIService {
   `;
 
   async suggestTheme(context: string): Promise<string[]> {
-    const model = this.getModel();
+    const model = this.getModel('sermon');
     const result = await model.generateContent(`Sugira 5 temas bíblicos impactantes baseados no seguinte contexto: "${context}". Retorne apenas os títulos separados por quebra de linha.`);
     const response = await result.response;
     return response.text().split('\n').filter(t => t.trim().length > 0);
   }
 
   async searchVerses(theme: string): Promise<any> {
-    const model = this.getModel(this.systemPrompt, true);
+    const model = this.getModel('bible', this.systemPrompt, true);
     const result = await model.generateContent(`Você é um analisador bíblico exaustivo. Busque cerca de 15 versículos fundamentais e diretamente relacionados ao tema: "${theme}".
       Certifique-se de cobrir diferentes aspectos do tema.
       
@@ -116,7 +125,7 @@ export class AIService {
 
   // --- NOVO: Expandir Contexto do Versículo Base ---
   async expandVerseContext(ref: string): Promise<any> {
-    const model = this.getModel(this.systemPrompt, true);
+    const model = this.getModel('bible', this.systemPrompt, true);
     const result = await model.generateContent(`Analise o versículo referência: "${ref}".
       
       Retorne um JSON estrito com:
@@ -140,7 +149,7 @@ export class AIService {
     
     Seja técnico mas acessível a pastores.`;
 
-    const model = this.getModel(this.libraryPrompt);
+    const model = this.getModel('library', this.libraryPrompt);
     const result = await model.generateContent(prompt);
     const response = await result.response;
     return response.text().replace(/\*\*/g, '').replace(/#/g, '');
@@ -156,7 +165,7 @@ export class AIService {
     - Como Aplicar Hoje?
     `;
 
-    const model = this.getModel();
+    const model = this.getModel('sermon');
     const result = await model.generateContent(prompt);
     const response = await result.response;
     return response.text().replace(/\*\*/g, '').replace(/#/g, '');
@@ -167,7 +176,7 @@ export class AIService {
     DADOS: Versão: ${details.bibleVersion}, Tema: ${details.theme}, Texto: ${details.baseVerseRef}.
     Retorne JSON com: introduction, biblicalContext, points (title, subpoints, verses), finalApplication, conclusion.`;
 
-    const model = this.getModel(this.systemPrompt, true);
+    const model = this.getModel('sermon', this.systemPrompt, true);
     const result = await model.generateContent(prompt);
     const response = await result.response;
     return JSON.parse(this.cleanJson(response.text()));
@@ -204,7 +213,7 @@ export class AIService {
       }))
     ];
 
-    const model = this.getModel(chatSystemPrompt);
+    const model = this.getModel('sermon', chatSystemPrompt);
     const result = await model.generateContent({
       contents: contents as any
     });
@@ -247,7 +256,7 @@ export class AIService {
       }))
     ];
 
-    const model = this.getModel(this.academicSystemPrompt);
+    const model = this.getModel('library', this.academicSystemPrompt);
     const result = await model.generateContent({
       contents: contents as any
     });
@@ -267,7 +276,7 @@ export class AIService {
       Inclua: Introdução, desenvolvimento dos pontos (${sermonContext.points.map((p: any) => p.title).join(', ')}) e conclusão.
       Use uma linguagem pastoral, acolhedora e profunda.`;
 
-    const model = this.getModel(chatSystemPrompt);
+    const model = this.getModel('sermon', chatSystemPrompt);
     const result = await model.generateContent(prompt);
     const response = await result.response;
 
@@ -288,7 +297,7 @@ export class AIService {
     }`;
 
     try {
-      const model = this.getModel(this.systemPrompt, true);
+      const model = this.getModel('bible', this.systemPrompt, true);
       const result = await model.generateContent(prompt);
       const response = await result.response;
       const text = response.text();
@@ -318,7 +327,7 @@ export class AIService {
       ]
     }`;
 
-    const model = this.getModel(this.systemPrompt, true);
+    const model = this.getModel('bible', this.systemPrompt, true);
     const result = await model.generateContent(prompt);
     const response = await result.response;
 
@@ -355,7 +364,7 @@ export class AIService {
     }`;
 
     try {
-      const model = this.getModel(this.systemPrompt, true);
+      const model = this.getModel('bible', this.systemPrompt, true);
 
       const result = await model.generateContent(prompt);
       const response = await result.response;
@@ -374,7 +383,7 @@ export class AIService {
   }
 
   async analyzeVerse(ref: string, text: string, version: string): Promise<any> {
-    const model = this.getModel(this.systemPrompt, true);
+    const model = this.getModel('bible', this.systemPrompt, true);
     const result = await model.generateContent(`Faça uma exegese curta de: "${text}" (${ref}). JSON: historicalContext, theologicalInsight, keyword (original word with meaning), themes (array of strings), application.`);
     const response = await result.response;
     return JSON.parse(this.cleanJson(response.text()));
@@ -389,7 +398,7 @@ export class AIService {
       Use dados históricos, referências cruzadas, idiomas originais (quando pertinente) e contexto arqueológico.
       Formate como um artigo acadêmico ou verbete de enciclopédia bíblica.`;
 
-    const model = this.getModel(this.libraryPrompt);
+    const model = this.getModel('library', this.libraryPrompt);
     const result = await model.generateContent(prompt);
     const response = await result.response;
     return response.text().replace(/\*\*/g, '').replace(/#/g, '');
@@ -435,7 +444,7 @@ export class AIService {
     - Use CAIXA ALTA para títulos de seção (ex: AUTORIA E DATA).
     - Se o livro for um dos 66 da Bíblia, responda. Se não, informe que só atende livros bíblicos.`;
 
-    const model = this.getModel(this.libraryPrompt);
+    const model = this.getModel('library', this.libraryPrompt);
     const result = await model.generateContent(prompt);
     const response = await result.response;
     return response.text().replace(/\*\*/g, '').replace(/#/g, '').trim();

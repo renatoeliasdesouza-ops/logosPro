@@ -99,8 +99,11 @@ export class AppComponent implements OnInit {
   password = signal('');
   loginError = signal(false);
 
-  // showSettings = signal(false); // Removed
-  // apiKeyInput = signal(''); // Removed
+  showSettings = signal(false);
+  bibleKeyInput = signal('');
+  libraryKeyInput = signal('');
+  sermonKeyInput = signal('');
+  generalKeyInput = signal('');
 
   currentView = signal<'dashboard' | 'sermon' | 'bible' | 'library' | 'documents'>('dashboard');
   chatMode = signal<'theologian' | 'academic'>('theologian');
@@ -407,10 +410,51 @@ export class AppComponent implements OnInit {
   }
 
   toggleSettings() {
-    // Settings toggling disabled/removed
+    this.showSettings.update(v => !v);
+    if (this.showSettings()) {
+      this.loadStoredKeys();
+    }
   }
 
-  /* saveApiKey removed */
+  loadStoredKeys() {
+    this.bibleKeyInput.set(localStorage.getItem('logos_pro_bible_key') || '');
+    this.libraryKeyInput.set(localStorage.getItem('logos_pro_library_key') || '');
+    this.sermonKeyInput.set(localStorage.getItem('logos_pro_sermon_key') || '');
+  }
+
+  saveBibleKey() {
+    localStorage.setItem('logos_pro_bible_key', this.bibleKeyInput());
+    this.aiService.refreshKeys();
+    alert('Chave da Bíblia salva com sucesso!');
+  }
+
+  saveLibraryKey() {
+    localStorage.setItem('logos_pro_library_key', this.libraryKeyInput());
+    this.aiService.refreshKeys();
+    alert('Chave da Biblioteca salva com sucesso!');
+  }
+
+  saveSermonKey() {
+    localStorage.setItem('logos_pro_sermon_key', this.sermonKeyInput());
+    this.aiService.refreshKeys();
+    alert('Chave do Construtor salva com sucesso!');
+  }
+
+  applyToAllKeys() {
+    const key = this.generalKeyInput().trim();
+    if (!key) { alert('Digite uma chave primeiro.'); return; }
+
+    this.bibleKeyInput.set(key);
+    this.libraryKeyInput.set(key);
+    this.sermonKeyInput.set(key);
+
+    localStorage.setItem('logos_pro_bible_key', key);
+    localStorage.setItem('logos_pro_library_key', key);
+    localStorage.setItem('logos_pro_sermon_key', key);
+
+    this.aiService.refreshKeys();
+    alert('Chave aplicada a todos os módulos!');
+  }
 
   updateBibleVersion(newVersion: string) {
     this.bibleSearch.update(s => ({ ...s, version: newVersion }));
@@ -1119,6 +1163,10 @@ export class AppComponent implements OnInit {
       this.isLibraryLoading.set(false);
     }
   }
+
+  hasBibleKey(): boolean { return this.aiService.hasKey('bible'); }
+  hasLibraryKey(): boolean { return this.aiService.hasKey('library'); }
+  hasSermonKey(): boolean { return this.aiService.hasKey('sermon'); }
 
   // --- NOVO: Lógica de Pesquisa Reversa a partir do Versículo Base ---
   async analyzeBaseVerse() {
