@@ -19,7 +19,7 @@ export class AIService {
   private genAILibrary: GoogleGenerativeAI | null = null;
   private genAISermon: GoogleGenerativeAI | null = null;
 
-  private modelName = 'gemini-1.5-flash';
+  private modelName = 'gemini-1.5-pro';
 
   constructor() {
     this.refreshKeys();
