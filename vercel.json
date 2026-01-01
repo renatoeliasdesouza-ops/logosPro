@@ -5,14 +5,11 @@
             "src": "package.json",
             "use": "@vercel/static-build",
             "config": {
-                "distDir": "dist/logos-pro/browser"
+                "distDir": "dist/logos-pro/browser",
+                "rewrites": [
+                    {
+                        "source": "/(.*)",
+                        "destination": "/index.html"
+                    }
+                ]
             }
-        }
-    ],
-    "routes": [
-        {
-            "src": "/(.*)",
-            "dest": "/index.html"
-        }
-    ]
-}
